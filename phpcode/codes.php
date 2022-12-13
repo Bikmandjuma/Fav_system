@@ -217,7 +217,7 @@ class fac{
 		$d=strtotime("Yesterday");
 	    $today=date("Y-m-d",$d);
 	    $sum=0;
-		$sql="SELECT * FROM attendance where attend_date='$today'";
+		$sql="SELECT * FROM attendance where attend_date='$today' group by citizen_fk_id";
 		$result=mysqli_query($con,$sql);
         $sum =mysqli_num_rows($result);
 
@@ -242,12 +242,16 @@ class fac{
         	$phone=$row['phone'];
         	$attend=$row['attend_time'];
 
+        	$times_query=mysqli_query($con,"SELECT * from attendance where citizen_fk_id='$id' and attend_date='$today'");
+        	$times_number=mysqli_num_rows($times_query);
+
         	echo "<tr>
         		<td>".$card_id."</td>
         		<td>".$fnames."</td>
         		<td>".$lnames."</td>
         		<td>".$gender."</td>
         		<td>".$phone."</td>
+        		<td>x ".$times_number."</td>
         		<td>".$attend."</td>
         	  </tr>";
 	     } 
@@ -467,6 +471,14 @@ class fac{
         	$today_date=$row['attend_date'];
         	$Todays = $today_date;
 
+        	if ($Todays == date('Y-m-d')) {
+        		$today_name="Today";
+        	}elseif($Todays == date('Y-m-d',strtotime('Yesterday'))){
+        		$today_name="Yesterday";
+        	}else{
+        		$today_name=$Todays;
+        	}
+
         	$sql_num="SELECT * from attendance where attend_date='$Todays'";
 
         	$query_num=mysqli_query($con,$sql_num);
@@ -499,7 +511,7 @@ class fac{
 	        	?>
 	        		<div class="row">
 	                    <div class="col-md-2"></div>
-	                    <div class="col-md-8 bg-info" style='font-size:25px;border-radius:5px;'><a href="ArchiveDataDaily.php?year=<?php echo $curr_year;?>&month=<?php echo $Curr_month;?>&dates=<?php echo $today_date;?>" class="float-left"><i id="blink" class="fa fa-folder"></i>&nbsp;<?php echo $Todays;?></a><span class="badge badge-light float-right" style="margin-top:5px;"><?php echo $cit_nums;?></span> </div>
+	                    <div class="col-md-8 bg-info" style='font-size:25px;border-radius:5px;'><a href="ArchiveDataDaily.php?year=<?php echo $curr_year;?>&month=<?php echo $Curr_month;?>&dates=<?php echo $today_date;?>" class="float-left"><i id="blink" class="fa fa-folder"></i>&nbsp;<?php echo $today_name;?></a><span class="badge badge-light float-right" style="margin-top:5px;"><?php echo $cit_nums;?></span> </div>
 	                    <div class="col-md-2"></div>
 	                </div><br>
 	        	<?php
@@ -515,14 +527,14 @@ class fac{
 	    $numbs=mysqli_num_rows($query);
      	while ($row=mysqli_fetch_assoc($query)) {
         	$date=$row['attend_date'];
-        	$sql_num="SELECT * from attendance where attend_date='$date'";
+        	$sql_num="SELECT * from attendance where attend_date='$date' group by citizen_fk_id";
         	$query_num=mysqli_query($con,$sql_num);
         	$citiz_num=mysqli_num_rows($query_num);
         	$Total=$sum+=$citiz_num;
         }
         
         $Average=$Total/$numbs;
-        echo round($Average,2);
+        echo round($Average,0);
 	}
 
 	public function Count_years(){

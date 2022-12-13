@@ -96,7 +96,18 @@ file_put_contents('UIDContainer.php',$Write);
     $atn_sql=mysqli_query($con,"INSERT INTO attendance values ('','$citiz_id','$date','$time','$year','$month')");
 
     if ($atn_sql == true) {
-      $confirm="<span class='text-light'>".$fname." ".$lname."</span> You are attending !";
+       $today=date("Y-m-d");
+       $sql_attend_times="SELECT * from citizentb inner join attendance on citizentb.c_id=attendance.citizen_fk_id where citizentb.card_id='".$id."' and attendance.attend_date='".$today."' ";
+       $query_attend_times=mysqli_query($con,$sql_attend_times);
+       $num_attend_times=mysqli_num_rows($query_attend_times);
+
+       if ($num_attend_times == 1) {
+          $times='attending';
+       }else{
+          $times='attendend&nbsp;,&nbsp;x'.$num_attend_times;
+       }
+      
+      $confirm="<span style='color:lightgrey;'>".$fname." ".$lname."</span> ".$times;
     }
 
      ?>
@@ -170,7 +181,7 @@ file_put_contents('UIDContainer.php',$Write);
         <div class="col-md-10">
           <div class="card">
             <div class="card-header bg-info text-center">
-              <h2 class="text-white"><b><?php echo $confirm;?>!</b></h2>
+              <h2 class="text-white"><b><?php echo $confirm;?> !</b></h2>
             </div>
 
             <div class="card-body" style="overflow:auto;">

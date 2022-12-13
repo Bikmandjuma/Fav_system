@@ -13,7 +13,6 @@ $user_img=$_SESSION['image'];
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
-
 $users=new fac;
 ?>
 <!DOCTYPE html>
@@ -97,7 +96,7 @@ $users=new fac;
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
     </ul>
   </nav>
@@ -243,15 +242,6 @@ $users=new fac;
     <!-- /.sidebar -->
   </aside>
 
-    <script>
-      $(document).ready(function(){
-         $("#getUID").load("UIDContainer.php");
-        setInterval(function() {
-          $("#getUID").load("UIDContainer.php");
-        }, 500);
-      });
-    </script>
-
     <?php
       
       $citizen_added=$error_citizen_add=$allfield_required=$star=$card_id=$firstname=$midname=$lastname=$gender=$phone=$province=$district=$sector=$cellule=$village=$village=$dob=$diplic_error=$diplic_error_phone=null;
@@ -376,6 +366,15 @@ $users=new fac;
                       <div class="col-md-2"></div>
                     </div>
 
+                    <script>
+                      $(document).ready(function(){
+                         $("#getUID").load("UIDContainer.php");
+                        setInterval(function() {
+                          $("#getUID").load("UIDContainer.php");
+                        }, 500);
+                      });
+                    </script>
+
                     <form class="form-group" method="POST" action="">
                          <div class="row">
                             <div class="col-md-4">
@@ -438,6 +437,27 @@ $users=new fac;
             </div>
             <div class="col-md-1"></div>
         </div>
+
+        <!-- Logout model -->
+          <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-body text-left">
+                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4>Logout&nbsp;<i class="fa fa-lock"></i></h4>
+                </div>
+                <div class="modal-body">
+                  <p><i class="fa fa-question-circle"></i>Are you sure , you want to log-off ? <br /></p>
+                  <div class="actionsBtns">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                      <a href="../Logout.php" class="btn btn-primary">Logout</a>
+                      <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!--end of logout model-->
 
   <!--End of wrapper content page-->
   </div>

@@ -7,7 +7,7 @@ if (! (isset($_GET['pageNumber']))) {
     $pageNumber = $_GET['pageNumber'];
 }
 
-$perPageCount =20;
+$perPageCount =30;
 
 $sql = "SELECT * FROM citizentb  WHERE 1";
 
@@ -27,6 +27,7 @@ $results = mysqli_query($con, $sqlQuery);
 <div class="card-body" id="card">
     <table class="table table-bordered table-striped">
         <tr class="bg-info">
+            <th>N<sup>o</sup></th>
             <th>Card_id</th>
             <th>Firstname</th>
             <th>Middlename</th>
@@ -41,8 +42,9 @@ $results = mysqli_query($con, $sqlQuery);
             <th>Date&nbsp;of&nbsp;birth&nbsp;(DoB)</th>
             <th>Registered&nbsp;date</th>
         </tr>
-        <?php foreach ($results as $data) { ?>
+        <?php $count=1; foreach ($results as $data) { ?>
         <tr>
+            <td><?php echo $count++;?></td>
             <td><?php echo $data['card_id'] ?></td>
             <td><?php echo $data['firstname'] ?></td>
             <td><?php echo $data['middlename'] ?></td>

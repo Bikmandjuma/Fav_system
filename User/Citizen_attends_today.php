@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
@@ -99,11 +98,32 @@ $users=new fac;
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" type="button" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
     </ul>
   </nav>
   <!-- /.navbar -->
+
+  <!--start of Logout modal -->
+          <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-body text-left">
+                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4>Logout&nbsp;<i class="fa fa-lock"></i></h4>
+                </div>
+                <div class="modal-body">
+                  <p><i class="fa fa-question-circle"></i>Are you sure , you want to log-off ? <br /></p>
+                  <div class="actionsBtns">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                      <a href="../Logout.php" class="btn btn-primary">Logout</a>
+                      <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         <!--end of logout modal-->
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -254,7 +274,7 @@ $users=new fac;
             <div class="col-md-1"></div>
             <div class="col-md-10">
                 <div class="card">
-                  <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends today !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose everyone a warning message</button> </span></div>
+                  <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends <b>today</b> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose everyone a warning message</button> </span></div>
                   <div class="card-body text-center" style="overflow: auto">
                     <table class="table table-striped table-bordered">
                       <thead>
@@ -264,7 +284,8 @@ $users=new fac;
                           <th>Lastname</th>
                           <th>Gender</th> 
                           <th>Phone</th>
-                          <th>Attend&nbsp;time</th>
+                          <th>Times</th>
+                          <th>Attend&nbsp;bunches&nbsp;times</th>
                         </tr>
                       </thead>
 
@@ -288,7 +309,7 @@ $users=new fac;
                <!-- Modal content-->
                <div class="modal-content">
                  <div class="modal-header bg-info">
-                   <span class="float-center"><h2>Write a warning message here</h2></span><!--  <button type="button" class="close" data-dismiss="modal" style="font-size: 30px;color: white">&times;</button> -->
+                   <span class="float-center"><h2>Write a warning message here</h2></span>
                  </div>
                  <div class="modal-body" style="overflow:auto;">
                    <form class="form-group" method="POST" action="">

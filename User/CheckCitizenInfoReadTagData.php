@@ -7,9 +7,9 @@ if (!isset($_SESSION['email'])) {
 
 require '../Connect/connection.php';
 
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
+// $fname=$_SESSION['firstname'];
+// $lname=$_SESSION['lastname'];
+// $user_img=$_SESSION['image'];
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
@@ -21,25 +21,27 @@ file_put_contents('UIDContainer.php',$Write);
       $id =$_REQUEST['id'];
   }
   
-  $invalid_id_cards=$card_id=null;
+  $invalid_id_cards=$card_id=$fname=$lname=null;
 
   $sql="SELECT * from citizentb where card_id='".$id."'";
   $query=mysqli_query($con,$sql);
   while ($row=mysqli_fetch_assoc($query)) {
-    $card_id=$row['card_id'];
-    $fname=$row['firstname'];
-    $midname=$row['middlename'];
-    $lname=$row['lastname'];
-    $gender=$row['gender'];
-    $phone=$row['phone'];
-    $province=$row['province'];
-    $district=$row['district'];
-    $sector=$row['sector'];
-    $cellule=$row['cellule'];
-    $village=$row['village'];
-    $dob=$row['dob'];
-    $registered_date=$row['registered_date'];
+      $card_id=$row['card_id'];
+      $fname=$row['firstname'];
+      $midname=$row['middlename'];
+      $lname=$row['lastname'];
+      $gender=$row['gender'];
+      $phone=$row['phone'];
+      $province=$row['province'];
+      $district=$row['district'];
+      $sector=$row['sector'];
+      $cellule=$row['cellule'];
+      $village=$row['village'];
+      $dob=$row['dob'];
+      $registered_date=$row['registered_date'];
   }
+
+  $cit_name="<span style='color:lightgrey;'>".$fname." ".$lname."</span>";
 
   if ($card_id == $id) {
      ?>
@@ -73,6 +75,11 @@ file_put_contents('UIDContainer.php',$Write);
 
         #error_card_id{
             display:block; 
+        }
+
+        #cit_name{
+          color:black;
+          box-shadow: 
         }
 
       </style>
@@ -120,7 +127,7 @@ file_put_contents('UIDContainer.php',$Write);
         <div class="col-md-10">
           <div class="card">
             <div class="card-header bg-info">
-              <h2 class="text-white text-center">Information of <b> <?php echo $fname." ".$lname;?>!</b><a href="EditCitizenInfo.php?card_id=<?php echo $id;?>"><button class="btn btn-light float-right"><i class="fa fa-edit"></i> Edit</button></a></h2>
+              <h2 class="text-white text-center">Information of <b> <?php echo $cit_name;?> !</b><a href="EditCitizenInfo.php?card_id=<?php echo $id;?>"><button class="btn btn-light float-right"><i class="fa fa-edit"></i> Edit</button></a></h2>
             </div>
 
             <div class="card-body">

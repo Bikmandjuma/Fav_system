@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if (empty($user) || empty($pass)) {
 
         $allfieldRequired='
-                  <div class="alert alert-danger text-center alert-dismissible fade show" role="alert">
-                      All fields are required !
+                  <div class="alert alert-danger text-center alert-dismissible fade show" role="alert"><b>
+                      All fields are required !</b>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
               $incorectcredential='
                   <div class="alert alert-danger text-center alert-dismissible fade show" role="alert">
-                      Incorrect username/password , try again !
+                      Wrong credentials !
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -109,10 +109,16 @@ function test_input($data){
   <link rel="stylesheet" href="style/plugins/summernote/summernote-bs4.min.css">
 
   <!--custom css style-->
-  <link rel="stylesheet" href="style/dist/css/index.css">
-
+<!--   <link rel="stylesheet" href="style/dist/css/index.css">
+ -->
+ <style>
+   body{
+    background-image: url('style/dist/img/scard.png');
+/*    background-repeat: no-repeat;
+*/   }
+ </style>
 </head>
-<body>
+<body sty>
 
 <div class="row">
     <div class="col-md-12 text-center" style="background-color: teal;color: white">
@@ -125,8 +131,14 @@ function test_input($data){
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-                
-            <div class="card">
+
+          <div class="row" style="margin-top:50px;"  id="blink">
+            <div class="col-md-12 text-center">
+              <span style="margin-left:10px;font-size: 20px;" data-toggle="modal" data-target="#LoginModal"><i class="fa fa-user"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Login here</a></span>
+            </div>
+          </div>
+                   
+           <!--  <div class="card">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                     <div class="card-header" style="background-color: teal;color: white">
                         <h3 class="text-center">Login here</h3>
@@ -155,22 +167,139 @@ function test_input($data){
                 </form>
 
                 </div>
-            </div>
+            </div> -->
 
+            <div class="modal modal-child fade addNewRequestModal" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-modal-parent="#ViewDetailModal" style="margin-top:95px;">
+              <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                  <div class="modal-header bg-info">
+                      <h4 class="modal-title" id="myModalLabel">Login here</h4>
+                      <h4 class="modal-title" id="ForgotpswdTitle" style="display: none;">Forgot password</h4>
+                      <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: white;">&times;</span>
+                      </button>
+
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                      <?php echo $allfieldRequired." ".$incorectcredential;?>
+                    </div>
+                    <div class="col-md-2"></div>
+                  </div>
+
+                  <form id="loginform" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                      <div class="modal-body">
+
+                        <label class="col-xs-2 col-form-label">Email</label>
+                        <div class="input-group mb-3">
+                          <input type="email" name="Username" class="form-control" placeholder="Enter email">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-envelope"></span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <label class="col-xs-2 col-form-label">Password</label>
+                        <div class="input-group mb-3">
+                          <input type="password" name="Password" id="AddPassword" class="form-control" placeholder="Enter password">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-lock"></span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+
+                      <div class="modal-footer" style="justify-content: center;">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-lock-open"></i>&nbsp;Login</button>
+                      </div>
+
+                      <div class="col-md-12 text-center">
+                        <a href="#" onclick="HideLoginForm()"><i class="fa fa-key"></i>&nbsp;Forgot password</a>
+                      </div>
+
+                  </form>
+
+                  <!--forgot password form-->
+                  <form id="ForgotPasswordform" style="display: none;" action="" method="POST">
+                      <div class="modal-body">
+
+                        <label class="col-xs-2 col-form-label">Email</label>
+                        <div class="input-group mb-3">
+                          <input type="email" name="Username" class="form-control" placeholder="Enter email">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-envelope"></span>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="modal-footer" style="justify-content: center;">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Reset email</button>
+                      </div>
+
+                      <div class="col-md-12 text-center">
+                        <a href="#" onclick="ShowLoginForm()"><i class="fa fa-array-left"></i>&nbsp;Back to login</a>
+                      </div>
+
+                  </form>
+                  <!--end of forgot password form-->
+
+                </div>
+              </div>
+            </div>
+          
         </div>
         <div class="col-md-3"></div>
     </div>
 
       <script>
-          $('.ordering').on('click', function() {
-              var $this = $(this);
-              $this.button('loading');
-                 setTimeout(function() {
-                   $this.button('reset');
-               },8000);
-            });
+          var uname=document.getElementById('User').val();
+          var pswd=document.getElementById('Pass').val();
+
+          if (isempty(uname)) {
+            document.write('fill it !');
+          }
+
+          function HideLoginForm(){
+              var loginform=document.getElementById('loginform');
+              var title=document.getElementById('myModalLabel');
+              loginform.style.display="none";
+              title.style.display="none";
+
+              var forgotpswdform=document.getElementById('ForgotPasswordform');
+              var titleforgot=document.getElementById('ForgotpswdTitle');
+              forgotpswdform.style.display="block";
+              titleforgot.style.display="block";
+          }
+
+          function ShowLoginForm(){
+            var loginform=document.getElementById('loginform');
+              var title=document.getElementById('myModalLabel');
+              loginform.style.display="block";
+              title.style.display="block";
+
+              var forgotpswdform=document.getElementById('ForgotPasswordform');
+              var titleforgot=document.getElementById('ForgotpswdTitle');
+              forgotpswdform.style.display="none";
+              titleforgot.style.display="none";
+          }
+
       </script>
 
+      <script>
+        //login text beeping
+          var blink = document.getElementById('blink');
+          setInterval(function() {
+            blink.style.opacity = (blink.style.opacity == 0 ? 1 : 0);
+          }, 1000); 
+      </script>
 <!-- jQuery -->
 <script src="style/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -198,6 +327,8 @@ function test_input($data){
 <script src="style/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="style/dist/js/adminlte.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="style/dist/js/demo.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
