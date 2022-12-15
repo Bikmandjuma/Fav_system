@@ -1,15 +1,19 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
+require '../Connect/connection.php';
+require '../phpcode/codes.php';
 
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
 
-require '..\phpcode\codes.php';
+//call the card_id from RFID code when a card is taped on rfid device 
+$Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
+file_put_contents('UIDContainer.php',$Write);
+
 $users=new fac;
 
 ?>
@@ -17,7 +21,7 @@ $users=new fac;
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin panel</title>
+  <title>Citizens Info</title>
   <link rel="card icon" href="../style/dist/img/smartcard.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -122,7 +126,7 @@ $users=new fac;
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="home.php" class="nav-link active">
+            <a href="home.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -152,7 +156,7 @@ $users=new fac;
 
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Citizens
@@ -203,7 +207,6 @@ $users=new fac;
             </ul>
           </li>
 
-
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
@@ -244,89 +247,21 @@ $users=new fac;
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Admin</a></li>
-              <li class="breadcrumb-item active">Home</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+      
+      <br>
+        <div class="row">
 
-    <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>0</h3>
-                <p>Sites</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php $users->System_user_count(); ?></h3>
-                <p>System users</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-user"></i>
-              </div>
-              <a href="SystemUsers.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>0</h3>
-                <p>Citizens attend today</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>0</h3>
-                <p>Online users</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-        </div>
-        <!-- /.row -->
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-right"><?php  $users->all_citizen_numbers();?></span>All citizens info</span></div>
+                  
+                    <div id="results"></div>
 
-        <div class="row" style="margin-top:-170px;">
-          <div class="col-md-12 text-center">
-            <img src="../style/dist/img/scard.png" id="card">
-          </div>
+                </div>
+            </div>
         </div>
+
+  </div>
 
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>
