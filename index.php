@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         ';
 
     }else{
-        $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image,sitename FROM users where username='$user' and password='".md5($pass)."'");
+        $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image,sitename,entrance FROM users inner join site_name on users.fk_sitename_id = site_name.id where username='$user' and password='".md5($pass)."'");
           $row=mysqli_fetch_array($query_user);
 
         $query_admin=mysqli_query($con,"SELECT id,firstname,lastname,gender,phone,email,dob,username,password,image FROM admin where username='$user' and password='".md5($pass)."'");
@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
               $_SESSION['password']=$row[8];
               $_SESSION['image']=$row[9];
               $_SESSION['sitename']=$row[10];
+              $_SESSION['entrance']=$row[11];
               header("location:http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."/User/home.php");
 
           }elseif ($row_admin > 0) {

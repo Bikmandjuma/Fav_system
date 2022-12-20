@@ -313,8 +313,9 @@ $users=new fac;
         <div class="row">
           <div class="col-md-4"></div>
           <div class="col-md-4">
+          <?php echo $Password_changed_well;?>
           <div class="card">
-            <?php echo $Password_changed_well;?>
+            
             <div class="card-header text-center bg-info"><i class="fa fa-edit"></i>&nbsp;Modify password</div>
             <div class="card-body" style="overflow: auto;">
                <form class="form-group" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">

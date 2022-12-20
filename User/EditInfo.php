@@ -17,6 +17,8 @@ $gender=$_REQUEST['gender'];
 $user_img=$_SESSION['image'];
 $dob=$_SESSION['dob'];
 $password=$_SESSION['password'];
+$site=$_SESSION['sitename'];
+$entrance=$_SESSION['entrance'];
 
 $users=new fac;
 
@@ -247,64 +249,73 @@ $users=new fac;
     <!-- Content Header (Page header) -->
     <br>
         <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
 
           <div class="card">
             <div class="card-header text-center bg-info"><i class="fa fa-edit"></i>&nbsp;Edit information</div>
             <div class="card-body" style="overflow: auto;">
               <form action="" method="POST">
-                <label>User id</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>User id</label>
+                    <input type="password" name="id" value="<?php echo md5($id);?>" class="form-control" disabled>
 
-                <input type="text" name="id" value="<?php echo md5($id);?>" class="form-control" disabled>
+                    <label>Firstname</label>
+                    <input type="text" name="fname" value="<?php echo $fname;?>" class="form-control" required>
 
-                <label>Firstname</label>
-                <input type="text" name="fname" value="<?php echo $fname;?>" class="form-control" required>
+                    <label>Lastname</label>
+                    <input type="text" name="lname" value="<?php echo $lname;?>" class="form-control" required>
 
-                <label>Lastname</label>
-                <input type="text" name="lname" value="<?php echo $lname;?>" class="form-control" required>
-
-                <label>Gender</label>
-                <select name="gender" class="form-control">
-                  <?php
-                    if ($gender == 'male') {
-                      ?>
-                          <option value='male' selected>Male</option>
-                          <option value='female'>Female</option>
+                    <label>Gender</label>
+                    <select name="gender" class="form-control">
                       <?php
-                    }else{
+                        if ($gender == 'male') {
+                          ?>
+                              <option value='male' selected>Male</option>
+                              <option value='female'>Female</option>
+                          <?php
+                        }else{
+                          ?>
+                              <option value='female' selected>Female</option>
+                              <option value='male'>Male</option>
+                          <?php
+                        }
                       ?>
-                          <option value='female' selected>Female</option>
-                          <option value='male'>Male</option>
-                      <?php
-                    }
-                  ?>
-                </select>
+                    </select>
 
-                <label>Phone</label>
-                <input type="text" name="phone" value="<?php echo $phone;?>" class="form-control" required>
+                  </div>
+                  <div class="col-md-6">
 
-                <label>Email</label>
-                <input type="text" name="email" value="<?php echo $email;?>" class="form-control" required>
+                    <label>Phone</label>
+                    <input type="text" name="phone" value="<?php echo $phone;?>" class="form-control" required>
+                        
+                    <label>Email</label>
+                    <input type="text" name="email" value="<?php echo $email;?>" class="form-control" required>
 
-                <label>Birth date</label>
-                <input type="date" name="dob" value="<?php echo $dob;?>" class="form-control" required>
+                    <label>Birth date</label>
+                    <input type="date" name="dob" value="<?php echo $dob;?>" class="form-control" required>
 
-                <label>Username</label>
-                <input type="text" name="username" value="<?php echo $email;?>" class="form-control" disabled>
+                    <label>Sitename</label>
+                    <input type="text" name="username" value="<?php echo $site." at ".$entrance;?>" class="form-control" disabled>
 
-                <label>Password</label>
-                <input type="password" name="password" value="<?php echo $password;?>" class="form-control" disabled>
+                  </div>
+                </div>
 
-                <br>
-                <button class="btn btn-primary" type="submit" name="edit_info"><i class="fa fa-save"></i> Save change</button>
+                  <br>
+                  <div class="row">
+                      <div class="col-md-12 text-center">
+                        <button class="btn btn-primary" type="submit" name="edit_info"><i class="fa fa-save"></i> Save change</button>
+                      </div>
+                  </div>
+
               </form>
             </div>
           </div>
           
           <!--end of card-->
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2"></div>
       </div>
 
       <?php

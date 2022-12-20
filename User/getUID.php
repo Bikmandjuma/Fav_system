@@ -1,3 +1,7 @@
+<?php
+require '..\phpcode\codes.php';
+$users=new fac;
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,71 +32,70 @@
 
 <body>
 
-<div class="row">
-	<div class="col-md-3"></div>
-	<div class="col-md-6">
-		<h2>
-			This page is where we get requested id from rfid when card is tapped on rfid.
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<h2>
+				This page is where we get requested id from rfid when card is tapped on rfid.
 
-			but because our Rfid and NodeMcu not yet configured we use input field .
-		</h2>
+				but because our Rfid and NodeMcu not yet configured we use input field .
+			</h2>
 
-		<br>
-		<br>
+			<br>
+			<br>
 
-		<form method="POST">
-			<label>Id Card</label>
-			<input type="text" name="kid" class="form-control" autofocus required><br>
-			<button name="submit" type="submit" class="btn btn-danger">Submit</button>
-		</form>
-		<?php
-			if (isset($_POST['submit'])) {
-				//$UIDresult=$_POST["UIDresult"];
-				$UIDresult=$_POST["kid"];
+			<form method="POST">
+				<label>Id Card</label>
+				<input type="text" name="kid" value="<?php $users->SitenameEntrance();?>" class="form-control" autofocus required><br>
+				<button name="submit" type="submit" class="btn btn-danger">Submit</button>
+			</form>
+			<?php
+				if (isset($_POST['submit'])) {
+					//$UIDresult=$_POST["UIDresult"];
+					$UIDresult=$_POST["kid"];
 
-				$Write="<?php $" . "UIDresult='" . $UIDresult . "'; " . "echo $" . "UIDresult;" . " ?>";
-				file_put_contents('UIDContainer.php',$Write);
-			}
+					$Write="<?php $" . "UIDresult='" . $UIDresult . "'; " . "echo $" . "UIDresult;" . " ?>";
+					file_put_contents('UIDContainer.php',$Write);
+				}
 
-		?>
+			?>
+		</div>
+		<div class="col-md-3"></div>
 	</div>
-	<div class="col-md-3"></div>
-</div>
 
-
-<!-- jQuery -->
-<script src="../style/plugins/jquery/jquery.min.js"></script>
-<script src="../style/plugins/jquery/jquerys.js"></script>
-<script src="../style/plugins/jquery/jquery.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="../style/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<!-- Bootstrap 4 -->
-<script src="../style/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="../style/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="../style/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="../style/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="../style/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="../style/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="../style/plugins/moment/moment.min.js"></script>
-<script src="../style/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="../style/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="../style/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="../style/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../style/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes --><!-- 
-<script src="../style/dist/js/demo.js"></script> -->
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../style/dist/js/pages/dashboard.js"></script>
+	<!-- jQuery -->
+	<script src="../style/plugins/jquery/jquery.min.js"></script>
+	<script src="../style/plugins/jquery/jquerys.js"></script>
+	<script src="../style/plugins/jquery/jquery.js"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script src="../style/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<!-- Bootstrap 4 -->
+	<script src="../style/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- ChartJS -->
+	<script src="../style/plugins/chart.js/Chart.min.js"></script>
+	<!-- Sparkline -->
+	<script src="../style/plugins/sparklines/sparkline.js"></script>
+	<!-- JQVMap -->
+	<script src="../style/plugins/jqvmap/jquery.vmap.min.js"></script>
+	<script src="../style/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+	<!-- jQuery Knob Chart -->
+	<script src="../style/plugins/jquery-knob/jquery.knob.min.js"></script>
+	<!-- daterangepicker -->
+	<script src="../style/plugins/moment/moment.min.js"></script>
+	<script src="../style/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script src="../style/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- Summernote -->
+	<script src="../style/plugins/summernote/summernote-bs4.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="../style/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="../style/dist/js/adminlte.js"></script>
+	<!-- AdminLTE for demo purposes --><!-- 
+	<script src="../style/dist/js/demo.js"></script> -->
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script src="../style/dist/js/pages/dashboard.js"></script>
 
 
 </body>

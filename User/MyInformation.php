@@ -16,6 +16,8 @@ $email=$_SESSION['email'];
 $gender=$_SESSION['gender'];
 $dob=$_SESSION['dob'];
 $uname=$_SESSION['username'];
+$site=$_SESSION['sitename'];
+$entrance=$_SESSION['entrance'];
 
 $users=new fac;
 
@@ -298,6 +300,14 @@ $users=new fac;
 
                 <div class="col-md-6">
                   <span id="my_data"><p><b>Birth date :&nbsp;</b></p><p class="text-info"><b><?php echo $dob;?></b></p></span>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <span id="my_data"><p><b>Site name :&nbsp;</b></p><p class="text-info"><b><?php echo $site."<span style='color:black;'> at </span>".$entrance;?></b></p></span>
                 </div>
               </div>
             

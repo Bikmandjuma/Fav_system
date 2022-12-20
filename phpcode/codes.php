@@ -38,7 +38,7 @@ class fac{
 	public function Select_user(){
 		include "../Connect/connection.php";
 		$fname=$lname=$gender=$phone=$email=$image=null;
-		$result=mysqli_query($con,"SELECT * FROM users");
+		$result=mysqli_query($con,"SELECT * FROM users inner join site_name on users.fk_sitename_id=site_name.id");
 		while ($row=mysqli_fetch_assoc($result)) {
 			$fname=$row['firstname'];
 		   	$lname=$row['lastname'];  	
@@ -259,7 +259,7 @@ class fac{
 	     $number=mysqli_num_rows($query);
 
 	     if ($number == 0) {
-	      	echo "<tr><td colspan='6'>No results found !</td></tr>";
+	      	echo "<tr><td colspan='7'>No results found !</td></tr>";
 
 	      	?>
 	      		<style>
@@ -812,6 +812,84 @@ class fac{
 
 		echo "</div>";
 	}
+
+	//site_name
+	public function count_site_names(){
+		
+		include "../Connect/connection.php";
+		$result=mysqli_query($con,"SELECT * FROM site_name");
+		$site_count=mysqli_num_rows($result);
+		echo $site_count;
+
+	}
+
+	public function display_sitename_to_users(){
+		include "../Connect/connection.php";
+		$result=mysqli_query($con,"SELECT * FROM site_name");
+		while ($row=mysqli_fetch_assoc($result)) {
+			?>
+				<option value="<?php echo $row['id'];?>"><?php echo $row['sitename'];?></option>
+			<?php
+		}
+	}
+
+	public function display_sitename(){
+		include "../Connect/connection.php";
+		$result=mysqli_query($con,"SELECT * FROM site_name");
+		$count=1;
+		while ($row=mysqli_fetch_assoc($result)) {
+			$Sitename=$row['sitename'];
+			$Entrance=$row['entrance'];
+
+			echo "
+			   		<tr>
+						<td>".$count++."</td>
+						<td>".$Sitename."</td>
+						<td>".$Entrance."</td>
+		          		<td><a href='#View' ><i class='fa fa-eye text-info'></i></a></td>
+		          		<td><a href='#Edit' ><i class='fa fa-edit text-success'></i></a></td>
+	          		</tr>
+			";
+
+		}
+
+	}
+
+	public function SitenameEntrance(){
+		include "../Connect/connection.php";
+		$result=mysqli_query($con,"SELECT * FROM site_name");
+		while ($row=mysqli_fetch_assoc($result)) {
+			$Sitename=$row['sitename'];
+			$Entrance=$row['entrance'];
+
+			echo $Sitename.$Entrance;
+		}
+	}
+
+	//Admin register new SiteName
+	function register_Sitename(){
+		if (isset($_POST['SubmitSitename'])) {
+			include '../Connect/connection.php';
+			
+			try{
+				$Entrance=$_POST['entrance'];
+				$SiteName=$_POST['sitename'];
+
+				$sql="INSERT INTO  site_name values ('','$SiteName','$Entrance')";
+				$result=mysqli_query($con,$sql);
+				if ($result) {
+					echo "<script>window.location.assign('sites.php')</script>";
+				}else{
+					echo "<script>alert('Error to insert data !')<script>";
+				}
+        		
+			}catch(PDOException $e){
+			    echo $sql . "<br>" . $e->getMessage();
+			}
+
+		}
+	}
+
 
 }
 

@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
+include "../Connect/connection.php";
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
@@ -11,8 +12,8 @@ $user_img=$_SESSION['image'];
 require '..\phpcode\codes.php';
 $users=new fac;
 $users->register_user();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -282,7 +283,17 @@ $users->register_user();
                      <input type="text" name="phone" placeholder="Enter phone" class="form-control" required><br>
                      <input type="email" name="email" placeholder="Enter email" class="form-control" required><br>
                      <input type="date" name="dob" class="form-control" required><br>
-                     <input type="text" name="sitename" placeholder="Enter site name" class="form-control" required><br>
+                     <select name="sitename" class="form-control" required>
+                      <option>Select sitename . . .</option>
+                       <?php 
+                          $result=mysqli_query($con,"SELECT * FROM site_name left join users on users.fk_sitename_id=site_name.id where  users.fk_sitename_id is null");
+                          while ($row=mysqli_fetch_assoc($result)) {
+                            ?>
+                              <option value="<?php echo $row['id'];?>"><?php echo $row['sitename']." ".$row['entrance'];?></option>
+                            <?php
+                          }
+                       ?>
+                     </select><br>
                    
                      <button type="submit" class="btn btn-primary float-center" name="submit">Add</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-danger">Reset</button>
                    </form>
