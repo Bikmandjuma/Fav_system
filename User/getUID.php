@@ -46,7 +46,7 @@ $users=new fac;
 
 			<form method="POST">
 				<label>Id Card</label>
-				<input type="text" name="kid" value="<?php $users->SitenameEntrance();?>" class="form-control" autofocus required><br>
+				<input type="text" name="kid" class="form-control" autofocus required><br>
 				<button name="submit" type="submit" class="btn btn-danger">Submit</button>
 			</form>
 			<?php

@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         ';
 
     }else{
-        $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image,sitename,entrance FROM users inner join site_name on users.fk_sitename_id = site_name.id where username='$user' and password='".md5($pass)."'");
+        $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image,sitename,entrance,site_name.id as site_id FROM users inner join site_name on users.fk_sitename_id = site_name.id where username='$user' and password='".md5($pass)."'");
           $row=mysqli_fetch_array($query_user);
 
         $query_admin=mysqli_query($con,"SELECT id,firstname,lastname,gender,phone,email,dob,username,password,image FROM admin where username='$user' and password='".md5($pass)."'");
@@ -41,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
               $_SESSION['image']=$row[9];
               $_SESSION['sitename']=$row[10];
               $_SESSION['entrance']=$row[11];
+              $_SESSION['site_id']=$row[12];
               header("location:http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."/User/home.php");
 
           }elseif ($row_admin > 0) {
@@ -135,7 +136,7 @@ function test_input($data){
 
           <div class="row" style="margin-top:50px;"  id="blink">
             <div class="col-md-12 text-center">
-              <span style="margin-left:10px;font-size: 20px;" data-toggle="modal" data-target="#LoginModal"><i class="fa fa-user"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Login here</a></span>
+              <span style="margin-left:10px;font-size: 20px;" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#LoginModal"><i class="fa fa-user"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Login here</a></span>
             </div>
           </div>
                    
@@ -216,7 +217,7 @@ function test_input($data){
                       </div>
 
                       <div class="modal-footer" style="justify-content: center;">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-lock-open"></i>&nbsp;Login</button>
+                        <button type="submit" name="submit" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-lock-open"></i>&nbsp;Login</button>
                       </div>
 
                       <div class="col-md-12 text-center">
@@ -301,6 +302,48 @@ function test_input($data){
             blink.style.opacity = (blink.style.opacity == 0 ? 1 : 0);
           }, 1000); 
       </script>
+
+      <script>
+        // function myFunction() {
+        //     $("form").on("submit", function (event) {
+        //         event.preventDefault();
+        //         $.ajax({
+        //             url: "yoururl",
+        //             type: "POST",
+        //             data: yourData,
+        //             success: function (result) {
+        //                 console.log(result)
+        //             }
+        //         });
+        //     })
+        // }
+
+      </script>
+
+      <script type="text/javascript">
+        $(document).on("submit", "form", function(event)
+        {
+            event.preventDefault();        
+            $.ajax({
+                url: $(this).attr("action"),
+                type: $(this).attr("method"),
+                dataType: "JSON",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function (data, status)
+                {
+
+                },
+                error: function (xhr, desc, err)
+                {
+
+
+                }
+            });        
+        });
+      </script>
+    
 <!-- jQuery -->
 <script src="style/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->

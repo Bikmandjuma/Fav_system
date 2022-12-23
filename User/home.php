@@ -319,7 +319,7 @@ $user_img=$_SESSION['image'];
           <!-- ./col -->
         </div>
         <!-- /.row -->
-
+       
         <div class="row" style="margin-top:-170px;overflow: auto;">
           <div class="col-md-12 text-center">
             <img src="../style/dist/img/scard.png" id="card">

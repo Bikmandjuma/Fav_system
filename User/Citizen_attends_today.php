@@ -314,7 +314,7 @@ $users=new fac;
                  <div class="modal-body" style="overflow:auto;">
                    <form class="form-group" method="POST" action="">
                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
-                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="Nyabugogo"><br>
+                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="<?php echo $_SESSION['sitename'];?>"><br>
                      <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
                      
                      <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus></textarea><br>

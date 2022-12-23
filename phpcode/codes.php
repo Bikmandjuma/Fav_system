@@ -203,8 +203,10 @@ class fac{
 		include '../Connect/connection.php';
 		date_default_timezone_set("Africa/Kigali");
 	    $today=date("Y-m-d");
+	    $site_id=$_SESSION['site_id'];
+
 	    $sum=0;
-		$sql="SELECT MIN(a_id) FROM attendance where attend_date='$today' group by citizen_fk_id";
+		$sql="SELECT MIN(a_id) FROM attendance where fk_site_id='$site_id' and attend_date='$today' group by citizen_fk_id";
 		$result=mysqli_query($con,$sql);
         $sum =mysqli_num_rows($result);
 
@@ -229,8 +231,9 @@ class fac{
 		include '../Connect/connection.php';
 		date_default_timezone_set("Africa/Kigali");
 	    $today=date("Y-m-d");
-
-      	$sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.attend_date='$today' group by citizen_fk_id";
+		$site_id=$_SESSION['site_id'];
+      	
+      	$sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.fk_site_id='$site_id' and attendance.attend_date='$today' group by citizen_fk_id";
 
 	    $query=mysqli_query($con,$sql);
      	while ($row=mysqli_fetch_assoc($query)) {
@@ -342,8 +345,9 @@ class fac{
 		date_default_timezone_set("Africa/Kigali");
 	    $Current_year=date("Y");
 	    $Last_year=date("Y")-1;
-
-		$sql=$sql="SELECT MIN(a_id) as a_id,year,citizen_fk_id,attend_date,attend_time from attendance group by year order by year desc";
+		$site_id=$_SESSION['site_id'];
+		
+		$sql=$sql="SELECT MIN(a_id) as a_id,year,citizen_fk_id,attend_date,attend_time from attendance where fk_site_id='$site_id' group by year order by year desc";
 	    $query=mysqli_query($con,$sql);
      	while ($row=mysqli_fetch_assoc($query)) {
         	$year=$row['year'];
@@ -373,12 +377,10 @@ class fac{
 		date_default_timezone_set("Africa/Kigali");
 	    $Current_month=date("m");
 	    $Current_months=date("M");
-	    // $Last_month=date("m")-1;
-	    // $Last_months=date("M")-1; 
-
+		$site_id=$_SESSION['site_id']; 
 	    $curr_year=$_REQUEST['year'];
 
-		$sql="SELECT MIN(a_id) as a_id,year,citizen_fk_id,attend_date,attend_time,month from attendance where year='$curr_year' group by month order by month desc";
+		$sql="SELECT MIN(a_id) as a_id,year,citizen_fk_id,attend_date,attend_time,month from attendance where  fk_site_id='".$site_id."' and year='$curr_year' group by month order by month desc";
 	    $query=mysqli_query($con,$sql);
      	while ($row=mysqli_fetch_assoc($query)) {
         	$month=$row['month'];
@@ -461,11 +463,11 @@ class fac{
 		date_default_timezone_set("Africa/Kigali");
 	    $Today=date("Y-m-d");    
 	    $Yesterday=date("Y-m-d",strtotime('Yesterday'));
-
+		$site_id=$_SESSION['site_id'];
 	    $Curr_month=$_REQUEST['month'];
 		$curr_year=$_REQUEST['year'];
 
-		$sql="SELECT MIN(a_id) as a_id,year,citizen_fk_id,attend_date,attend_time,month from attendance where year='$curr_year' and month='$Curr_month' group by attend_date order by attend_date desc";
+		$sql="SELECT MIN(a_id) as a_id,year,citizen_fk_id,attend_date,attend_time,month from attendance where fk_site_id='$site_id' and year='$curr_year' and month='$Curr_month' group by attend_date order by attend_date desc";
 	    $query=mysqli_query($con,$sql);
      	while ($row=mysqli_fetch_assoc($query)) {
         	$today_date=$row['attend_date'];
@@ -479,7 +481,7 @@ class fac{
         		$today_name=$Todays;
         	}
 
-        	$sql_num="SELECT * from attendance where attend_date='$Todays'";
+        	$sql_num="SELECT * from attendance where fk_site_id='$site_id' and attend_date='$Todays'";
 
         	$query_num=mysqli_query($con,$sql_num);
         	$citiz_num=mysqli_num_rows($query_num);
@@ -556,7 +558,9 @@ class fac{
 		$month=$_REQUEST['month'];
 		$year=$_REQUEST['year'];
 		$date=$_REQUEST['dates'];
-		$sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_date,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.year='$year' and attendance.month='$month' and attendance.attend_date='$date' group by citizen_fk_id";
+		$site_id=$_SESSION['site_id'];
+
+		$sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,fk_site_id,attend_date,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.fk_site_id='$site_id' and attendance.year='$year' and attendance.month='$month' and attendance.attend_date='$date' group by citizen_fk_id";
 
 	    $query=mysqli_query($con,$sql);
      	while ($row=mysqli_fetch_assoc($query)) {
@@ -600,7 +604,9 @@ class fac{
 		$month=$_REQUEST['month'];
 		$year=$_REQUEST['year'];
 		$date=$_REQUEST['dates'];
-		$sql="SELECT MIN(a_id) as a_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.year='$year' and attendance.month='$month' and attendance.attend_date='$date' group by citizen_fk_id";
+		$site_id=$_SESSION['site_id'];
+
+		$sql="SELECT MIN(a_id) as a_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,fk_site_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.fk_site_id='$site_id' and attendance.year='$year' and attendance.month='$month' and attendance.attend_date='$date' group by citizen_fk_id";
 	    $query=mysqli_query($con,$sql);
 	    $number=mysqli_num_rows($query);
 
@@ -856,14 +862,15 @@ class fac{
 	}
 
 	public function SitenameEntrance(){
-		include "../Connect/connection.php";
-		$result=mysqli_query($con,"SELECT * FROM site_name");
-		while ($row=mysqli_fetch_assoc($result)) {
-			$Sitename=$row['sitename'];
-			$Entrance=$row['entrance'];
+		// include "../Connect/connection.php";
+		// $result=mysqli_query($con,"SELECT * FROM site_name");
+		// while ($row=mysqli_fetch_assoc($result)) {
+		// 	$Sitename=$row['sitename'];
+		// 	$Entrance=$row['entrance'];
 
-			echo $Sitename.$Entrance;
-		}
+		// 	echo $Sitename.$Entrance;
+		// }
+		echo $_SESSION['sitename'].$_SESSION['entrance'];
 	}
 
 	//Admin register new SiteName
