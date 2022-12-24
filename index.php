@@ -303,23 +303,6 @@ function test_input($data){
           }, 1000); 
       </script>
 
-      <script>
-        // function myFunction() {
-        //     $("form").on("submit", function (event) {
-        //         event.preventDefault();
-        //         $.ajax({
-        //             url: "yoururl",
-        //             type: "POST",
-        //             data: yourData,
-        //             success: function (result) {
-        //                 console.log(result)
-        //             }
-        //         });
-        //     })
-        // }
-
-      </script>
-
       <script type="text/javascript">
         $(document).on("submit", "form", function(event)
         {
