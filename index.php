@@ -116,11 +116,16 @@ function test_input($data){
  <style>
    body{
     background-image: url('style/dist/img/scard.png');
-/*    background-repeat: no-repeat;
-*/   }
+    background-repeat: no-repeat;
+    background-position: center center;
+   }
+
+   ::-webkit-scrollbar{
+    display: none;
+   }
  </style>
 </head>
-<body sty>
+<body>
 
 <div class="row">
     <div class="col-md-12 text-center" style="background-color: teal;color: white">
@@ -134,124 +139,128 @@ function test_input($data){
         <div class="col-md-3"></div>
         <div class="col-md-6">
 
-          <div class="row" style="margin-top:50px;"  id="blink">
-            <div class="col-md-12 text-center">
-              <span style="margin-left:10px;font-size: 20px;" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#LoginModal"><i class="fa fa-user"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Login here</a></span>
+            <div class="row" style="margin-top:50px;"  id="blink">
+              <div class="col-md-12 text-center">
+                <span style="margin-left:10px;font-size: 20px;" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#SimpleModalBox"><i class="fa fa-lock"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Enter</a></span>
+              </div>
             </div>
-          </div>
-                   
-           <!--  <div class="card">
-                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
-                    <div class="card-header" style="background-color: teal;color: white">
-                        <h3 class="text-center">Login here</h3>
-                    </div>
+              
 
-                <div class="card-body">
-                    <?php echo $allfieldRequired." ".$incorectcredential;?>
-                    <div class="form-group">
-                        <input type="email" class="form-control" name="Username" placeholder="Enter Email" autofocus>
-                    </div>
+            <div class="modal fade" id="SimpleModalBox" tabindex="-1" role="dialog" aria-labelledby="SimpleModalLabel" aria-hidden="true">
+              <!--<modal-dialog>-->
+              <div class = "modal-dialog">
 
-                    <div class="form-group">
-                        <input type="password" class="form-control" name="Password" placeholder="Enter password">
-                    </div>
+                <!--<modal-content>-->
+                <div class = "modal-content">
 
-                    <div class="row">
-                        <div class="col-md-5"></div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary btn-block ordering" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Adding"><i class="fa fa-lock-open"></i>&nbsp;Login</button>
+                  <div class = "modal-header">
+
+                        <h4 class="modal-title" id="myModalLabel">Login here</h4>
+                        <h4 class="modal-title" id="ForgotpswdTitle" style="display: none;">Forgot password</h4>
+                        <!-- <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true" style="color: white;">&times;</span>
+                        </button> -->
+
+                  </div>
+
+                  <div id="TheBodyContent" class = "modal-body">
+                      
+                      <form id="loginform" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+                        <div class="modal-body">
+
+                          <label class="col-xs-2 col-form-label">Email</label>
+                          <div class="input-group mb-3">
+                            <input type="email" name="Username" class="form-control" placeholder="Enter email">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                              </div>
+                            </div>
+                            <div id="email">email</div>
+                          </div>
+
+                          <label class="col-xs-2 col-form-label">Password</label>
+                          <div class="input-group mb-3">
+                            <input type="password" name="Password" id="AddPassword" class="form-control" placeholder="Enter password">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-key"></span>
+                              </div>
+                            </div>
+                            <div id="password">pass</div>
+                          </div>
+                          
                         </div>
-                        <div class="col-md-5">
-                            <a href="forgotpassword.php" class="float-right"><i class="fa fa-key"></i>&nbsp;Forgot password</a>
-                        </div>
-                    </div>      
 
-                </form>
+                        <div class="modal-footer" style="justify-content: center;">
+                          <button type="submit" name="submit" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-lock-open"></i>&nbsp;Login</button>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                          <a href="#" onclick="HideLoginForm()"><i class="fa fa-key"></i>&nbsp;Forgot password</a>
+                        </div>
+
+                    </form>
+
+                    <!--forgot password form-->
+                    <form id="ForgotPasswordform" style="display: none;" action="" method="POST">
+                        <div class="modal-body">
+
+                          <label class="col-xs-2 col-form-label">Email</label>
+                          <div class="input-group mb-3">
+                            <input type="email" name="Username" class="form-control" placeholder="Enter email">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="modal-footer" style="justify-content: center;">
+                          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Reset email</button>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                          <a href="#" onclick="ShowLoginForm()"><i class="fa fa-array-left"></i>&nbsp;Back to login</a>
+                        </div>
+
+                    </form>
+                    <!--end of forgot password form-->
+
+                  
+                  </div>
+
+                  <div class = "modal-footer">
+                    <button type = "button" class = "btn btn-default" onclick="doSomethingBeforeClosing()">Don't close</button>
+                  </div>
 
                 </div>
-            </div> -->
+                <!--<modal-content>-->
 
-            <div class="modal modal-child fade addNewRequestModal" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-modal-parent="#ViewDetailModal" style="margin-top:95px;">
-              <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                  <div class="modal-header bg-info">
-                      <h4 class="modal-title" id="myModalLabel">Login here</h4>
-                      <h4 class="modal-title" id="ForgotpswdTitle" style="display: none;">Forgot password</h4>
-                      <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="color: white;">&times;</span>
-                      </button>
+              </div>
+              <!--/modal-dialog>-->
+            </div>
+            <!--</SimpleModalBox>-->
+            <script>
 
-                  </div>
-                  
-                  <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                      <?php echo $allfieldRequired." ".$incorectcredential;?>
-                    </div>
-                    <div class="col-md-2"></div>
-                  </div>
+              //#region Dialogs
+              function showSimpleDialog() {
+                $( "#SimpleModalBox" ).modal();
+              }
 
-                  <form id="loginform" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
-                      <div class="modal-body">
+              function doSomethingBeforeClosing() {
+                //Do something. For example, display a result:
+                $( "#TheBodyContent" ).text( "Operation completed successfully" );
 
-                        <label class="col-xs-2 col-form-label">Email</label>
-                        <div class="input-group mb-3">
-                          <input type="email" name="Username" class="form-control" placeholder="Enter email">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-envelope"></span>
-                            </div>
-                          </div>
-                        </div>
+                //Close dialog in 3 seconds:
+                setTimeout( function() { $( "#SimpleModalBox" ).modal( "hide" ) }, 3000 );
+              }
 
-                        <label class="col-xs-2 col-form-label">Password</label>
-                        <div class="input-group mb-3">
-                          <input type="password" name="Password" id="AddPassword" class="form-control" placeholder="Enter password">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-lock"></span>
-                            </div>
-                          </div>
-                        </div>
-                        
-                      </div>
+            </script>
 
-                      <div class="modal-footer" style="justify-content: center;">
-                        <button type="submit" name="submit" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-lock-open"></i>&nbsp;Login</button>
-                      </div>
 
-                      <div class="col-md-12 text-center">
-                        <a href="#" onclick="HideLoginForm()"><i class="fa fa-key"></i>&nbsp;Forgot password</a>
-                      </div>
-
-                  </form>
-
-                  <!--forgot password form-->
-                  <form id="ForgotPasswordform" style="display: none;" action="" method="POST">
-                      <div class="modal-body">
-
-                        <label class="col-xs-2 col-form-label">Email</label>
-                        <div class="input-group mb-3">
-                          <input type="email" name="Username" class="form-control" placeholder="Enter email">
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-envelope"></span>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="modal-footer" style="justify-content: center;">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;Reset email</button>
-                      </div>
-
-                      <div class="col-md-12 text-center">
-                        <a href="#" onclick="ShowLoginForm()"><i class="fa fa-array-left"></i>&nbsp;Back to login</a>
-                      </div>
-
-                  </form>
-                  <!--end of forgot password form-->
 
                 </div>
               </div>
