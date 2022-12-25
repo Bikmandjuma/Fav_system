@@ -123,6 +123,10 @@ function test_input($data){
    ::-webkit-scrollbar{
     display: none;
    }
+
+   #blink:hover{
+    cursor: pointer;
+   }
  </style>
 </head>
 <body>
@@ -153,41 +157,37 @@ function test_input($data){
                 <!--<modal-content>-->
                 <div class = "modal-content">
 
-                  <div class = "modal-header">
-
-                        <h4 class="modal-title" id="myModalLabel">Login here</h4>
-                        <h4 class="modal-title" id="ForgotpswdTitle" style="display: none;">Forgot password</h4>
-                        <!-- <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true" style="color: white;">&times;</span>
-                        </button> -->
-
+                  <div class = "modal-header text-center">
+                      <h4 class="modal-title" id="myModalLabel">Login here</h4>
+                      <h4 class="modal-title" id="ForgotpswdTitle" style="display: none;">Forgot password</h4>
                   </div>
 
+
                   <div id="TheBodyContent" class = "modal-body">
-                      
-                      <form id="loginform" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+        
+                      <form id="loginform" name="myForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                         <div class="modal-body">
 
                           <label class="col-xs-2 col-form-label">Email</label>
                           <div class="input-group mb-3">
-                            <input type="email" name="Username" class="form-control" placeholder="Enter email">
+                            <input type="email" name="Username" class="form-control" placeholder="Enter email" id="EmailInput">
                             <div class="input-group-append">
                               <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                               </div>
                             </div>
-                            <div id="email">email</div>
+                            <div id="email"></div>
                           </div>
 
                           <label class="col-xs-2 col-form-label">Password</label>
                           <div class="input-group mb-3">
-                            <input type="password" name="Password" id="AddPassword" class="form-control" placeholder="Enter password">
+                            <input type="password" name="Password" id="AddPassword" class="form-control" placeholder="Enter password" id="PassInput">
                             <div class="input-group-append">
                               <div class="input-group-text">
                                 <span class="fas fa-key"></span>
                               </div>
                             </div>
-                            <div id="password">pass</div>
+                            <div id="password"></div>
                           </div>
                           
                         </div>
@@ -256,6 +256,15 @@ function test_input($data){
 
                 //Close dialog in 3 seconds:
                 setTimeout( function() { $( "#SimpleModalBox" ).modal( "hide" ) }, 3000 );
+              }
+
+              function myFunction(){
+                var email=document.forms['myForm']['Username'].value;
+                var pass=document.forms['myForm']['Password'].value;
+                if (email == "" || pass == "") {
+                  document.getElementById('alertmsg').style.display="block";
+                  return false;
+                }
               }
 
             </script>
