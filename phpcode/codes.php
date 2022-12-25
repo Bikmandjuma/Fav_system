@@ -862,14 +862,6 @@ class fac{
 	}
 
 	public function SitenameEntrance(){
-		// include "../Connect/connection.php";
-		// $result=mysqli_query($con,"SELECT * FROM site_name");
-		// while ($row=mysqli_fetch_assoc($result)) {
-		// 	$Sitename=$row['sitename'];
-		// 	$Entrance=$row['entrance'];
-
-		// 	echo $Sitename.$Entrance;
-		// }
 		echo $_SESSION['sitename'].$_SESSION['entrance'];
 	}
 
