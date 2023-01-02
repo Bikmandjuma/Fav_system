@@ -238,7 +238,7 @@ $users->register_user();
       <div class="col-md-8">
 
       <div class="card">
-        <div class="card-header text-center bg-info">System users info <span class="badge badge-light float-left" style="font-size:20px;"><?php $users->System_user_count();?></span><button class="btn btn-light float-right" data-toggle="modal" data-target="#Add_new_user_Modal"><i class="ion ion-person-add"></i>&nbsp;Add user</button></div>
+        <div class="card-header text-center bg-info">System users info <span class="badge badge-light float-left" style="font-size:20px;"><?php $users->System_user_count();?></span><button class="btn btn-light float-right" data-toggle="modal" data-target="#Add_new_user_Modal" data-backdrop="static" data-keyboard="false"><i class="ion ion-person-add"></i>&nbsp;Add user</button></div>
         <div class="card-body" style="overflow: auto;">
           <table class="table table-striped table-bordered text-center">
             <tr>
@@ -267,35 +267,64 @@ $users->register_user();
                <!-- Modal content-->
                <div class="modal-content">
                  <div class="modal-header bg-info">
-                   <span class="float-center"><h2>Add new user</h2></span> <button type="button" class="close" data-dismiss="modal" style="font-size: 30px;color: white">&times;</button>
+                   <span><h2>Add new user</h2></span> <button type="button" class="close" data-dismiss="modal" style="font-size: 30px;color: white">&times;</button>
                  </div>
                  <div class="modal-body" style="overflow:auto;">
                    <form class="form-group" method="POST" action="">
-                     <input type="text" name="fname" placeholder="Enter firstname" class="form-control" required><br>
-                     <input type="text" name="lname" placeholder="Enter lastname" class="form-control" required><br>
-                     
-                     <select name="gender" class="form-control" >
-                      <option>select gender </option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                     </select><br>
+                      <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" name="fname" placeholder="Enter firstname" class="form-control" required>                          
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="lname" placeholder="Enter lastname" class="form-control" required>
+                        </div>
+                      </div>
+                      <br>
+                      
+                      <div class="row">
+                        <div class="col-md-6">
+                            <select name="gender" class="form-control" >
+                              <option>select gender </option>
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="phone" placeholder="Enter phone" class="form-control" required>
+                        </div>
+                      </div>
 
-                     <input type="text" name="phone" placeholder="Enter phone" class="form-control" required><br>
-                     <input type="email" name="email" placeholder="Enter email" class="form-control" required><br>
-                     <input type="date" name="dob" class="form-control" required><br>
-                     <select name="sitename" class="form-control" required>
-                      <option>Select sitename . . .</option>
-                       <?php 
-                          $result=mysqli_query($con,"SELECT * FROM site_name left join users on users.fk_sitename_id=site_name.id where  users.fk_sitename_id is null");
-                          while ($row=mysqli_fetch_assoc($result)) {
-                            ?>
-                              <option value="<?php echo $row['id'];?>"><?php echo $row['sitename']." ".$row['entrance'];?></option>
-                            <?php
-                          }
-                       ?>
-                     </select><br>
-                   
-                     <button type="submit" class="btn btn-primary float-center" name="submit">Add</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-danger">Reset</button>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-6">
+                            <input type="email" name="email" placeholder="Enter email" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                          <input type="date" name="dob" class="form-control" required>
+                        </div>
+                      </div>
+
+                      <br>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                            <select name="sitename" class="form-control" required>
+                              <option>Select sitename . . .</option>
+                               <?php 
+                                  $result=mysqli_query($con,"SELECT * FROM site_name left join users on users.fk_sitename_id=site_name.id where  users.fk_sitename_id is null");
+                                  while ($row=mysqli_fetch_assoc($result)) {
+                                    ?>
+                                      <option value="<?php echo $row['id'];?>"><?php echo $row['sitename']." ".$row['entrance'];?></option>
+                                    <?php
+                                  }
+                               ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                          <button type="submit" class="btn btn-primary float-center" name="submit">Add</button>&nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-danger">Reset</button>
+                        </div>
+                      </div>
+        
                    </form>
                  </div>
               </div>

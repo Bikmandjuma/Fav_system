@@ -238,7 +238,7 @@ $users->register_Sitename();
       <div class="col-md-8">
 
       <div class="card">
-        <div class="card-header text-center bg-info">System users info <span class="badge badge-light float-left" style="font-size:20px;"><?php $users->System_user_count();?></span><button class="btn btn-light float-right" data-toggle="modal" data-target="#SiteModal"><i class="ion ion-house-add"></i>&nbsp;Add new Site</button></div>
+        <div class="card-header text-center bg-info"><i class="fa fa-map"></i>&nbsp;Location&nbsp;(Site)<span class="badge badge-light float-left" style="font-size:20px;"><?php $users->System_user_count();?></span><button class="btn btn-light float-right" data-toggle="modal" data-target="#SiteModal"><i class="ion ion-house-add"></i>&nbsp;Add new Site</button></div>
         <div class="card-body" style="overflow: auto;">
           <table class="table table-striped table-bordered text-center">
             <tr>
@@ -269,8 +269,8 @@ $users->register_Sitename();
                 <div class="modal-body">
                   <div class="actionsBtns">
                       <form method="POST">
-                        <input type="text" name="sitename" class="form-control" placeholder="Enter sitename"><br>
-                        <input type="text" name="entrance" class="form-control" placeholder="Enter Entrance"><br>
+                        <input type="text" name="sitename" class="form-control" placeholder="Enter sitename" required><br>
+                        <input type="text" name="entrance" class="form-control" placeholder="Enter Entrance" required><br>
                         
                         <button type="submit" name="SubmitSitename" class="btn btn-primary" style="justify-content: center;">Add</button>
                       </form>

@@ -12,6 +12,8 @@ $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
 
+$Site_id=$_SESSION['site_id'];
+
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
@@ -259,7 +261,7 @@ $users=new fac;
                       include '../Connect/connection.php';
                       date_default_timezone_set("Africa/Kigali");
                       $Today=date("Y-m-d");
-                      $sql="SELECT * from attendance";
+                      $sql="SELECT * from attendance where fk_site_id=$Site_id";
                       $query=mysqli_query($con,$sql);
                       $number=mysqli_num_rows($query);
                       if ($number == 0) {

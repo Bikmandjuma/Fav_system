@@ -148,7 +148,6 @@ function test_input($data){
                 <span style="margin-left:10px;font-size: 20px;" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#SimpleModalBox"><i class="fa fa-lock"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Enter</a></span>
               </div>
             </div>
-              
 
             <div class="modal fade" id="SimpleModalBox" tabindex="-1" role="dialog" aria-labelledby="SimpleModalLabel" aria-hidden="true">
               <!--<modal-dialog>-->
@@ -233,7 +232,7 @@ function test_input($data){
                   </div>
 
                   <div class = "modal-footer">
-                    <button type = "button" class = "btn btn-default" onclick="doSomethingBeforeClosing()">Don't close</button>
+                    <button type = "button" class = "btn btn-danger" data-dismiss="modal">close</button>
                   </div>
 
                 </div>
@@ -243,33 +242,32 @@ function test_input($data){
               <!--/modal-dialog>-->
             </div>
             <!--</SimpleModalBox>-->
-            <script>
+              
+                <script>
 
-              //#region Dialogs
-              function showSimpleDialog() {
-                $( "#SimpleModalBox" ).modal();
-              }
+                  //#region Dialogs
+                  function showSimpleDialog() {
+                    $( "#SimpleModalBox" ).modal();
+                  }
 
-              function doSomethingBeforeClosing() {
-                //Do something. For example, display a result:
-                $( "#TheBodyContent" ).text( "Operation completed successfully" );
+                  function doSomethingBeforeClosing() {
+                    //Do something. For example, display a result:
+                    $( "#TheBodyContent" ).text( "Operation completed successfully" );
 
-                //Close dialog in 3 seconds:
-                setTimeout( function() { $( "#SimpleModalBox" ).modal( "hide" ) }, 3000 );
-              }
+                    //Close dialog in 3 seconds:
+                    setTimeout( function() { $( "#SimpleModalBox" ).modal( "hide" ) }, 3000 );
+                  }
 
-              function myFunction(){
-                var email=document.forms['myForm']['Username'].value;
-                var pass=document.forms['myForm']['Password'].value;
-                if (email == "" || pass == "") {
-                  document.getElementById('alertmsg').style.display="block";
-                  return false;
-                }
-              }
+                  function myFunction(){
+                    var email=document.forms['myForm']['Username'].value;
+                    var pass=document.forms['myForm']['Password'].value;
+                    if (email == "" || pass == "") {
+                      document.getElementById('alertmsg').style.display="block";
+                      return false;
+                    }
+                  }
 
-            </script>
-
-
+                </script>
 
                 </div>
               </div>
@@ -319,30 +317,6 @@ function test_input($data){
           setInterval(function() {
             blink.style.opacity = (blink.style.opacity == 0 ? 1 : 0);
           }, 1000); 
-      </script>
-
-      <script type="text/javascript">
-        $(document).on("submit", "form", function(event)
-        {
-            event.preventDefault();        
-            $.ajax({
-                url: $(this).attr("action"),
-                type: $(this).attr("method"),
-                dataType: "JSON",
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (data, status)
-                {
-
-                },
-                error: function (xhr, desc, err)
-                {
-
-
-                }
-            });        
-        });
       </script>
     
 <!-- jQuery -->
