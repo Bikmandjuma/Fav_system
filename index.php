@@ -42,6 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
               $_SESSION['sitename']=$row[10];
               $_SESSION['entrance']=$row[11];
               $_SESSION['site_id']=$row[12];
+
+              $diplic_online_user_sql=mysqli_query($con,"SELECT * from online_users where fk_user_id='".$row[0]."'");
+              $diplic_online_user_nums=mysqli_num_rows($diplic_online_user_sql);
+              date_default_timezone_set("Afrika/Kigali");
+              $tm=date("Y-m-d H:i:s");
+              $status="ON";
+              $user_id=$row[0];
+
+              if ($diplic_online_user_nums > 0) {
+                  mysqli_query($con,"UPDATE online_users SET status='$status',period='$tm' where fk_user_id='".$user_id."' ");
+              }else{
+                  mysqli_query($con,"INSERT INTO online_users VALUES ('','$status','$tm','$user_id')");
+              }
+
               header("location:http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."/User/home.php");
 
           }elseif ($row_admin > 0) {

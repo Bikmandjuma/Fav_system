@@ -238,7 +238,7 @@ $users->register_Sitename();
       <div class="col-md-8">
 
       <div class="card">
-        <div class="card-header text-center bg-info"><i class="fa fa-map"></i>&nbsp;Location&nbsp;(Site)<span class="badge badge-light float-left" style="font-size:20px;"><?php $users->System_user_count();?></span><button class="btn btn-light float-right" data-toggle="modal" data-target="#SiteModal"><i class="ion ion-house-add"></i>&nbsp;Add new Site</button></div>
+        <div class="card-header text-center bg-info"><i class="fa fa-map"></i>&nbsp;Location&nbsp;(Site)<span class="badge badge-light float-left" style="font-size:20px;"><?php $users->Sitename_counter();?></span><button class="btn btn-light float-right" data-toggle="modal" data-target="#SiteModal"><i class="fa fa-plus"></i>&nbsp;Add new Site detail</button></div>
         <div class="card-body" style="overflow: auto;">
           <table class="table table-striped table-bordered text-center">
             <tr>
@@ -269,10 +269,27 @@ $users->register_Sitename();
                 <div class="modal-body">
                   <div class="actionsBtns">
                       <form method="POST">
-                        <input type="text" name="sitename" class="form-control" placeholder="Enter sitename" required><br>
-                        <input type="text" name="entrance" class="form-control" placeholder="Enter Entrance" required><br>
+                         <label class="col-xs-2 col-form-label"><li style="list-style-type:square;">Site_name</li></label>
+                          <div class="input-group mb-3">
+                            <input type="text" name="sitename" class="form-control" placeholder="ex: Nyabugogo" required>
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-home"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <label class="col-xs-2 col-form-label"><li style="list-style-type:square;">Entrance name</li></label>
+                          <div class="input-group mb-3">
+                            <input type="text" name="entrance" class="form-control" placeholder="ex:First_Entrance" required>
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-door-open"></span>
+                              </div>
+                            </div>
+                          </div>
                         
-                        <button type="submit" name="SubmitSitename" class="btn btn-primary" style="justify-content: center;">Add</button>
+                        <button type="submit" name="SubmitSitename" class="btn btn-primary" style="justify-content: center;"><i class="fa fa-plus"></i>&nbsp;Add</button>
                       </form>
                       
 <!--                       <button class="btn btn-danger float-right" data-dismiss="modal">Cancel</button>

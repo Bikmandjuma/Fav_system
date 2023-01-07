@@ -7,7 +7,7 @@ if (!isset($_SESSION['email'])) {
 require '../Connect/connection.php';
 require '../phpcode/codes.php';
 
-$admin_id=$_SESSION['u_id'];
+$user_id=$_SESSION['u_id'];
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
@@ -253,13 +253,15 @@ $users=new fac;
           <div class="col-md-8">
 
           <div class="card">
-            <div class="card-header text-center bg-info"><i class="fa fa-address-card"></i>&nbsp;My information <a href="EditInfo.php?id=<?php echo $admin_id;?>&fname=<?php echo $fname;?>&lname=<?php echo $lname;?>&phone=<?php echo $phone;?>&email=<?php echo $email;?>&gender=<?php echo $gender;?>" class="float-left"><button class="btn btn-light"><i class="fa fa-edit"></i>&nbsp;Edit</button></a></div>
+            <div class="card-header text-center bg-info"><i class="fa fa-address-card"></i>&nbsp;My information <a href="EditInfo.php?id=<?php echo $user_id;?>&fname=<?php echo $fname;?>&lname=<?php echo $lname;?>&phone=<?php echo $phone;?>&email=<?php echo $email;?>&gender=<?php echo $gender;?>" class="float-left"><button class="btn btn-light"><i class="fa fa-edit"></i>&nbsp;Edit</button></a></div>
             <div class="card-body" style="overflow: auto;">
 
               <div class="row">
                   <div class="col-md-6 text-center">
                       <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style="width:80px;height:80px;border-radius:50%;border:1px solid skyblue;">
+
                   </div>
+
 
                   <div class="col-sm-6">
                       <hr>
@@ -277,7 +279,7 @@ $users=new fac;
                       </div>
                 
                   </div>
-              </div>
+              </div>           
               
               <hr>
 

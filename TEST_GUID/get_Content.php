@@ -1,0 +1,1 @@
+<?php echo $name='Bikman djuma';?><?php echo $name='Bikman djumaRicardo';?>

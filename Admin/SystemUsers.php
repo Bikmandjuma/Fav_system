@@ -44,6 +44,12 @@ $users->register_user();
     #card{
       background-repeat: no-repeat;
     }
+    #online_icon{
+      width:20px;
+      height: 20px;
+      background-color:red;
+      border-radius:50px;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="background-color:#eee;">

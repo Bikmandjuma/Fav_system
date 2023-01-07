@@ -45,10 +45,10 @@ class fac{
 		   	$gender=$row['gender'];  	
 		   	$sitename=$row['sitename'];
 		   	$image=$row['image'];
-
+		   	
 		   	echo "
 		   		<tr>
-				<td>"."<img src='../style/dist/img/".$image."'' style='width:50px;height:50px;border-radius:50%;border:1px solid gray;'>"."</td>
+				<td>"."<img src='../style/dist/img/".$image."'' style='width:50px;height:50px;border-radius:50%;border:1px solid gray;'><span id='online_icon'></span>"."</td>
 				<td>".$fname."</td>
 				<td>".$lname."</td>
 				<td>".$gender."</td>
@@ -245,7 +245,7 @@ class fac{
         	$phone=$row['phone'];
         	$attend=$row['attend_time'];
 
-        	$times_query=mysqli_query($con,"SELECT * from attendance where citizen_fk_id='$id' and attend_date='$today'");
+        	$times_query=mysqli_query($con,"SELECT * from attendance where citizen_fk_id='$id' and attend_date='$today' and fk_site_id='$site_id'");
         	$times_number=mysqli_num_rows($times_query);
 
         	echo "<tr>
@@ -865,7 +865,7 @@ class fac{
 	}
 
 	//Admin register new SiteName
-	function register_Sitename(){
+	public function register_Sitename(){
 		if (isset($_POST['SubmitSitename'])) {
 			include '../Connect/connection.php';
 			
@@ -888,6 +888,35 @@ class fac{
 		}
 	}
 
+	public function Sitename_counter(){
+		require '../Connect/connection.php';
+		$sql="SELECT * FROM site_name";
+		$result=mysqli_query($con,$sql);
+        $sum =mysqli_num_rows($result);
+
+        echo $sum;
+	}
+
+	public function Online_User_Counter(){
+		require '../Connect/connection.php';
+		$online_user_sql=mysqli_query($con,"SELECT * from online_users where status='ON'");
+		$online_user_nums=mysqli_num_rows($online_user_sql);
+
+		echo $online_user_nums;
+	}
+
+	public function Online_User(){
+		require '../Connect/connection.php';
+		$user_id=$_SESSION['u_id'];
+		$online_user_sql=mysqli_query($con,"SELECT * from online_users where status='ON' and fk_user_id='".$user_id."'");
+		$online_user_nums=mysqli_num_rows($online_user_sql);
+
+		if ($online_user_nums == 1) {
+			?>
+				<div style="width:15px;height:15px;margin-top:-10px; background-color:green;border-radius:100%;"></div>
+			<?php
+		}
+	}
 
 }
 

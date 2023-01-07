@@ -10,9 +10,13 @@ $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
 
+$Site_name=$_SESSION['sitename'];
+$Entrance_name=$_SESSION['entrance'];
+$Site_EntranceName=$Site_name.$Entrance_name;
 //call the card_id from RFID code when a card is taped on rfid device 
-$Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
+$Write="<?php $" . "".$Site_EntranceName."=''; " . "echo $" . "".$Site_EntranceName.";" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
+
 $users=new fac;
 ?>
 <!DOCTYPE html>

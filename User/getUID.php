@@ -1,6 +1,10 @@
 <?php
 require '..\phpcode\codes.php';
 $users=new fac;
+
+// $site=$_SESSION['sitename'];
+// $entrance=$_SESSION['entrance'];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,6 +53,7 @@ $users=new fac;
 				<input type="text" name="kid" class="form-control" autofocus required><br>
 				<button name="submit" type="submit" class="btn btn-danger">Submit</button>
 			</form>
+			
 			<?php
 				if (isset($_POST['submit'])) {
 					//$UIDresult=$_POST["UIDresult"];
@@ -56,12 +61,27 @@ $users=new fac;
 
 					$Write="<?php $" . "UIDresult='" . $UIDresult . "'; " . "echo $" . "UIDresult;" . " ?>";
 					file_put_contents('UIDContainer.php',$Write);
+
+					// $file = 'file.txt';
+					// $data = "John Smith ";
+					// $data .= "Street Address ";
+					// $data .= "Plumber ";
+					// $data .= "Phone nuber";
+					// file_put_contents($file, $data,FILE_APPEND | LOCK_EX);
 				}
 
 			?>
 		</div>
 		<div class="col-md-3"></div>
 	</div>
+
+    <li><a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a></li>
+
+    <script>
+		$(document).ready(function(){
+		    $('[data-toggle="popover"]').popover();   
+		});
+	</script>
 
 	<!-- jQuery -->
 	<script src="../style/plugins/jquery/jquery.min.js"></script>

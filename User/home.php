@@ -325,7 +325,6 @@ $user_img=$_SESSION['image'];
           </div>
         </div>
 
-
          <!--start of Logout modal -->
           <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-sm">

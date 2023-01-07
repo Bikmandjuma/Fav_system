@@ -308,7 +308,7 @@ $users=new fac;
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?php $users->Online_User_Counter();?></h3>
                 <p>Online users</p>
               </div>
               <div class="icon">
@@ -320,7 +320,7 @@ $users=new fac;
           <!-- ./col -->
         </div>
         <!-- /.row -->
-
+        
         <div class="row" style="margin-top:-170px;">
           <div class="col-md-12 text-center">
             <img src="../style/dist/img/scard.png" id="card">

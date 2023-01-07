@@ -291,7 +291,7 @@ $users=new fac;
                     <input type="text" name="phone" value="<?php echo $phone;?>" class="form-control" required>
                         
                     <label>Email</label>
-                    <input type="text" name="email" value="<?php echo $email;?>" class="form-control" required>
+                    <input type="text" name="email" value="<?php echo $email;?>" class="form-control" disabled required>
 
                     <label>Birth date</label>
                     <input type="date" name="dob" value="<?php echo $dob;?>" class="form-control" required>
@@ -327,10 +327,10 @@ $users=new fac;
             $lname=mysqli_real_escape_string($con,$_POST['lname']);
             $gender=mysqli_real_escape_string($con,$_POST['gender']);
             $phone=mysqli_real_escape_string($con,$_POST['phone']);
-            $email=mysqli_real_escape_string($con,$_POST['email']);
+            // $email=mysqli_real_escape_string($con,$_POST['email']);
             $dob=mysqli_real_escape_string($con,$_POST['dob']);
 
-            $sql="UPDATE users SET firstname='$fname',lastname='$lname',gender='$gender',phone='$phone',email='$email',dob='$dob',username='$email' WHERE u_id='$user_id'";
+            $sql="UPDATE users SET firstname='$fname',lastname='$lname',gender='$gender',phone='$phone',dob='$dob',username='$email' WHERE u_id='$user_id'";
             $query=mysqli_query($con,$sql);
 
             if ($query == 1) {

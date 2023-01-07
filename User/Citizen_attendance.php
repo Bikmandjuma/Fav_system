@@ -12,6 +12,8 @@ $users=new fac;
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
+$site=$_SESSION['sitename'];
+$entrance=$_SESSION['entrance'];
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
@@ -266,12 +268,12 @@ file_put_contents('UIDContainer.php',$Write);
             <div id="show_user_data">
 
             <div class="row" id="blink">
-                <div class="col-md-2"></div>
-                <div class="col-md-8 bg-info text-center" style="border-radius:5px;">
-                  <h3>Tap card to make attendance !</h3>
+<!--                 <div class="col-md-2"></div>
+ -->                <div class="col-md-12 bg-info text-center" style="border-radius:5px;">
+                  <h3>Tap card to attend in <b><?php echo $site;?></b> by passing at <b><?php echo $entrance;?></b></h3>
                 </div>
-                <div class="col-md-2"></div>
-            </div>
+<!--                 <div class="col-md-2"></div>
+ -->            </div>
 
             <br>
 
