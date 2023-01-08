@@ -59,9 +59,9 @@
 		);
 
 		$curl = curl_init();
-
+        $url="https://www.intouchsms.co.rw/api/sendsms/.json";
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://www.clickatell.com/send",
+		  CURLOPT_URL => $url,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => "",
 		  CURLOPT_MAXREDIRS => 10,

@@ -918,6 +918,27 @@ class fac{
 		}
 	}
 
+
+	//Send message to citizen attend today
+	public function SendSMS_to_citizen_attend_today(){
+		include '../Connect/connection.php';
+		date_default_timezone_set("Africa/Kigali");
+	    $today=date("Y-m-d");
+		$site_id=$_SESSION['site_id'];
+      	
+      	$sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.fk_site_id='$site_id' and attendance.attend_date='$today' group by citizen_fk_id";
+
+	    $query=mysqli_query($con,$sql);
+     	while ($row=mysqli_fetch_assoc($query)) {
+        	$fnames=$row['firstname'];
+        	$lnames=$row['lastname'];
+        	$phone=$row['phone'];
+        	$attend=$row['attend_time'];
+
+	    } 
+	}
+
+
 }
 
 ?>

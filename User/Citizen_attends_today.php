@@ -17,6 +17,55 @@ file_put_contents('UIDContainer.php',$Write);
 
 $users=new fac;
 
+//Send sms to everyone attend today
+$MessageSent=$MessageNotSent=null;
+if (isset($_POST['SendMessage'])) {
+    $sms=$_POST['msg'];
+    date_default_timezone_set("Africa/Kigali");
+    $today=date("Y-m-d");
+    $site_id=$_SESSION['site_id'];
+        
+    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.fk_site_id='$site_id' and attendance.attend_date='$today' group by citizen_fk_id";
+
+    $query=mysqli_query($con,$sql);
+    while ($row=mysqli_fetch_assoc($query)) {
+        $fnames=$row['firstname'];
+        $lnames=$row['lastname'];
+        $phone=$row['phone'];
+        $attend=$row['attend_time'];
+
+        //code of sms
+        $senderName='+250785389000';
+        $data=array(
+                    "sender"=>$senderName,
+                    "recipients"=>$phone,
+                    "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$_SESSION['sitename']." ".$sms,
+              );
+
+          $url="https://www.intouchsms.co.rw/api/sendsms/.json";
+          $data=http_build_query($data);
+          $username="IndexZero";
+          $password="bugarama123@";
+
+          $ch=curl_init();
+          curl_setopt($ch,CURLOPT_URL,$url);
+          curl_setopt($ch,CURLOPT_USERPWD,$username.":".$password);
+          curl_setopt($ch,CURLOPT_POST,true);
+          curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+          curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
+          curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+          $result=curl_exec($ch);
+          $httpcode=curl_getinfo($ch,CURLINFO_HTTP_CODE);
+          curl_close($ch);
+    }
+
+      if ($result == true) {
+          $MessageSent="Message sent successfully !";  
+      }else{
+          $MessageNotSent="Message not sent !";
+      }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -273,6 +322,7 @@ $users=new fac;
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
+                <?php echo $MessageSent.$MessageNotSent;?>
                 <div class="card">
                   <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends <b>today</b> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose everyone a warning message</button> </span></div>
                   <div class="card-body text-center" style="overflow: auto">
@@ -312,14 +362,14 @@ $users=new fac;
                    <span class="float-center"><h2>Write a warning message here</h2></span>
                  </div>
                  <div class="modal-body" style="overflow:auto;">
-                   <form class="form-group" method="POST" action="">
+                   <form class="form-group" method="POST">
                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
-                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="<?php echo $_SESSION['sitename'];?>"><br>
+                     <input type="text" name="SiteName" placeholder="Enter firstname" class="form-control" required disabled value="<?php echo $_SESSION['sitename'];?>"><br>
                      <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
                      
-                     <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus></textarea><br>
+                     <textarea name="msg" rows="3" placeholder="Muraho niyonkuru elyse ububutumwa buvuye nyabugogo ...." class="form-control" autofocus required></textarea><br>
                    
-                     <button type="submit" class="btn btn-primary float-left" name="submit">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
+                     <button type="submit" class="btn btn-primary float-left" name="SendMessage">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
 
                      <button type="reset" class="btn btn-danger float-right" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
 

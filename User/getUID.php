@@ -75,14 +75,6 @@ $users=new fac;
 		<div class="col-md-3"></div>
 	</div>
 
-    <li><a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a></li>
-
-    <script>
-		$(document).ready(function(){
-		    $('[data-toggle="popover"]').popover();   
-		});
-	</script>
-
 	<!-- jQuery -->
 	<script src="../style/plugins/jquery/jquery.min.js"></script>
 	<script src="../style/plugins/jquery/jquerys.js"></script>
