@@ -3,6 +3,7 @@ class fac{
 
 	//Admin register new user
 	function register_user(){
+		$ErrorToAddUser=$UserAddedWell=null;
 		if (isset($_POST['submit'])) {
 			include '../Connect/connection.php';
 			
@@ -22,9 +23,9 @@ class fac{
 				$result=mysqli_query($con,$sql);
 				if ($result) {
 					echo "<script>window.location.assign('SystemUsers.php')</script>";
-					echo "<script>alert('New user added well !')<script>";
+					$UserAddedWell='<script type="text/javascript">toastr.success("New user added !")</script>';
 				}else{
-					echo "<script>alert('Error to insert data !')<script>";
+					$ErrorToAddUser='<script type="text/javascript">toastr.error("Error to add user !")</script>';
 				}
         		
 			}catch(PDOException $e){

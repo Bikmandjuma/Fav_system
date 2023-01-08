@@ -116,9 +116,17 @@ function test_input($data){
 <!--===============================================================================================-->
   <link rel="stylesheet" type="text/css" href="style/login_page/css/util.css">
   <link rel="stylesheet" type="text/css" href="style/login_page/css/main.css">
+
+
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
 <!--===============================================================================================-->
 </head>
 <body>
+
+ <?php echo $incorectcredential?>
 
   <div class="limiter">
     <div class="container-login100">
@@ -149,11 +157,9 @@ function test_input($data){
             </div>
           </div>
 
-          <div class="container-login100-form-btn">
-            <div class="wrap-login100-form-btn">
+            <div class="forgot_password">
                 <a href="">Forgot password</a>
             </div>
-          </div>
 
         </form>
       </div>

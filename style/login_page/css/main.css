@@ -211,6 +211,10 @@ iframe {
   font-size: 60px;
 }
 
+.forgot_password{
+  justify-content: center;
+}
+
 /*------------------------------------------------------------------
 [ Input ]*/
 
