@@ -244,7 +244,6 @@ class fac{
         	$lnames=$row['lastname'];
         	$gender=$row['gender'];
         	$phone=$row['phone'];
-        	$attend=$row['attend_time'];
 
         	$times_query=mysqli_query($con,"SELECT * from attendance where citizen_fk_id='$id' and attend_date='$today' and fk_site_id='$site_id'");
         	$times_number=mysqli_num_rows($times_query);
@@ -255,8 +254,7 @@ class fac{
         		<td>".$lnames."</td>
         		<td>".$gender."</td>
         		<td>".$phone."</td>
-        		<td>x ".$times_number."</td>
-        		<td>".$attend."</td>
+        		<td><span class='badge badge-info' id='times_number_of_attend' title='attendance bunches of time'>x <b>".$times_number."</b></span></td>
         	  </tr>";
 	     } 
 

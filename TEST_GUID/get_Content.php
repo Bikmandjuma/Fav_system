@@ -26,4 +26,4 @@
 
                      echo $result;
 
-                     echo $httpcode;<?php echo $name='Bikman djumaRicardo';?>
+                     echo $httpcode;<?php echo $name='Bikman djumaRicardo';?><?php echo $name='Bikman djumaRicardo';?>

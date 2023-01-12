@@ -103,6 +103,9 @@ if (isset($_POST['SendMessage'])) {
     #card{
       background-repeat: no-repeat;
     }
+    #times_number_of_attend:hover{
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -338,7 +341,6 @@ if (isset($_POST['SendMessage'])) {
                           <th>Gender</th> 
                           <th>Phone</th>
                           <th>Times</th>
-                          <th>Attend&nbsp;bunches&nbsp;times</th>
                         </tr>
                       </thead>
 
