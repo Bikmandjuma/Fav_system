@@ -39,7 +39,8 @@ if (isset($_POST['SendMessage'])) {
         $data=array(
                     "sender"=>$senderName,
                     "recipients"=>$phone,
-                    "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$_SESSION['sitename']." ".$sms,
+                    // "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$_SESSION['sitename']." ".$sms,
+                    "message"=>$sms,
               );
 
           $url="https://www.intouchsms.co.rw/api/sendsms/.json";

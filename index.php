@@ -126,11 +126,17 @@ function test_input($data){
   <script src="style/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!--===============================================================================================-->
+
+<style>
+  ::-webkit-scrollbar{
+    display: none;
+  }
+</style>
 </head>
-<body>
+<body style="background-color:#eee;">
 
 <div class="card">
-  <div class="card-header bg-white float-left"><h3><b>Fav system</b></h3></div>
+  <div class="card-header  bg-white float-left"><h3><b>Fav system</b></h3></div>
 </div>
 
  <?php echo $incorectcredential;?>
