@@ -17,8 +17,6 @@ $gender=$_REQUEST['gender'];
 $user_img=$_SESSION['image'];
 $dob=$_SESSION['dob'];
 $password=$_SESSION['password'];
-$site=$_SESSION['sitename'];
-$entrance=$_SESSION['entrance'];
 
 $users=new fac;
 
@@ -117,7 +115,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -291,23 +289,15 @@ $users=new fac;
                     <input type="text" name="phone" value="<?php echo $phone;?>" class="form-control" required>
                         
                     <label>Email</label>
-                    <input type="text" name="email" value="<?php echo $email;?>" class="form-control" disabled required>
+                    <input type="text" name="email" value="<?php echo $email;?>" class="form-control" required>
 
                     <label>Birth date</label>
                     <input type="date" name="dob" value="<?php echo $dob;?>" class="form-control" required>
-
-                    <label>Sitename</label>
-                    <input type="text" name="username" value="<?php echo $site." at ".$entrance;?>" class="form-control" disabled>
+                    <br>
+                    <button style="margin-top:6px;" class="btn btn-primary" type="submit" name="edit_info"><i class="fa fa-save"></i> Save change</button>
 
                   </div>
                 </div>
-
-                  <br>
-                  <div class="row">
-                      <div class="col-md-12 text-center">
-                        <button class="btn btn-primary" type="submit" name="edit_info"><i class="fa fa-save"></i> Save change</button>
-                      </div>
-                  </div>
 
               </form>
             </div>
@@ -327,7 +317,7 @@ $users=new fac;
             $lname=mysqli_real_escape_string($con,$_POST['lname']);
             $gender=mysqli_real_escape_string($con,$_POST['gender']);
             $phone=mysqli_real_escape_string($con,$_POST['phone']);
-            // $email=mysqli_real_escape_string($con,$_POST['email']);
+            $email=mysqli_real_escape_string($con,$_POST['email']);
             $dob=mysqli_real_escape_string($con,$_POST['dob']);
 
             $sql="UPDATE users SET firstname='$fname',lastname='$lname',gender='$gender',phone='$phone',dob='$dob',username='$email' WHERE u_id='$user_id'";

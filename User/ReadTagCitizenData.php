@@ -64,7 +64,6 @@ require '../Connect/connection.php';
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
-$site_id=$_SESSION['site_id'];
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
@@ -94,7 +93,7 @@ file_put_contents('UIDContainer.php',$Write);
     $date=date("Y-m-d");
     $month=date("m");
     $year=date("Y");
-    $atn_sql=mysqli_query($con,"INSERT INTO attendance values ('','$citiz_id','$site_id','$date','$time','$year','$month')");
+    $atn_sql=mysqli_query($con,"INSERT INTO attendance values ('','$citiz_id','$date','$time','$year','$month')");
 
     if ($atn_sql == true) {
        $today=date("Y-m-d");

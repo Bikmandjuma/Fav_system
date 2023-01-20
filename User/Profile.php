@@ -3,78 +3,68 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
+
 require '../Connect/connection.php';
 require '../phpcode/codes.php';
 
+$user_id=$_SESSION['u_id'];
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
 
-//call the card_id from RFID code when a card is taped on rfid device 
-$Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
-file_put_contents('UIDContainer.php',$Write);
-
-$curr_month=$_REQUEST['month'];
-$curr_year=$_REQUEST['year'];
-
-switch ($curr_month) {
-    case 12:
-        $months='December';
-        break;
-              
-    case 11:
-      $months='November';
-      break;
-              
-    case 10:
-      $months='October';
-      break;
-              
-    case 9:
-      $months='September';
-      break;
-              
-    case 8:
-      $months='August';
-      break;
-              
-    case 7:
-      $months='July';
-      break;
-              
-    case 6:
-      $months='June';
-      break;
-              
-    case 5:
-      $months='May';
-      break;
-
-    case 4:
-      $months='April';
-      break;
-              
-    case 3:
-      $months='March';
-      break;
-              
-    case 2:
-      $months='February';
-      break;
-              
-    case 1:
-      $months='January';
-      break;
-}
-
 $users=new fac;
+
+$image_uploaded=$image_size=$image_type=$image_not_uploaded=$Error_to_uploaded=$File_not_image=null;
+if (isset($_POST['SubmitProfilePicture'])) {
+  
+    $target_dir = "../style/dist/img/";
+    $file_name=date('YmdHi').basename($_FILES["fileToUpload"]["name"]);
+    $target_file = $target_dir .$file_name;
+    
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    // Check if image file is a actual image or fake image
+
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+
+    if ($uploadOk = 1) {
+        
+        if($check !== false) {
+              // Check file size
+              if ($_FILES["fileToUpload"]["size"] > 5000000) {
+                  $image_size='<script type="text/javascript">toastr.error("Sorry, your file is too large ,add 5MB at least.")</script>';
+                  $uploadOk = 0;
+              }
+
+              // Allow certain file formats
+              if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+              && $imageFileType != "gif" ) {
+                 $image_type='<script type="text/javascript">toastr.error("Sorry, only JPG, JPEG, PNG & GIF files are allowed.")</script>';
+                  $uploadOk = 0;
+              }
+
+              if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                  $u_sql="UPDATE users set image='$file_name' where u_id='$user_id' ";
+                  $u_query=mysqli_query($con,$u_sql);
+                  $image_uploaded='<script type="text/javascript">toastr.success("Image added well !")</script>';
+              } else {
+                 $image_not_uploaded='<script type="text/javascript">toastr.error("Sorry, there was an error uploading your file !")</script>';
+              }
+        }
+
+
+      }elseif ($uploadOk = 0) {
+          $Error_to_uploaded='<script type="text/javascript">toastr.error("Sorry, your file was not uploaded")</script>';
+      }
+      
+
+  }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Monthly archives_data</title>
+  <title>My information</title>
   <link rel="card icon" href="../style/dist/img/smartcard.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -99,11 +89,52 @@ $users=new fac;
   <script src="jquery.min.js"></script>
   <script src="jquery.js"></script>
 
-  <style type="text/css">
-    #card{
-      background-repeat: no-repeat;
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+  <style>
+    
+    #my_data p{
+        display: inline-block;
     }
+
+    .card_profile{
+      justify-content: center;
+    }
+
+    .card_title{
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 70%; 
+        text-align: center;
+        background-color: white;
+        border-radius:10px;
+    }
+
+    .card_title h3{
+        font-family: serif;
+    }
+    
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 70%;
+        border-radius:5px;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .container {
+        padding: 2px 16px;
+        text-align: center;
+        font-family: serif;
+    }
+
   </style>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -144,14 +175,10 @@ $users=new fac;
         </div>
       </li>
 
-      <!-- <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#">
-          <i class="fas fa-user"></i>
-        </a>
-      </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
         <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
+
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -160,7 +187,7 @@ $users=new fac;
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="home.php" class="brand-link">
-      <img src="../style/dist/img/faclogo.png" alt="Fac_system Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../style/dist/img/faclogo.png" alt="Fac_system Logo" class="brand-image img-circle elevation-3" style="opacity: .8" >
       <span class="brand-text font-weight-light"><?php echo  $users->Fetch_System_name();?></span>
     </a>
 
@@ -169,7 +196,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;width:40px;height:40px;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -191,7 +218,7 @@ $users=new fac;
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Citizen
@@ -219,14 +246,13 @@ $users=new fac;
                   <p>Citizens attendance</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
                 <a href="AllCitizen_info.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All citizens info</p>
                 </a>
               </li>
-
 
               <li class="nav-item">
                 <a href="Citizen_attends_today.php" class="nav-link">
@@ -259,7 +285,7 @@ $users=new fac;
 
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -298,25 +324,55 @@ $users=new fac;
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper"  style="background-color:lightgrey;">
+  <div class="content-wrapper" style="background-color:lightgrey;">
     <!-- Content Header (Page header) -->
+    <?php echo $image_uploaded.$image_size.$image_type.$image_not_uploaded.$Error_to_uploaded.$File_not_image;?>
     <br>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="card">
-                  <div class="card-header text-center bg-info"><span style="font-size:25px;">Daily archive's information !</span><button class="btn btn-light float-right"><?php echo $months;?></button> </div>
-                  <div class="card-body text-center" style="overflow: auto">
-                    <?php
-                        $users->Fetch_All_date_Data_in_Archive();
-                    ?>
-                  </div>
-                </div>
-            </div>
-            <div class="col-md-3"></div>
-        </div>
 
-         <!-- start Logout modal -->
+    <?php
+      $user_img_sql="SELECT * FROM users where image='user.png' and u_id=".$_SESSION['u_id']."";
+      $user_img_query=mysqli_query($con,$user_img_sql);
+      $img_number=mysqli_num_rows($user_img_query);
+     
+    ?>
+        
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+
+          <div class="card_profile">
+
+            <div class="card_title">
+              <h3>Profile picture</h3>
+            </div>
+            
+            <div class="card">
+              <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>">
+              <div class="container">
+                <h4><b><?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?></b></h4> 
+                <?php
+                  if ($img_number == 1) {
+                    ?>
+                      <button class="btn btn-info" data-toggle="modal" data-target="#ProfileModal"><i class="fa fa-image"></i>&nbsp;Add</button>
+                    <?php
+                  }else{
+                    ?>
+                      <button class="btn btn-info" data-toggle="modal" data-target="#ProfileModal"><i class="fa fa-edit"></i>&nbsp;Edit</button>
+                    <?php
+                  }
+                ?>
+                
+              </div>
+            </div>
+
+          </div>
+
+
+          </div>
+          <div class="col-md-4"></div>
+      </div>
+
+       <!--start of Logout modal -->
           <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-sm">
               <div class="modal-content">
@@ -335,10 +391,51 @@ $users=new fac;
               </div>
             </div>
           </div>
-          <!--end of logout modal-->
+        <!--end of logout modal-->
+
+        <!--start of Profile modal -->
+          <div class="modal" id="ProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm text-center">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4><i class="fa fa-image"></i>&nbsp;Profile picture</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="actionsBtns">
+                    <form enctype="multipart/form-data" method="POST">
+                      <!-- <div class="row">
+                        <div class="col-md-6"> -->
+                          <img id="blah" style="width:130px;height:150px;" src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" /><br>
+                        <!-- </div>
+                        <div class="col-md-6">
+ -->                          
+                          <br>
+                          <input name="fileToUpload" type="file" accept="image/*" id="imgInp" class="form-control" required><br>
+                          <button class="btn btn-primary" type="submit" name="SubmitProfilePicture"><i class="fa fa-save"></i> Save change</button>
+                       <!--  </div>
+                      </div> -->
+                      
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!--end of profile modal-->
 
   <!--End of wrapper content page-->
   </div>
+
+  <script type="text/javascript">
+    imgInp.onchange = evt => {
+      const [file] = imgInp.files
+      if (file) {
+        blah.src = URL.createObjectURL(file)
+      }
+    }
+</script>
+
 
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>

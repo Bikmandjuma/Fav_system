@@ -112,7 +112,7 @@ $user_img=$_SESSION['image'];
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>

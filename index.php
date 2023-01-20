@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         ';
 
     }else{
-        $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image,sitename,entrance,site_name.id as site_id FROM users inner join site_name on users.fk_sitename_id = site_name.id where username='$user' and password='".md5($pass)."'");
+        $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image FROM users where username='$user' and password='".md5($pass)."'");
           $row=mysqli_fetch_array($query_user);
 
         $query_admin=mysqli_query($con,"SELECT id,firstname,lastname,gender,phone,email,dob,username,password,image FROM admin where username='$user' and password='".md5($pass)."'");
@@ -39,9 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
               $_SESSION['username']=$row[7];
               $_SESSION['password']=$row[8];
               $_SESSION['image']=$row[9];
-              $_SESSION['sitename']=$row[10];
-              $_SESSION['entrance']=$row[11];
-              $_SESSION['site_id']=$row[12];
 
               $diplic_online_user_sql=mysqli_query($con,"SELECT * from online_users where fk_user_id='".$row[0]."'");
               $diplic_online_user_nums=mysqli_num_rows($diplic_online_user_sql);

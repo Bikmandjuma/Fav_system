@@ -7,16 +7,13 @@ if (!isset($_SESSION['email'])) {
 
 require '../Connect/connection.php';
 require '../phpcode/codes.php';
-
+$users=new fac;
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
-
-$users=new fac;
 
 ?>
 <!DOCTYPE html>
@@ -154,7 +151,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>

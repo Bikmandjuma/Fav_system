@@ -63,8 +63,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
 
-          <?php echo $incorectcredential?>
-
+<!--           <?php //echo $incorectcredential?>
+ -->
             <div class="row" style="margin-top:50px;"  id="blink">
               <div class="col-md-12 text-center">
                 <span style="margin-left:10px;font-size: 20px;" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#SimpleModalBox"><i class="fa fa-lock"></i>&nbsp;<a href="#" style="color:black;font-family:serif;">Enter</a></span>

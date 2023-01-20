@@ -4,17 +4,17 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
+include '../Connect/connection.php';
+
 
 require '../phpcode/codes.php';
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
 
-$Site_name=$_SESSION['sitename'];
-$Entrance_name=$_SESSION['entrance'];
-$Site_EntranceName=$Site_name.$Entrance_name;
+
 //call the card_id from RFID code when a card is taped on rfid device 
-$Write="<?php $" . "".$Site_EntranceName."=''; " . "echo $" . "".$Site_EntranceName.";" . " ?>";
+$Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
 
 $users=new fac;
@@ -48,7 +48,7 @@ $users=new fac;
   <link rel="stylesheet" href="../style/plugins/summernote/summernote-bs4.min.css">
   <script src="jquery.min.js"></script>
   <script src="jquery.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <style type="text/css">
     #card{
       background-repeat: no-repeat;
@@ -56,6 +56,77 @@ $users=new fac;
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+
+<script>
+$(document).ready(function(){
+    $('#province').on('change', function(){
+        var countryID = $(this).val();
+        if(countryID){
+            $.ajax({
+                type:'POST',
+                url:'ajaxData.php',
+                data:'province_id='+countryID,
+                success:function(html){
+                    $('#district').html(html);
+                    $('#sector').html('<option value="">Select district first</option>'); 
+                }
+            }); 
+        }else{
+            $('#district').html('<option value="">Select province first</option>');
+            $('#sector').html('<option value="">Select district first</option>'); 
+        }
+    });
+  
+    $('#district').on('change', function(){
+        var stateID = $(this).val();
+        if(stateID){
+            $.ajax({
+                type:'POST',
+                url:'ajaxData.php',
+                data:'district_id='+stateID,
+                success:function(html){
+                    $('#sector').html(html);
+                }
+            }); 
+        }else{
+            $('#sector').html('<option value="">Select district first</option>'); 
+        }
+    });
+
+     $('#sector').on('change', function(){
+        var stateID = $(this).val();
+        if(stateID){
+            $.ajax({
+                type:'POST',
+                url:'ajaxData.php',
+                data:'sector_id='+stateID,
+                success:function(html){
+                    $('#cell').html(html);
+                }
+            }); 
+        }else{
+            $('#cell').html('<option value="">Select sector first</option>'); 
+        }
+    });
+
+     $('#cell').on('change', function(){
+        var stateID = $(this).val();
+        if(stateID){
+            $.ajax({
+                type:'POST',
+                url:'ajaxData.php',
+                data:'cell_id='+stateID,
+                success:function(html){
+                    $('#village').html(html);
+                }
+            }); 
+        }else{
+            $('#village').html('<option value="">Select cell first</option>'); 
+        }
+    });
+});
+</script>
+
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -119,7 +190,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -250,7 +321,6 @@ $users=new fac;
       
       $citizen_added=$error_citizen_add=$allfield_required=$star=$card_id=$firstname=$midname=$lastname=$gender=$phone=$province=$district=$sector=$cellule=$village=$village=$dob=$diplic_error=$diplic_error_phone=null;
       if (isset($_POST['submit_citizen_data'])) {
-        include '../Connect/connection.php';
         
         try{
           $card_id=mysqli_real_escape_string($con,$_POST['card_id']);
@@ -395,29 +465,60 @@ $users=new fac;
 
                             </div>
                             <div class="col-md-4">
+                                <label>Phone</label><?php echo $star;?>
+                                <input type="text" name="phone" placeholder="Enter phone" class="form-control" value="<?php echo $phone;?>">
+
                                 <label>Gender</label><?php echo $star;?>
                                 <select name="gender" class="form-control" >
                                     <option value="">select gender </option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
-                                <label>Phone</label><?php echo $star;?>
-                                <input type="text" name="phone" placeholder="Enter phone" class="form-control" value="<?php echo $phone;?>">
-                                <label>Province</label><?php echo $star;?>
-                                <input type="text" name="province" placeholder="Enter province" class="form-control" value="<?php echo $province;?>">
+                                
+                                <!--province part-->
+                                    <?php                                          
+                                        // Fetch all the country data 
+                                        $query = "SELECT * FROM province WHERE status = 1 ORDER BY province_name ASC";
+                                        $result = $con->query($query); 
+                                    ?>
 
-                                <label>District</label><?php echo $star;?>
-                                <input type="text" name="district" placeholder="Enter district" class="form-control" value="<?php echo $district;?>">
+                                    <label>Province</label>
+                                    <select id="province" class="form-control" name="province">
+                                        <option value="">Select province</option>
+                                        <?php 
+                                        if($result->num_rows > 0){ 
+                                            while($row = $result->fetch_assoc()){  
+                                                echo '<option value="'.$row['province_id'].'">'.$row['province_name'].'</option>'; 
+                                            }
+                                        }else{ 
+                                            echo '<option value="">Province not available</option>'; 
+                                        } 
+                                        ?>
+                                    </select>
+                                <!--End of province part-->
+
+                                  <label>District</label>
+                                  <select id="district" name="district" class="form-control">
+                                      <option value="">Select province first</option>
+                                  </select>                                  
 
                             </div>
                             <div class="col-md-4">
                               
-                                <label>Sector</label><?php echo $star;?>
-                                <input type="text" name="sector" placeholder="Enter sector" class="form-control" value="<?php echo $sector;?>">
-                                <label>Cellule</label><?php echo $star;?>
-                                <input type="text" name="cellule" placeholder="Enter cellule" class="form-control" value="<?php echo $cellule;?>">
-                                <label>Village</label><?php echo $star;?>
-                                <input type="text" name="village" placeholder="Enter village" class="form-control" value="<?php echo $village;?>">
+                                <label>Sector</label>
+                                  <select id="sector" name="sector" class="form-control">
+                                      <option value="">Select district first</option>
+                                  </select>
+
+                                  <label>Cellule</label>
+                                  <select id="cell" name="cellule" class="form-control">
+                                      <option value="">Select sector first</option>
+                                  </select>
+
+                                  <label>Village</label>
+                                  <select id="village" name="village" class="form-control">
+                                      <option value="">Select cell first</option>
+                                  </select>
 
                                 <label>Birth date</label><?php echo $star;?>
                                 <input type="date" name="dob" class="form-control" value="<?php echo $dob;?>">

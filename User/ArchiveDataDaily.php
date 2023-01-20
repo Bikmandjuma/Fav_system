@@ -148,7 +148,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -321,8 +321,8 @@ $users=new fac;
                  </div>
                  <div class="modal-body" style="overflow:auto;">
                    <form class="form-group" method="POST" action="">
-                    <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
-                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="<?php echo $_SESSION['sitename'];?>"><br>
+<!--                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
+                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="<?php //echo $_SESSION['sitename'];?>"><br> -->
                      <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
                      
                      <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus></textarea><br>

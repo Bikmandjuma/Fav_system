@@ -16,8 +16,6 @@ $email=$_SESSION['email'];
 $gender=$_SESSION['gender'];
 $dob=$_SESSION['dob'];
 $uname=$_SESSION['username'];
-$site=$_SESSION['sitename'];
-$entrance=$_SESSION['entrance'];
 
 $users=new fac;
 
@@ -50,9 +48,17 @@ $users=new fac;
   <link rel="stylesheet" href="../style/plugins/summernote/summernote-bs4.min.css">
   <script src="jquery.min.js"></script>
   <script src="jquery.js"></script>
+   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
   <style>
      #my_data p{
         display: inline-block;
+    }
+
+    ::-webkit-scrollbar{
+      display: none;
     }
   </style>
 </head>
@@ -116,7 +122,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -247,18 +253,17 @@ $users=new fac;
   <div class="content-wrapper" style="background-color:lightgrey;">
     <!-- Content Header (Page header) -->
     <br>
-        
+
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-
           <div class="card">
-            <div class="card-header text-center bg-info"><i class="fa fa-address-card"></i>&nbsp;My information <a href="EditInfo.php?id=<?php echo $user_id;?>&fname=<?php echo $fname;?>&lname=<?php echo $lname;?>&phone=<?php echo $phone;?>&email=<?php echo $email;?>&gender=<?php echo $gender;?>" class="float-left"><button class="btn btn-light"><i class="fa fa-edit"></i>&nbsp;Edit</button></a></div>
+            <div class="card-header text-center bg-info"><i class="fa fa-address-card"></i>&nbsp;My information <a href="#" data-toggle="modal" data-target="#EditInfoModal" data-backdrop="static" data-keyboard="false"><button class="btn btn-light float-left"><i class="fa fa-edit"></i>&nbsp;Edit</button></a></div>
             <div class="card-body" style="overflow: auto;">
 
               <div class="row">
                   <div class="col-md-6 text-center">
-                      <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style="width:80px;height:80px;border-radius:50%;border:1px solid skyblue;">
+                      <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style="width:80px;height:80px;border-radius:50%;border:1px solid skyblue;">
 
                   </div>
 
@@ -305,13 +310,11 @@ $users=new fac;
                 </div>
               </div>
 
-              <hr>
-
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-12">
-                  <span id="my_data"><p><b>Site name :&nbsp;</b></p><p class="text-info"><b><?php echo $site."<span style='color:black;'> at </span>".$entrance;?></b></p></span>
+                  <span id="my_data"><p><b>Site name :&nbsp;</b></p><p class="text-info"><b><?php //echo $site."<span style='color:black;'> at </span>".$entrance;?></b></p></span>
                 </div>
-              </div>
+              </div> -->
             
             </div>
           </div>
@@ -342,6 +345,113 @@ $users=new fac;
           </div>
         <!--end of logout modal-->
 
+        <!--start of Logout modal -->
+          <div class="modal" id="EditInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                <div class="modal-body text-left">
+                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4>Edit information&nbsp;<i class="fa fa-edit"></i></h4>
+                </div>
+                <div class="modal-body">
+                  <div class="actionsBtns">
+                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                        <div class="row">
+                          <div class="col-md-6">
+
+                            <label>Firstname</label>
+                            <input type="text" name="fname" value="<?php echo $fname;?>" class="form-control" required>
+
+                            <label>Lastname</label>
+                            <input type="text" name="lname" value="<?php echo $lname;?>" class="form-control" required>
+
+                            <label>Gender</label>
+                            <select name="gender" class="form-control">
+                              <?php
+                                if ($gender == 'male') {
+                                  ?>
+                                      <option value='male' selected>Male</option>
+                                      <option value='female'>Female</option>
+                                  <?php
+                                }else{
+                                  ?>
+                                      <option value='female' selected>Female</option>
+                                      <option value='male'>Male</option>
+                                  <?php
+                                }
+                              ?>
+                            </select>
+
+                          </div>
+                          <div class="col-md-6">
+
+                            <label>Phone</label>
+                            <input type="text" name="phone" value="<?php echo $phone;?>" class="form-control" required>
+                                
+                            <label>Email</label>
+                            <input type="text" name="email" value="<?php echo $email;?>" class="form-control" required>
+
+                            <label>Birth date</label>
+                            <input type="date" name="dob" value="<?php echo $dob;?>" class="form-control" required>
+                            
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <button style="margin-top:6px;" class="btn btn-primary" type="submit" name="edit_info"><i class="fa fa-save"></i> Save change</button>
+                          </div>
+                          <div class="col-md-4"></div>
+                        </div>
+
+                      </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!--end of logout modal-->
+
+        <?php
+          $allfieldRequired=$dataUpdatedWell=null;
+          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+              $firstname=test_input($_POST['fname']);
+              $lastname=test_input($_POST['lname']);
+              $sex=test_input($_POST['gender']);
+              $email=test_input($_POST['email']);
+              $tel=test_input($_POST['phone']);
+              $birthdate=test_input($_POST['dob']);
+
+              if (isset($_POST['edit_info'])) {
+                
+                if (empty($firstname) || empty($lastname) || empty($email) || empty($phone) || empty($sex) || empty($birthdate)) {
+                    $allfieldRequired='<script type="text/javascript">toastr.error("All fields required !")</script>';
+                }else{
+                    
+                    $sql="UPDATE users SET firstname='$firstname',lastname='$lastname',gender='$sex',phone='$tel',dob='$birthdate',email='$email' WHERE u_id='$user_id'";
+
+                    $query=mysqli_query($con,$sql);
+
+                    if ($query == 1) {
+                      $dataUpdatedWell='<script type="text/javascript">toastr.success("Data updated successfully !")</script>';
+                    }
+
+                }
+
+              }
+          }
+
+          function test_input($data){
+              $data=trim($data);
+              $data=stripslashes($data);
+              $data=htmlspecialchars($data);
+              return $data;
+          }
+
+          echo $allfieldRequired.$dataUpdatedWell;;
+        ?>
   <!--End of wrapper content page-->
   </div>
 

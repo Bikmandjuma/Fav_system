@@ -23,9 +23,8 @@ if (isset($_POST['SendMessage'])) {
     $sms=$_POST['msg'];
     date_default_timezone_set("Africa/Kigali");
     $today=date("Y-m-d");
-    $site_id=$_SESSION['site_id'];
         
-    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.fk_site_id='$site_id' and attendance.attend_date='$today' group by citizen_fk_id";
+    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.attend_date='$today' group by citizen_fk_id";
 
     $query=mysqli_query($con,$sql);
     while ($row=mysqli_fetch_assoc($query)) {
@@ -194,7 +193,7 @@ if (isset($_POST['SendMessage'])) {
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -369,8 +368,8 @@ if (isset($_POST['SendMessage'])) {
                  </div>
                  <div class="modal-body" style="overflow:auto;">
                    <form class="form-group" method="POST">
-                    <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
-                     <input type="text" name="SiteName" placeholder="Enter firstname" class="form-control" required disabled value="<?php echo $_SESSION['sitename'];?>"><br>
+<!--                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
+                     <input type="text" name="SiteName" placeholder="Enter firstname" class="form-control" required disabled value=""><br> -->
                      <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
                      
                      <textarea name="msg" rows="3" placeholder="Muraho niyonkuru elyse ububutumwa buvuye nyabugogo ...." class="form-control" autofocus required></textarea><br>

@@ -12,8 +12,6 @@ $users=new fac;
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
-$site=$_SESSION['sitename'];
-$entrance=$_SESSION['entrance'];
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
@@ -119,7 +117,7 @@ file_put_contents('UIDContainer.php',$Write);
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -270,7 +268,7 @@ file_put_contents('UIDContainer.php',$Write);
             <div class="row" id="blink">
 <!--                 <div class="col-md-2"></div>
  -->                <div class="col-md-12 bg-info text-center" style="border-radius:5px;">
-                  <h3>Tap card to attend in <b><?php echo $site;?></b> by passing at <b><?php echo $entrance;?></b></h3>
+                  <h3>Tap card to make attendance</b></h3>
                 </div>
 <!--                 <div class="col-md-2"></div>
  -->            </div>
