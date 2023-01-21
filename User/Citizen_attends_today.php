@@ -38,8 +38,7 @@ if (isset($_POST['SendMessage'])) {
         $data=array(
                     "sender"=>$senderName,
                     "recipients"=>$phone,
-                    // "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$_SESSION['sitename']." ".$sms,
-                    "message"=>$sms,
+                    "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$sms,
               );
 
           $url="https://www.intouchsms.co.rw/api/sendsms/.json";
@@ -62,7 +61,7 @@ if (isset($_POST['SendMessage'])) {
       if ($result == true) {
           $MessageSent='<script type="text/javascript">toastr.success("Message sent successfully !")</script>';
       }else{
-          $MessageNotSent='<script type="text/javascript">toastr.error("Message not sent !")</script>';
+          $MessageNotSent='<script type="text/javascript">toastr.error("Message not sent ,check your network and try again !")</script>';
       }
 
 }
@@ -93,7 +92,7 @@ if (isset($_POST['SendMessage'])) {
   <link rel="stylesheet" href="../style/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../style/plugins/summernote/summernote-bs4.min.css">
-  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="http://code.jquery.com/jqfuery-1.9.1.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
   <script src="jquery.min.js"></script>

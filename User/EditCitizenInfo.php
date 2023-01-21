@@ -346,7 +346,7 @@ while($row=mysqli_fetch_assoc($query)) {
             $cellu_info=mysqli_real_escape_string($con,$_POST['cellule']);
             $villag_info=mysqli_real_escape_string($con,$_POST['village']);
 
-            $sql_info=mysqli_query($con,"UPDATE citizentb set firstname='$fname_info',middlename='$mname_info',lastname='$lname_info',gender='$gender_info',phone=$phone_info,province='$prov_info',district='$distr_info',sector='$sect_info',cellule='$cellu_info',village='$villag_info',dob='$dob_info' where card_id='$card_id' ");
+            $sql_info=mysqli_query($con,"UPDATE citizentb set firstname='$fname_info',middlename='$mname_info',lastname='$lname_info',gender='$gender_info',phone='$phone_info',province='$prov_info',district='$distr_info',sector='$sect_info',cellule='$cellu_info',village='$villag_info',dob='$dob_info' where card_id='$card_id' ");
             if ($sql_info == true) {
               ?>
                 <script>

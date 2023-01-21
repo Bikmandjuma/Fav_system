@@ -51,6 +51,10 @@ file_put_contents('UIDContainer.php',$Write);
     #card{
       background-repeat: no-repeat;
     }
+
+    ::-webkit-scrollbar{
+      display: none;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -266,19 +270,19 @@ file_put_contents('UIDContainer.php',$Write);
             <div id="show_user_data">
 
             <div class="row" id="blink">
-<!--                 <div class="col-md-2"></div>
- -->                <div class="col-md-12 bg-info text-center" style="border-radius:5px;">
+                <div class="col-md-12 bg-info text-center" style="border-radius:5px;">
                   <h3>Tap card to make attendance</b></h3>
                 </div>
-<!--                 <div class="col-md-2"></div>
- -->            </div>
+            </div>
 
             <br>
 
             <div class="card">
-              <div class="card-header text-center bg-info"><span style="font-size:25px;">Your attendance will be displayed here !</span></div>
+              <div class="card-header text-center bg-info"><span style="font-size:25px;"><i class="fa fa-address-card"></i>&nbsp;Your attendance will be displayed here !</span></div>
               <div class="card-body text-center" style="overflow: auto">
-                <span style=" font-size:25px;"><i class="fa fa-address-card"></i>&nbsp;<b>You are attending in party !</b></span>
+                <div id="tap_card">
+                  <img src="../images/card.png" style="width:350px;height: 300px;">
+                </div>
               </div>
             </div>
             
@@ -356,10 +360,17 @@ file_put_contents('UIDContainer.php',$Write);
         }
       }
       
-      var blink = document.getElementById('blink');
+      // var blink = document.getElementById('blink');
+      // setInterval(function() {
+      //   blink.style.opacity = (blink.style.opacity == 0 ? 1 : 0);
+      // }, 1000); 
+
+      //tap card beeping
+      var card = document.getElementById('tap_card');
       setInterval(function() {
-        blink.style.opacity = (blink.style.opacity == 0 ? 1 : 0);
+        card.style.opacity = (card.style.opacity == 0 ? 1 : 0);
       }, 1000); 
+      
 </script>
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>

@@ -11,11 +11,11 @@ require '../phpcode/codes.php';
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
+$date=$_REQUEST['dates'];
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
-$date=$_REQUEST['dates'];
 
 if ($date == date('Y-m-d')) {
     $today_name=" of "."<b>Today</b>";
@@ -26,6 +26,53 @@ if ($date == date('Y-m-d')) {
 }
 
 $users=new fac;
+
+//Send sms to everyone attend today
+$MessageSent=$MessageNotSent=null;
+if (isset($_POST['SendMessage'])) {
+    $sms=$_POST['msg'];
+        
+    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.attend_date=".$date." group by citizen_fk_id";
+
+    $query=mysqli_query($con,$sql);
+    while ($row=mysqli_fetch_assoc($query)) {
+        $fnames=$row['firstname'];
+        $lnames=$row['lastname'];
+        $phone=$row['phone'];
+        $attend=$row['attend_time'];
+
+        //code of sms
+        $senderName='+250785389000';
+        $data=array(
+                    "sender"=>$senderName,
+                    "recipients"=>$phone,
+                    "message"=>"Muraho ".$fnames." ".$lnames." ubu butumwa buvuye sitename nawe wigeze ugera sitename kuriyi tariki ".$attend." , ".$sms,
+              );
+
+          $url="https://www.intouchsms.co.rw/api/sendsms/.json";
+          $data=http_build_query($data);
+          $username="IndexZero";
+          $password="bugarama123@";
+
+          $ch=curl_init();
+          curl_setopt($ch,CURLOPT_URL,$url);
+          curl_setopt($ch,CURLOPT_USERPWD,$username.":".$password);
+          curl_setopt($ch,CURLOPT_POST,true);
+          curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+          curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
+          curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+          $result=curl_exec($ch);
+          $httpcode=curl_getinfo($ch,CURLINFO_HTTP_CODE);
+          curl_close($ch);
+    }
+
+      if ($result == true) {
+          $MessageSent='<script type="text/javascript">toastr.success("Message sent successfully !")</script>';
+      }else{
+          $MessageNotSent='<script type="text/javascript">toastr.error("Message not sent !")</script>';
+      }
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -56,6 +103,10 @@ $users=new fac;
   <link rel="stylesheet" href="../style/plugins/summernote/summernote-bs4.min.css">
   <script src="jquery.min.js"></script>
   <script src="jquery.js"></script>
+
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
   <style type="text/css">
     #card{
@@ -282,6 +333,7 @@ $users=new fac;
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
+                <?php echo $MessageSent.$MessageNotSent;?>
                 <div class="card">
                   <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->count_citizen_attended_daily();?></span> Attendance <?php echo $today_name;?> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended on <?php echo $date;?> !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-envelope"></i>&nbsp;Compose</b></button></span></div>
                   <div class="card-body text-center" style="overflow: auto">
@@ -320,16 +372,16 @@ $users=new fac;
                    <span class="float-center"><h2>Send them a warning message</h2></span><!--  <button type="button" class="close" data-dismiss="modal" style="font-size: 30px;color: white">&times;</button> -->
                  </div>
                  <div class="modal-body" style="overflow:auto;">
-                   <form class="form-group" method="POST" action="">
+                   <form class="form-group" method="POST">
 <!--                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
                      <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="<?php //echo $_SESSION['sitename'];?>"><br> -->
                      <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
                      
-                     <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus></textarea><br>
+                     <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus required></textarea><br>
                    
                      <button type="submit" class="btn btn-primary float-left" name="submit">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
 
-                     <button type="reset" class="btn btn-danger float-right" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
+                     <button type="reset" class="btn btn-danger float-right" name="SendMessage" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
 
                    </form>
                  </div>

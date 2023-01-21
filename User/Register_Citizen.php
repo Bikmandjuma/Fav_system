@@ -337,7 +337,7 @@ $(document).ready(function(){
           $dob=mysqli_real_escape_string($con,$_POST['dob']);
           $registered_date=mysqli_real_escape_string($con,date("y-m-d"));
 
-          if (empty($card_id) || empty($firstname) || empty($midname) || empty($lastname) || empty($gender) || empty($phone) || empty($province) || empty($district) || empty($sector) || empty($cellule) || empty($village) || empty($dob)) {
+          if (empty($card_id) || empty($firstname) || empty($lastname) || empty($gender) || empty($phone) || empty($province) || empty($district) || empty($sector) || empty($cellule) || empty($village) || empty($dob)) {
             
               $allfield_required='
                         <div class="alert alert-danger text-center alert-dismissible fade show" role="alert">

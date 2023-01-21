@@ -101,13 +101,25 @@ file_put_contents('UIDContainer.php',$Write);
        $query_attend_times=mysqli_query($con,$sql_attend_times);
        $num_attend_times=mysqli_num_rows($query_attend_times);
 
+       while ($row=mysqli_fetch_assoc($query_attend_times)) {
+          $sex=$row['gender'];
+       }
+
+       if ($sex == 'male') {
+          $gender="he's";
+       }else{
+          $gender="she's";
+       }
+
+       
+
        if ($num_attend_times == 1) {
           $times='attending';
        }else{
-          $times='attendend&nbsp;,&nbsp;x'.$num_attend_times;
+          $times='attending&nbsp;,&nbsp;x'.$num_attend_times;
        }
       
-      $confirm="<span style='color:lightgrey;'>".$fname." ".$lname."</span> ".$times;
+      $confirm="<span style='color:lightgrey;'>".$fname." ".$lname."</span> ".$gender." ".$times;
     }
 
      ?>
