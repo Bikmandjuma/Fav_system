@@ -21,9 +21,8 @@ class fac{
 				$username=$_POST['email'];
 				$password=md5($_POST['phone']);
 				$image='user.png';
-				$site=$_POST['sitename'];
 
-				$sql="INSERT INTO  users values ('','$firstname','$lastname','$gender','$phone','$email','$dob','$username','$password','$image','$site')";
+				$sql="INSERT INTO  users values ('','$firstname','$lastname','$gender','$phone','$email','$dob','$username','$password','','','$image')";
 				$result=mysqli_query($con,$sql);
 				if ($result) {
 					echo "<script>window.location.assign('SystemUsers.php')</script>";
@@ -43,12 +42,12 @@ class fac{
 	public function Select_user(){
 		include "../Connect/connection.php";
 		$fname=$lname=$gender=$phone=$email=$image=null;
-		$result=mysqli_query($con,"SELECT * FROM users inner join site_name on users.fk_sitename_id=site_name.id");
+		$result=mysqli_query($con,"SELECT * FROM users");
 		while ($row=mysqli_fetch_assoc($result)) {
 			$fname=$row['firstname'];
 		   	$lname=$row['lastname'];  	
 		   	$gender=$row['gender'];  	
-		   	$sitename=$row['sitename'];
+		   	// $sitename=$row['sitename'];
 		   	$image=$row['image'];
 		   	
 		   	echo "
@@ -57,7 +56,6 @@ class fac{
 				<td>".$fname."</td>
 				<td>".$lname."</td>
 				<td>".$gender."</td>
-				<td>".$sitename."</td>
           		<td><a href='#View' ><i class='fa fa-eye text-info'></i></a></td>
           		<td><a href='#Edit' ><i class='fa fa-edit text-success'></i></a></td>
           		</tr>
@@ -478,7 +476,7 @@ class fac{
         		$today_name=$Todays;
         	}
 
-        	$sql_num="SELECT * from attendance where attend_date='$Todays'";
+        	$sql_num="SELECT MIN(a_id) as a_id from attendance where attend_date='$Todays' group by citizen_fk_id";
 
         	$query_num=mysqli_query($con,$sql_num);
         	$citiz_num=mysqli_num_rows($query_num);
@@ -939,6 +937,16 @@ class fac{
 		include '../Connect/connection.php';
 		$user_id=$_SESSION['u_id'];
 		$result=mysqli_query($con,"SELECT * FROM users where u_id='$user_id'");
+		while ($row=mysqli_fetch_assoc($result)) {
+			echo $image=$row['image'];
+		}
+	}
+
+	//use profile picture
+	public function Admin_Profile_Picture(){
+		include '../Connect/connection.php';
+		$user_id=$_SESSION['id'];
+		$result=mysqli_query($con,"SELECT * FROM admin where id='$user_id'");
 		while ($row=mysqli_fetch_assoc($result)) {
 			echo $image=$row['image'];
 		}

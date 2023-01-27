@@ -42,6 +42,10 @@ $users=new fac;
     #card{
       background-repeat: no-repeat;
     }
+
+    ::-webkit-scrollbar{
+      display: none;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -108,7 +112,7 @@ $users=new fac;
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image">
+          <img src="../style/dist/img/<?php $users->Admin_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -194,7 +198,7 @@ $users=new fac;
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="SystemUsers.php" class="nav-link">
+                <a href="SystemUsers.php?id=0" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Manage users <span class="badge badge-info float-right"><?php $users->System_user_count();?></span></p>
                 </a>
@@ -242,7 +246,7 @@ $users=new fac;
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-color:lightgrey;">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -286,7 +290,7 @@ $users=new fac;
               <div class="icon">
                 <i class="ion ion-user"></i>
               </div>
-              <a href="SystemUsers.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="SystemUsers.php?id=0" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

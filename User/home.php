@@ -42,6 +42,10 @@ $user_img=$_SESSION['image'];
     #card{
       background-repeat: no-repeat;
     }
+
+    ::-webkit-scrollbar{
+        display:none;  
+    };
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

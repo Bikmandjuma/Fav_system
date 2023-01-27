@@ -1,83 +1,70 @@
 <?php
+session_start();
+if (!isset($_SESSION['email'])) {
+    header('location:../index.php');
+}
 
-    session_start();
-    if (!isset($_SESSION['email'])) {
-        header('location:../index.php');
+$fname=$_SESSION['firstname'];
+$lname=$_SESSION['lastname'];
+$user_img=$_SESSION['image'];
+
+require '..\phpcode\codes.php';
+$users=new fac;
+
+//Send sms to everyone attend today
+$MessageSent=$MessageNotSent=null;
+if (isset($_POST['SendMessage'])) {
+    $sms=$_POST['msg'];
+    date_default_timezone_set("Africa/Kigali");
+    $today=date("Y-m-d");
+        
+    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.attend_date='$today' group by citizen_fk_id";
+
+    $query=mysqli_query($con,$sql);
+    while ($row=mysqli_fetch_assoc($query)) {
+        $fnames=$row['firstname'];
+        $lnames=$row['lastname'];
+        $phone=$row['phone'];
+        $attend=$row['attend_time'];
+
+        //code of sms
+        $senderName='+250785389000';
+        $data=array(
+                    "sender"=>$senderName,
+                    "recipients"=>$phone,
+                    "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$sms,
+              );
+
+          $url="https://www.intouchsms.co.rw/api/sendsms/.json";
+          $data=http_build_query($data);
+          $username="IndexZero";
+          $password="bugarama123@";
+
+          $ch=curl_init();
+          curl_setopt($ch,CURLOPT_URL,$url);
+          curl_setopt($ch,CURLOPT_USERPWD,$username.":".$password);
+          curl_setopt($ch,CURLOPT_POST,true);
+          curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+          curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
+          curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+          $result=curl_exec($ch);
+          $httpcode=curl_getinfo($ch,CURLINFO_HTTP_CODE);
+          curl_close($ch);
     }
 
-    require '../Connect/connection.php';
-    require '../phpcode/codes.php';
+      if ($result == true) {
+          $MessageSent='<script type="text/javascript">toastr.success("Message sent successfully !")</script>';
+      }else{
+          $MessageNotSent='<script type="text/javascript">toastr.error("Message not sent ,check your network and try again !")</script>';
+      }
 
-    $fname=$_SESSION['firstname'];
-    $lname=$_SESSION['lastname'];
-    $user_img=$_SESSION['image'];
-
-    //call the card_id from RFID code when a card is taped on rfid device 
-    $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
-    file_put_contents('UIDContainer.php',$Write);
-
-    $curr_month=$_REQUEST['month'];
-    $curr_year=$_REQUEST['year'];
-
-    switch ($curr_month) {
-        case 12:
-            $months='December';
-            break;
-                  
-        case 11:
-          $months='November';
-          break;
-                  
-        case 10:
-          $months='October';
-          break;
-                  
-        case 9:
-          $months='September';
-          break;
-                  
-        case 8:
-          $months='August';
-          break;
-                  
-        case 7:
-          $months='July';
-          break;
-                  
-        case 6:
-          $months='June';
-          break;
-                  
-        case 5:
-          $months='May';
-          break;
-
-        case 4:
-          $months='April';
-          break;
-                  
-        case 3:
-          $months='March';
-          break;
-                  
-        case 2:
-          $months='February';
-          break;
-                  
-        case 1:
-          $months='January';
-          break;
-    }
-
-    $users=new fac;
-
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Monthly archives_data</title>
+  <title>Admin panel</title>
   <link rel="card icon" href="../style/dist/img/smartcard.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -99,18 +86,18 @@
   <link rel="stylesheet" href="../style/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../style/plugins/summernote/summernote-bs4.min.css">
-  <script src="jquery.min.js"></script>
-  <script src="jquery.js"></script>
-
   <style type="text/css">
     #card{
       background-repeat: no-repeat;
+    }
+
+    ::-webkit-scrollbar{
+      display: none;
     }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -119,7 +106,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Manager panel</a>
+        <a href="index3.html" class="nav-link">Admin panel</a>
       </li>
     </ul>
 
@@ -131,15 +118,15 @@
           <i class="fas fa-search"></i>
         </a>
         <div class="navbar-search-block">
-          <form class="form-inline" action="search.php" method="POST">
+          <form class="form-inline">
             <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="date" aria-label="Search" title=" Click to select date !" name="search_data">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
               <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit" name="submit_searchdata">
-                  <i class="fas fa-search" title="click to search data"></i>
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
                 </button>
                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times" title="close search input"></i>
+                  <i class="fas fa-times"></i>
                 </button>
               </div>
             </div>
@@ -153,8 +140,9 @@
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
       </li>
+
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -163,8 +151,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="home.php" class="brand-link">
-      <img src="../style/dist/img/faclogo.png" alt="Fac_system Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light"><?php echo  $users->Fetch_System_name();?></span>
+      <img src="../style/dist/img/card.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Fac system</span>
     </a>
 
     <!-- Sidebar -->
@@ -172,7 +160,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style='border:1px solid white;'>
+          <img src="../style/dist/img/<?php $users->Admin_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -185,7 +173,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="home.php" class="nav-link">
+            <a href="home.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -194,69 +182,75 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-users"></i>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
               <p>
-                Citizen
+                Sites
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="Register_Citizen.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add citizen card info</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="CheckCitizenInfo.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Check Card info</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="Citizen_attendance.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Citizens attendance</p>
-                </a>
-              </li>
               
               <li class="nav-item">
-                <a href="AllCitizen_info.php" class="nav-link">
+                <a href="sites.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>All citizens info</p>
-                </a>
-              </li>
-
-
-              <li class="nav-item">
-                <a href="Citizen_attends_today.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Today's attendance</p>
+                  <p>Regions</p>
                 </a>
               </li>
 
             </ul>
           </li>
-          
+
+
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-folder"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
-                Archive
+                Citizens
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="archive_data.php" class="nav-link">
+                <a href="CitizenInfo.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Archive data</p>
+                  <p>Citizens info</p>
                 </a>
               </li>
 
+              <li class="nav-item">
+                <a href="TodayAttendance.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Today's attendance</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="Archive.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Archive</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                System users
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="SystemUsers.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Manage users <span class="badge badge-info float-right"><?php $users->System_user_count();?></span></p>
+                </a>
+              </li>
             </ul>
           </li>
 
@@ -292,7 +286,6 @@
             </ul>
           </li>
 
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -301,52 +294,81 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper"  style="background-color:lightgrey;">
-    <!-- Content Header (Page header) -->
+  <div class="content-wrapper" style="background-color:lightgrey;">
+
     <br>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        
+        <?php echo $MessageSent.$MessageNotSent;?>
                 <div class="card">
-                  <div class="card-header text-center bg-info"><span style="font-size:25px;">Daily archive's information !</span><button class="btn btn-light float-right"><?php echo $months;?></button> </div>
+                  <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends <b>today</b> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose a warning message</button> </span></div>
                   <div class="card-body text-center" style="overflow: auto">
-                    <?php
-                        $users->Fetch_All_date_Data_in_Archive();
-                    ?>
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                        <tr class="bg-info">
+                          <th>Card_id</th>
+                          <th>Firstname</th>
+                          <th>Lastname</th>
+                          <th>Gender</th> 
+                          <th>Phone</th>
+                          <th>Times</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <?php
+                          $users->Fetch_citizen_attend_today();
+                        ?>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
             </div>
-            <div class="col-md-3"></div>
-        </div>
 
-         <!-- start Logout modal -->
-          <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                <div class="modal-body text-left">
-                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h4>Logout&nbsp;<i class="fa fa-lock"></i></h4>
-                </div>
-                <div class="modal-body">
-                  <p><i class="fa fa-question-circle"></i>Are you sure , you want to log-off ? <br /></p>
-                  <div class="actionsBtns">
-                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      <a href="../Logout.php" class="btn btn-primary">Logout</a>
-                      <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      <div class="col-md-1"></div>
+    </div>
+
+            <!--Message modal-->
+        <!--Add new task model-->
+            <div class="modal fade" id="msg_Modal" role="dialog">
+              <div class="modal-dialog">
+                          
+               <!-- Modal content-->
+               <div class="modal-content">
+                 <div class="modal-header bg-info">
+                   <span class="float-center"><h2>Write a warning message here</h2></span>
+                 </div>
+                 <div class="modal-body" style="overflow:auto;">
+                   <form class="form-group" method="POST">
+<!--                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
+                     <input type="text" name="SiteName" placeholder="Enter firstname" class="form-control" required disabled value=""><br> -->
+                     <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
+                     
+                     <textarea name="msg" rows="3" placeholder="Muraho niyonkuru elyse ububutumwa buvuye nyabugogo ...." class="form-control" autofocus required></textarea><br>
+                   
+                     <button type="submit" class="btn btn-primary float-left" name="SendMessage">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
+
+                     <button type="reset" class="btn btn-danger float-right" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
+
+                   </form>
                   </div>
+                 </div>
+
+               <!--end of Modal content-->
+          
                 </div>
               </div>
-            </div>
-          </div>
-          <!--end of logout modal-->
 
-  <!--End of wrapper content page-->
+        <!--Endmof message modal-->
+
+    
+
   </div>
 
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>
-<script src="../style/plugins/jquery/jquerys.js"></script>
-<script src="../style/plugins/jquery/jquery.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="../style/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

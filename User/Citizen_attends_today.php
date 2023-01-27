@@ -329,7 +329,7 @@ if (isset($_POST['SendMessage'])) {
             <div class="col-md-10">
                 <?php echo $MessageSent.$MessageNotSent;?>
                 <div class="card">
-                  <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends <b>today</b> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose everyone a warning message</button> </span></div>
+                  <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends <b>today</b> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose a warning message</button> </span></div>
                   <div class="card-body text-center" style="overflow: auto">
                     <table class="table table-striped table-bordered">
                       <thead>
@@ -358,7 +358,7 @@ if (isset($_POST['SendMessage'])) {
         <!--Message modal-->
         <!--Add new task model-->
             <div class="modal fade" id="msg_Modal" role="dialog">
-             <div class="modal-dialog">
+              <div class="modal-dialog">
                           
                <!-- Modal content-->
                <div class="modal-content">
@@ -378,13 +378,13 @@ if (isset($_POST['SendMessage'])) {
                      <button type="reset" class="btn btn-danger float-right" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
 
                    </form>
+                  </div>
                  </div>
-              </div>
 
-             <!--end of Modal content-->
+               <!--end of Modal content-->
           
-
-          </div>
+                </div>
+              </div>
 
         <!--Endmof message modal-->
 

@@ -10,8 +10,10 @@ $lname=$_SESSION['lastname'];
 $user_img=$_SESSION['image'];
 $ErrorToAddUser=$UserAddedWell=null;
 require '..\phpcode\codes.php';
+
 $users=new fac;
 $users->register_user();
+
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +123,7 @@ $users->register_user();
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../style/dist/img/<?php echo $user_img;?>" class="img-circle elevation-2" alt="User Image">
+          <img src="../style/dist/img/<?php $users->Admin_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fname." ".$lname;?></a>
@@ -153,7 +155,7 @@ $users->register_user();
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="sites.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Regions</p>
                 </a>
@@ -167,17 +169,32 @@ $users->register_user();
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Citizen
+                Citizens
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="CitizenInfo.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>View citizens</p>
+                  <p>Citizens info</p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="TodayAttendance.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Today's attendance</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="Archive.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Archive</p>
+                </a>
+              </li>
+
             </ul>
           </li>
 
@@ -192,9 +209,9 @@ $users->register_user();
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="SystemUsers.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Manage users <span class="badge badge-info float-right"><?php $users->System_user_count();?></span> </p>
+                  <p>Manage users <span class="badge badge-info float-right"><?php $users->System_user_count();?></span></p>
                 </a>
               </li>
             </ul>
@@ -241,10 +258,10 @@ $users->register_user();
   <!--section of registering users-->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-color:lightgrey;">
     <br>
     <?php
-    echo $ErrorToAddUser.$UserAddedWell;
+        echo $ErrorToAddUser.$UserAddedWell;
     ?>
     <div class="row">
       <div class="col-md-2"></div>
@@ -260,14 +277,40 @@ $users->register_user();
                 <td>Firstname</td>
                 <td>Lastname</td>
                 <td>Gender</td>
-                <td>Site_name</td>
                 <td colspan="2">Action</td>
               </thead>
             </tr>
 
             <tbody>
                 <?php
-                  $users->Select_user();
+                    // $users->Select_user();
+                    $fname=$lname=$gender=$phone=$email=$image=null;
+                    $result=mysqli_query($con,"SELECT * FROM users");
+                    while ($row=mysqli_fetch_assoc($result)) {
+                      $fname=$row['firstname'];
+                        $lname=$row['lastname'];    
+                        $gender=$row['gender'];   
+                        // $sitename=$row['sitename'];
+                        $image=$row['image'];
+                        
+                        echo "
+                          <tr>
+                        <td>"."<img src='../style/dist/img/".$image."'' style='width:50px;height:50px;border-radius:50%;border:1px solid gray;'><span id='online_icon'></span>"."</td>
+                        <td>".$fname."</td>
+                        <td>".$lname."</td>
+                        <td>".$gender."</td>
+                              <td><a href='?id=".$row['u_id']."' ><i class='fa fa-eye text-info'></i></a></td>
+                              <td><a href='#Edit' ><i class='fa fa-edit text-success'></i></a></td>
+                              </tr>
+                        ";
+
+                    }
+
+                    if ($fname==null and $fname==null and $phone==null and $email==null) {
+                        echo "<td colspan='6'>No users data found !</td>";
+                      
+                    }
+
                 ?>
             </tbody>
             
@@ -321,19 +364,20 @@ $users->register_user();
 
                       <div class="row">
                         <div class="col-md-6">
-                            <select name="sitename" class="form-control" required>
+                            <!-- <select name="sitename" class="form-control" required>
                               <option>Select sitename . . .</option>
                                <?php 
-                                  $result=mysqli_query($con,"SELECT * FROM site_name left join users on users.fk_sitename_id=site_name.id where  users.fk_sitename_id is null");
+                                  $result=mysqli_query($con,"SELECT * FROM users");
                                   while ($row=mysqli_fetch_assoc($result)) {
                                     ?>
-                                      <option value="<?php echo $row['id'];?>"><?php echo $row['sitename']." ".$row['entrance'];?></option>
+                                      <!-- <option value="<?php echo $row['id'];?>"><?php echo $row['sitename']." ".$row['entrance'];?></option> -->
+
                                     <?php
                                   }
                                ?>
-                            </select>
+                            </select> 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12 text-center">
                           <button type="submit" class="btn btn-primary float-center" name="submit">Add</button>&nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-danger">Reset</button>
                         </div>
                       </div>
@@ -355,8 +399,30 @@ $users->register_user();
     </div>
 
       <!--end of Add new task model-->
+        
   <!--End of wrapper content page-->
   </div>
+
+  <script>
+      function useridfn(str){
+        
+          if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+          } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("show_user_data").innerHTML = this.responseText;
+            }
+          };
+          xmlhttp.open("GET","SystemUsers.php?id="+str,true);
+          xmlhttp.send();
+    
+      }
+  </script>
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
