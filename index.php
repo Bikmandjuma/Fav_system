@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
           $row_admin=mysqli_fetch_array($query_admin);
 
           if ($row > 0) {
-              session_start();
+              // session_start();
               $_SESSION['u_id']=$row[0];
               $_SESSION['firstname']=$row[1];
               $_SESSION['lastname']=$row[2];
@@ -130,7 +130,7 @@ function test_input($data){
   }
 </style>
 </head>
-<body style="background-color:#eee;">
+<body style="background-color:grey;">
 
 <div class="card">
   <div class="card-header  bg-white float-left"><h3><b>Fav system</b></h3></div>

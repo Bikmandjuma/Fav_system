@@ -349,9 +349,9 @@ $users=new fac;
           <div class="modal" id="EditInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-md">
               <div class="modal-content">
-                <div class="modal-body text-left">
+                <div class="modal-body text-center">
                   <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h4>Edit information&nbsp;<i class="fa fa-edit"></i></h4>
+                  <h4><u>Edit information&nbsp;<i class="fa fa-edit"></i></u></h4>
                 </div>
                 <div class="modal-body">
                   <div class="actionsBtns">

@@ -310,7 +310,7 @@ $user_img=$_SESSION['image'];
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3><?php echo $users->Average_Attendance_per_day();?></h3>
+                <h3><?php echo 0;?></h3>
                 <p>Average attendance/day</p>
               </div>
               <div class="icon">
