@@ -912,7 +912,6 @@ class fac{
 		}
 	}
 
-
 	//Send message to citizen attend today
 	public function SendSMS_to_citizen_attend_today(){
 		include '../Connect/connection.php';
@@ -928,7 +927,6 @@ class fac{
         	$lnames=$row['lastname'];
         	$phone=$row['phone'];
         	$attend=$row['attend_time'];
-
 	    } 
 	}
 
@@ -951,7 +949,6 @@ class fac{
 			echo $image=$row['image'];
 		}
 	}
-
 
 }
 ?>

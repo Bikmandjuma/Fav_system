@@ -64,7 +64,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My information</title>
+  <title><?php echo $fname." ".$lname."'s profile picture";?></title>
   <link rel="card icon" href="../style/dist/img/smartcard.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -132,12 +132,10 @@ if (isset($_POST['SubmitProfilePicture'])) {
     }
 
     .container {
-        padding: 10px 16px 10px 10px;
+        padding: 2px 16px;
         text-align: center;
         font-family: serif;
     }
-
-
 
   </style>
 
@@ -358,7 +356,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
 
               <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>">
               <div class="container">
-                <h4 class="text-info"><b><?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?></b></h4> 
+                <h4><b><?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?></b></h4> 
                 <?php
                   if ($img_number == 1) {
                     ?>
@@ -366,8 +364,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
                     <?php
                   }else{
                     ?>
-                      <button class="btn btn-primary" title="Edit profile picture" data-toggle="modal" data-target="#ProfileModal"><i class="fa fa-edit"></i></button>&nbsp;&nbsp;&nbsp;
-                      <button class="btn btn-danger" title="Delete profile picture" data-toggle="modal" data-target="#TrashModal"><i class="fa fa-trash"></i></button>
+                      <button class="btn btn-info" data-toggle="modal" data-target="#ProfileModal"><i class="fa fa-edit"></i>&nbsp;Edit</button>
                     <?php
                   }
                 ?>
@@ -433,28 +430,6 @@ if (isset($_POST['SubmitProfilePicture'])) {
             </div>
           </div>
         <!--end of profile modal-->
-
-         <!--start of trash modal -->
-          <div class="modal text-center" id="TrashModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                <div class="modal-body ">
-                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h4>Trash profile&nbsp;<i class="fa fa-image"></i></h4>
-                </div>
-                <div class="modal-body">
-                  <p><i class="fa fa-question-circle"></i>Do u want to delete your profile ? <br /></p>
-                  <div class="actionsBtns">
-                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      <a href="#" class="btn btn-primary"><i class="fas fa-trash"></i> Trash</a>
-                      <button class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Not now</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <!--end of trash modal-->
-
 
   <!--End of wrapper content page-->
   </div>

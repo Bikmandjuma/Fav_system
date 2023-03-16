@@ -280,8 +280,9 @@ file_put_contents('UIDContainer.php',$Write);
             <div class="card">
               <div class="card-header text-center bg-info"><span style="font-size:25px;"><i class="fa fa-address-card"></i>&nbsp;Your attendance will be displayed here !</span></div>
               <div class="card-body text-center" style="overflow: auto">
+                <img src="../images/rfid.jpg" style="width:400px;height: 400px;margin-top:-100px;">
                 <div id="tap_card">
-                  <img src="../images/card.png" style="width:350px;height: 300px;">
+                  <img src="../images/card.png" style="width:350px;height: 300px; margin-top: -220px;padding-bottom:-20px;">
                 </div>
               </div>
             </div>
@@ -292,18 +293,18 @@ file_put_contents('UIDContainer.php',$Write);
 
          <!--start of Logout modal -->
           <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-sm text-center">
               <div class="modal-content">
-                <div class="modal-body text-left">
+                <div class="modal-body">
                   <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h4>Logout&nbsp;<i class="fa fa-lock"></i></h4>
+                  <h5>Logout your account</h5>
                 </div>
                 <div class="modal-body">
                   <p><i class="fa fa-question-circle"></i>Are you sure , you want to log-off ? <br /></p>
                   <div class="actionsBtns">
                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      <a href="../Logout.php" class="btn btn-primary">Logout</a>
-                      <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <a href="../Logout.php" class="btn btn-primary"><i class="fa fa-lock"></i> Logout</a>
+                      <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
                   </div>
                 </div>
               </div>
