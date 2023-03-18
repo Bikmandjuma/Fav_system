@@ -42,7 +42,38 @@ $results = mysqli_query($con, $sqlQuery);
             <th>Date&nbsp;of&nbsp;birth&nbsp;(DoB)</th>
             <th>Registered&nbsp;date</th>
         </tr>
-        <?php $count=1; foreach ($results as $data) { ?>
+        <?php $count=1; foreach ($results as $data) { 
+
+            //province
+            $prov=mysqli_query($con,"SELECT * FROM province where province_id=".$data['province']."");
+            while ($row_prov=mysqli_fetch_assoc($prov)) {
+                $province=$row_prov['province_name'];
+            }
+
+            //district
+            $distrcit=mysqli_query($con,"SELECT * FROM district where district_id=".$data['district']."");
+            while ($row_dist=mysqli_fetch_assoc($distrcit)) {
+                $district=$row_dist['district_name'];
+            }
+
+            //sector
+            $sect=mysqli_query($con,"SELECT * FROM sector where sector_id=".$data['sector']."");
+            while ($row_sect=mysqli_fetch_assoc($sect)) {
+                $sector=$row_sect['sector_name'];
+            }
+
+            //province
+            $cell=mysqli_query($con,"SELECT * FROM cell where cell_id=".$data['cellule']."");
+            while ($row_cell=mysqli_fetch_assoc($cell)) {
+                $cellule=$row_cell['cell_name'];
+            }
+
+            //province
+            $vill=mysqli_query($con,"SELECT * FROM village where village_id=".$data['village']."");
+            while ($row_vill=mysqli_fetch_assoc($vill)) {
+                $village=$row_vill['village_name'];
+            }
+        ?>
         <tr>
             <td><?php echo $count++;?></td>
             <td><?php echo $data['card_id'] ?></td>
@@ -51,11 +82,11 @@ $results = mysqli_query($con, $sqlQuery);
             <td><?php echo $data['lastname'] ?></td>
             <td><?php echo $data['gender'] ?></td>
             <td><?php echo $data['phone'] ?></td>
-            <td><?php echo $data['province'] ?></td>
-            <td><?php echo $data['district'] ?></td>
-            <td><?php echo $data['sector'] ?></td>
-            <td><?php echo $data['cellule'] ?></td>
-            <td><?php echo $data['village'] ?></td>
+            <td><?php echo $province;?></td>
+            <td><?php echo $district;?></td>
+            <td><?php echo $sector;?></td>
+            <td><?php echo $cellule;?></td>
+            <td><?php echo $village;?></td>
             <td><?php echo $data['dob'] ?></td>
             <td><?php echo $data['registered_date'] ?></td>
         </tr>

@@ -263,8 +263,8 @@ file_put_contents('UIDContainer.php',$Write);
     <!-- Content Header (Page header) -->
     <br>
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
 
             <p id="getUID" hidden></p>
             <div id="show_user_data">
@@ -288,7 +288,7 @@ file_put_contents('UIDContainer.php',$Write);
             </div>
             
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
         </div>
 
          <!--start of Logout modal -->

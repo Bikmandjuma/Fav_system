@@ -189,8 +189,8 @@ file_put_contents('UIDContainer.php',$Write);
     <div class="col-md-12 ">
 
       <div class="row" id="CitizenInfoDiv">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <!-- <div class="col-md-1"></div> -->
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header bg-info text-center">
               <h2 class="text-white"><b><?php echo $confirm;?> !</b></h2>
@@ -201,7 +201,7 @@ file_put_contents('UIDContainer.php',$Write);
             </div>
           </div>
         </div>
-        <div class="col-md-1"></div>
+        <!-- <div class="col-md-1"></div> -->
       </div>
 
     </div>
@@ -213,8 +213,8 @@ file_put_contents('UIDContainer.php',$Write);
       <div class="col-md-12" id="error_card_id">
 
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-12">
 
             <div class="card">
               <div class="card-header text-center bg-danger"><span style="font-size:25px;"><h3><?php echo $invalid_id_cards;?></h3></span></div>
@@ -224,7 +224,7 @@ file_put_contents('UIDContainer.php',$Write);
             </div>
             
             </div>
-            <div class="col-md-1"></div>
+            <!-- <div class="col-md-1"></div> -->
         </div>
 
       </div>
