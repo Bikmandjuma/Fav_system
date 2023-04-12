@@ -316,7 +316,7 @@ CREATE TABLE `tbl_password_reset` (
 --
 
 CREATE TABLE `users` (
-  `u_id` int(11) NOT NULL,
+  `u_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `firstname` varchar(100) DEFAULT NULL,
   `lastname` varchar(100) DEFAULT NULL,
   `gender` varchar(100) DEFAULT NULL,
