@@ -48,10 +48,54 @@ $users=new fac;
   <script src="jquery.min.js"></script>
   <script src="jquery.js"></script>
 
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
   <style type="text/css">
     #card{
       background-repeat: no-repeat;
     }
+
+    /*---------------------------------------------*/
+.btn-show-pass {
+  font-size: 15px;
+  color: #999999;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding-right: 5px;
+  cursor: pointer;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.btn-show-pass:hover {
+  color: #6a7dfe;
+  color: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+  color: -o-linear-gradient(left, #21d4fd, #b721ff);
+  color: -moz-linear-gradient(left, #21d4fd, #b721ff);
+  color: linear-gradient(left, #21d4fd, #b721ff);
+}
+
+.btn-show-pass.active {
+  color: #6a7dfe;
+  color: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+  color: -o-linear-gradient(left, #21d4fd, #b721ff);
+  color: -moz-linear-gradient(left, #21d4fd, #b721ff);
+  color: linear-gradient(left, #21d4fd, #b721ff);
+}
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -267,14 +311,39 @@ $users=new fac;
                       }
 
                       if (empty($current_password) || empty($new_password) || empty($new_password)) {
-                          $all_fields_required="<span style='color:red;'>All fields are required *</span>";
+                          $all_fields_required='
+                                          <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                                      All fields are required !
+                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                                                      </button>
+                                                  </div>';
+
                       }else{
                             if (md5($current_password) != $user_password) {
-                                $current_password_incorrect="<span style='color:red;'>* Incorrect current password *</span>";
+                                $current_password_incorrect='
+                                                  <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                                      Incorrect current password !
+                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                                                      </button>
+                                                  </div>';
                             }elseif (strlen($new_password) < 8) {
-                                $password_mustbe_greaterthan_8="<span style='color:red;'>New password must be greater than 8 character</span>";
+                                $password_mustbe_greaterthan_8='
+                                             <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                                      New password must be greater than 8 characters !
+                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                                                      </button>
+                                                  </div>';
                             }elseif (md5($new_password) != md5($confirm_new_password)) {
-                                $new_password_do_not_match="<span style='color:red;'>New password do not match !</span>";
+                                $new_password_do_not_match='
+                                                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                                      New password do not match !
+                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                                                      </button>
+                                                  </div>';
 
                             }else{ 
                                 $user_new_pswd=md5($new_password);
@@ -283,16 +352,11 @@ $users=new fac;
                                     $result_password=mysqli_query($con,$sql_password);
                                     if ($result_password == true) {
                                         $Password_changed_well='
-                                                  <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                                                      Password changed successfully !
-                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                        <span aria-hidden="true" style="font-size:25px;">&times;</span>
-                                                      </button>
-                                                  </div>';
+                                                  <script>toastr.success("Password changed successfully !"</script>';
                                     }
 
                                 }else{
-                                    echo "password can not be changed !";
+                                    echo "<script>toastr.error('password can not be changed !')</script>";
                                 }
                             }
 
@@ -314,19 +378,22 @@ $users=new fac;
           <div class="col-md-4"></div>
           <div class="col-md-4">
           <?php echo $Password_changed_well;?>
+          <?php echo $all_fields_required;?>
+          <?php echo $current_password_incorrect;?>
+          <?php echo $new_password_do_not_match;?>
+          <?php echo $password_mustbe_greaterthan_8;?>
+          
           <div class="card">
             
             <div class="card-header text-center bg-info"><i class="fa fa-edit"></i>&nbsp;Modify password</div>
             <div class="card-body" style="overflow: auto;">
                <form class="form-group" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-
-                  <label><?php echo $all_fields_required;?></label>
-                  <label><?php echo $current_password_incorrect;?></label>
-
-                  <br>
+                  <br><!-- 
+                  <span class="btn-show-pass">
+                    <i class="fa fa-eye"></i>
+                  </span> -->
                   <input type="password" name="current_password" placeholder="Current Password" class="form-control" autofocus><br>
-                  <input type="password" name="new_password" placeholder="New Password" class="form-control"><label><?php echo $new_password_do_not_match;?></label>
-                  <label><?php echo $password_mustbe_greaterthan_8;?></label>
+                  <input type="password" name="new_password" placeholder="New Password" class="form-control"><br>
                   <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password"><br>
                   <button class="btn btn-info" type="submit" name="submit_pswd"><i class="fa fa-save fa-fw"></i> &nbsp;Save change</button>
                 </form>
@@ -361,6 +428,33 @@ $users=new fac;
 
   <!--End of wrapper content page-->
   </div>
+
+  <script type="text/javascript">
+    (function ($) {
+    "use strict";
+
+        /*==================================================================
+        [ Show pass ]*/
+        var showPass = 0;
+        $('.btn-show-pass').on('click', function(){
+            if(showPass == 0) {
+                $(this).next('input').attr('type','text');
+                $(this).find('i').removeClass('zmdi-eye');
+                $(this).find('i').addClass('zmdi-eye-off');
+                showPass = 1;
+            }
+            else {
+                $(this).next('input').attr('type','password');
+                $(this).find('i').addClass('zmdi-eye');
+                $(this).find('i').removeClass('zmdi-eye-off');
+                showPass = 0;
+            }
+            
+        });
+
+
+    })(jQuery);
+  </script>
 
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>
