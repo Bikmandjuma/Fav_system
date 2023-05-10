@@ -7,7 +7,7 @@ if (! (isset($_GET['pageNumber']))) {
     $pageNumber = $_GET['pageNumber'];
 }
 
-$perPageCount =30;
+$perPageCount =5;
 
 $sql = "SELECT * FROM citizentb  WHERE 1";
 
@@ -45,31 +45,31 @@ $results = mysqli_query($con, $sqlQuery);
         <?php $count=1; foreach ($results as $data) { 
 
             //province
-            $prov=mysqli_query($con,"SELECT * FROM province where province_id=".$data['province']."");
+            $prov=mysqli_query($con,"SELECT * FROM province where province_id=1");
             while ($row_prov=mysqli_fetch_assoc($prov)) {
                 $province=$row_prov['province_name'];
             }
 
             //district
-            $distrcit=mysqli_query($con,"SELECT * FROM district where district_id=".$data['district']."");
+            $distrcit=mysqli_query($con,"SELECT * FROM district where district_id=1");
             while ($row_dist=mysqli_fetch_assoc($distrcit)) {
                 $district=$row_dist['district_name'];
             }
 
             //sector
-            $sect=mysqli_query($con,"SELECT * FROM sector where sector_id=".$data['sector']."");
+            $sect=mysqli_query($con,"SELECT * FROM sector where sector_id=1");
             while ($row_sect=mysqli_fetch_assoc($sect)) {
                 $sector=$row_sect['sector_name'];
             }
 
             //province
-            $cell=mysqli_query($con,"SELECT * FROM cell where cell_id=".$data['cellule']."");
+            $cell=mysqli_query($con,"SELECT * FROM cell where cell_id=1");
             while ($row_cell=mysqli_fetch_assoc($cell)) {
                 $cellule=$row_cell['cell_name'];
             }
 
             //province
-            $vill=mysqli_query($con,"SELECT * FROM village where village_id=".$data['village']."");
+            $vill=mysqli_query($con,"SELECT * FROM village where village_id=1");
             while ($row_vill=mysqli_fetch_assoc($vill)) {
                 $village=$row_vill['village_name'];
             }

@@ -11,14 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if (empty($user) || empty($pass)) {
 
-        $allfieldRequired='
-                  <div class="alert alert-danger text-center alert-dismissible fade show" role="alert"><b>
-                      All fields are required !</b>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-        ';
+        $allfieldRequired='<script type="text/javascript">toastr.error("Both fields are required !")</script>';
 
     }else{
         $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image FROM users where username='$user' and password='".md5($pass)."'");
@@ -42,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
               $diplic_online_user_sql=mysqli_query($con,"SELECT * from online_users where fk_user_id='".$row[0]."'");
               $diplic_online_user_nums=mysqli_num_rows($diplic_online_user_sql);
-              date_default_timezone_set("Afrika/Kigali");
+              // date_default_timezone_set("Afrika/Kigali");
               $tm=date("Y-m-d H:i:s");
               $status="ON";
               $user_id=$row[0];
@@ -100,6 +93,9 @@ function test_input($data){
   <link rel="stylesheet" href="style/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="style/login/login.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+  <script src="style/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="jquery.min.js"></script>
+  <script src="jquery.js"></script>
 
 <!--===============================================================================================-->
 
@@ -121,6 +117,18 @@ function test_input($data){
       justify-content: center;
       display: flex;
       align-items: center;
+    }
+
+    #errorField{
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      color:white;
+      font-size: 20px;
+      padding-left: 5px;
+      border-radius: 5px;
+      width:100%;
     }
 
     .card_title{
@@ -153,6 +161,46 @@ function test_input($data){
         text-align: center;
         font-family: serif;
     }
+
+    .btn-show-pass {
+  font-size: 15px;
+  color: #999999;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding-right: 5px;
+  cursor: pointer;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.btn-show-pass:hover {
+  color: #6a7dfe;
+  color: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+  color: -o-linear-gradient(left, #21d4fd, #b721ff);
+  color: -moz-linear-gradient(left, #21d4fd, #b721ff);
+  color: linear-gradient(left, #21d4fd, #b721ff);
+}
+
+.btn-show-pass.active {
+  color: #6a7dfe;
+  color: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+  color: -o-linear-gradient(left, #21d4fd, #b721ff);
+  color: -moz-linear-gradient(left, #21d4fd, #b721ff);
+  color: linear-gradient(left, #21d4fd, #b721ff);
+}
+
+
 </style>
 </head>
 <body style="background-color:grey;">
@@ -171,7 +219,14 @@ function test_input($data){
 
 
        <?php echo $incorectcredential;?>
-
+       <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+             <?php echo  $allfieldRequired;?>
+          </div>
+          <div class="col-md-4"></div>
+       </div>
+       
         <div class="container">
             <div class="screen">
 
@@ -185,6 +240,9 @@ function test_input($data){
                   <div class="login__field">
                     <i class="login__icon fas fa-key"></i>
                     <input type="password" class="login__input" placeholder="Password" name="Password">
+                    <!-- <span class="btn-show-pass">
+                      <i class="fas fa-eye"></i>
+                    </span> -->
                   </div>
                   <button class="button login__submit" type="submit">
                     <i class="button__icon fas fa-lock-open"></i>&nbsp;&nbsp;
@@ -209,6 +267,29 @@ function test_input($data){
               </div>    
             </div>
           </div>
+
+          <script>
+              (function ($) {
+                  "use strict";
+
+                  var showPass = 0;
+                  $('.btn-show-pass').on('click', function(){
+                      if(showPass == 0) {
+                          $(this).next('input').attr('type','text');
+                          $(this).find('i').removeClass('zmdi-eye');
+                          $(this).find('i').addClass('fas fa-eye');
+                          showPass = 1;
+                      }
+                      else {
+                          $(this).next('input').attr('type','password');
+                          $(this).find('i').addClass('fas fa-eye');
+                          $(this).find('i').removeClass('zmdi-eye');
+                          showPass = 0;
+                      }
+                      
+                  });
+              })(jQuery);
+          </script>
 
 
 </body>

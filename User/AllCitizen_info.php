@@ -1,12 +1,11 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
 
-require '../Connect/connection.php';
-require '../phpcode/codes.php';
+include_once '../Connect/connection.php';
+include_once '../phpcode/codes.php';
 $users=new fac;
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
@@ -79,9 +78,9 @@ file_put_contents('UIDContainer.php',$Write);
         overflow:auto;
     }
 
-    ::-webkit-scrollbar{
+    /*::-webkit-scrollbar{
       display:none;
-    }
+    }*/
     
     </style>
 

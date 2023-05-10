@@ -1,12 +1,11 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
 
-require '../Connect/connection.php';
-require '../phpcode/codes.php';
+include_once '../Connect/connection.php';
+include_once '../phpcode/codes.php';
 
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];
@@ -94,6 +93,14 @@ $users=new fac;
   color: -o-linear-gradient(left, #21d4fd, #b721ff);
   color: -moz-linear-gradient(left, #21d4fd, #b721ff);
   color: linear-gradient(left, #21d4fd, #b721ff);
+}
+
+#editUsername:hover{
+  cursor: pointer;
+}
+
+#defaultUsername p{
+  font-weight: bold;
 }
 
   </style>
@@ -352,7 +359,7 @@ $users=new fac;
                                     $result_password=mysqli_query($con,$sql_password);
                                     if ($result_password == true) {
                                         $Password_changed_well='
-                                                  <script>toastr.success("Password changed successfully !"</script>';
+                                                  <script>toastr.success("Password changed successfully !")</script>';
                                     }
 
                                 }else{
@@ -373,9 +380,44 @@ $users=new fac;
                   return $data;
               }
 
+              $Username_changed=$username_data=null;
+              $user_id=$_SESSION['u_id'];
+              
+              if (isset($_POST['SubmitUsernameChanges'])) {
+                $username=$_POST['username'];
+                $query=mysqli_query($con,"UPDATE users SET username='$username' where u_id='$user_id' ");
+
+                if ($query == true) {
+                  $Username_changed='<script>toastr.info("Username changed well !")</script>';
+                }
+
+              }
+
+              //select username
+              $query_username=mysqli_query($con,"SELECT username from users where u_id='$user_id' ");
+              while ($row=mysqli_fetch_assoc($query_username)) {
+                $username_data=$row['username'];
+              }
+
+
             ?>
         <div class="row">
-          <div class="col-md-4"></div>
+          <div class="col-md-2"></div>
+          <div class="col-md-3 text-center">
+            <?php echo $Username_changed;?>
+            <span class="card">
+              <div class="card-header bg-light"><i class="fas fa-user"></i> Modify username</div>
+              <div class="card-body" id="defaultUsername"><p><?php echo $username_data;?> <i class="fas fa-edit float-right text-primary" id="editUsername" onclick="EditUsernamefn()"></i></p> </div>
+              <div class="card-body" id="formUsername" style="display: none;">
+                <form class="d-flex" method="POST">
+                  <input type="email" class="form-control" name="username" required value="<?php echo $username_data;?>">&nbsp;
+                  <button class="btn btn-info" type="submit" name="SubmitUsernameChanges"><i class="fas fa-save"></i></button>
+                </form>
+              </div>
+
+            </span>
+          </div>
+          <div class="col-md-1"></div>
           <div class="col-md-4">
           <?php echo $Password_changed_well;?>
           <?php echo $all_fields_required;?>
@@ -392,7 +434,7 @@ $users=new fac;
                   <span class="btn-show-pass">
                     <i class="fa fa-eye"></i>
                   </span> -->
-                  <input type="password" name="current_password" placeholder="Current Password" class="form-control" autofocus><br>
+                  <input type="password" name="current_password" placeholder="Current Password" class="form-control"><br>
                   <input type="password" name="new_password" placeholder="New Password" class="form-control"><br>
                   <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password"><br>
                   <button class="btn btn-info" type="submit" name="submit_pswd"><i class="fa fa-save fa-fw"></i> &nbsp;Save change</button>
@@ -402,7 +444,7 @@ $users=new fac;
           
           <!--end of card-->
         </div>
-        <div class="col-md-4"></div> 
+        <div class="col-md-2"></div> 
       </div>
 
         <!-- Logout model -->
@@ -454,6 +496,14 @@ $users=new fac;
 
 
     })(jQuery);
+
+    function EditUsernamefn(){
+      var defaultUsername=document.getElementById('defaultUsername');
+      var formUsername=document.getElementById('formUsername');
+      defaultUsername.style.display="none";
+      formUsername.style.display="block";
+
+    }
   </script>
 
 <!-- jQuery -->
