@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once('Connect/connection.php');
-require 'phpcode/codes.php';
+include_once 'phpcode/codes.php';
 $users=new fac;
 $incorectcredential=$allfieldRequired=$user=$pass=$PostionOptionisEmpty="";
 
@@ -200,10 +200,25 @@ function test_input($data){
   color: linear-gradient(left, #21d4fd, #b721ff);
 }
 
+#forgotpswd a{
+  background-color: #fff;
+  color: #4C489D;
+  padding: 5px;
+  border-radius:30px;
+  box-shadow: 0px 2px 2px #5C5696;
+  text-decoration: none;
+  font-weight: 300;
+}
+
+#forgotpswd:hover{
+  border-color: #6A679E;
+  outline: none;
+}
+
 
 </style>
 </head>
-<body style="background-color:grey;">
+<body>
 
  <div class="card_profile">
 
@@ -258,6 +273,9 @@ function test_input($data){
                     <a href="#" class="social-login__icon fab fa-twitter"></a>
                   </div>
                 </div> -->
+                <div id="forgotpswd">
+                  <a href="forgotpassword.php"><i class="fas fa-key"></i> Forgot password</a>
+                </div>
               </div>
               <div class="screen__background">
                 <span class="screen__background__shape screen__background__shape4"></span>
