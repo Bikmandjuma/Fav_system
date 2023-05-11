@@ -184,3 +184,7 @@ body {
 	transform: scale(1.5);	
 }
 
+::-webkit-scrollbar{
+	display: none;
+}
+

@@ -1,82 +1,92 @@
 <?php
 session_start();
 use PHPMailer\PHPMailer\PHPMailer;
-include_once('Connect/connection.php');
-$Reset_pswd_Through_Email=$Email_Not_Found=$MailerError=null;
+include_once 'Connect/connection.php';
+$Reset_pswd_Through_Email=$Email_Not_Found=$MailerError=$email_required=null;
 
-if(isset($_POST['submit_forgot_pswd']) & !empty($_POST)){
-  $email = mysqli_real_escape_string($con, $_POST['email']);
-  $sql = "SELECT * FROM `admin` WHERE email = '$email'";
-  $res = mysqli_query($con, $sql);
-  $count = mysqli_num_rows($res);
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-  if (empty($email)) {
-      $email_required='<script type="text/javascript">toastr.error("Email field is required !")</script>';
-  }else{
+    if(isset($_POST['submit_forgot_pswd'])){
+      $email = test_input($_POST['email']);
+      $sql = "SELECT * FROM `users` WHERE email = '$email'";
+      $res = mysqli_query($con, $sql);
+      $count = mysqli_num_rows($res);
 
-      if($count == 1){
-          require_once 'PHPMailer\PHPMailer.php';
-          require_once 'PHPMailer\SMTP.php';
-          require_once 'PHPMailer\Exception.php';
-
-          $r = mysqli_fetch_assoc($res);
-          $password = $r['password'];
-          $link="<a href='ResetPassword.php'>Reset password</a>";
-
-          //Encrypting email
-          $email_string=$email;
-
-          // Store the cipher method
-          $ciphering = "AES-128-CTR";
-
-          // Use OpenSSl Encryption method
-          $iv_length = openssl_cipher_iv_length($ciphering);
-          $options = 0;
-
-          // Non-NULL Initialization Vector for encryption
-          $encryption_iv = '1234567891011121';
-
-          // Store the encryption key
-          $encryption_key = "Fav";
-
-          // Use openssl_encrypt() function to encrypt the data
-          $encrypted_email = openssl_encrypt($email_string, $ciphering,
-            $encryption_key, $options, $encryption_iv);
-
-          try {
-
-              //Server settings
-              // $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
-              $mail=new PHPMailer();                     //Enable verbose debug output
-              $mail->isSMTP();                                            //Send using SMTP
-              $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-              $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-              $mail->Username   = 'indexzero900@gmail.com';                     //SMTP username
-              $mail->Password   = 'jpqtlaopdivilmaf';                               //SMTP password
-              $mail->SMTPSecure = 'tls' ; //tls;            //Enable implicit TLS encryption
-              $mail->Port       = 587; //587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-              //Content
-              $mail->isHTML(true); 
-              $mail->setFrom($email,'Fav-system');
-              $mail->addAddress($email);               //Set email format to HTML
-              $mail->Subject = "Your Recovered Password";
-              $mail->Body    = "Please use this link to reset password " .'<a href="http://localhost/Project/Fac_smart_card/ResetPassword.php?email='.$encrypted_email.'">Reset Password here : '.$encrypted_email.'</a>';
-
-              $mail->send();
-              
-              $Reset_pswd_Through_Email='<script type="text/javascript">toastr.success("Check your email , we sent you a message !")</script>';
-
-          } catch (Exception $e) {
-              $MailerError='<script type="text/javascript">toastr.error("Message could not be sent. Mailer Error: {$mail->ErrorInfo}")</script>';            
-          }
-         
+      if (empty($email)) {
+          $email_required='<script type="text/javascript">toastr.error("Email field is required !")</script>';
       }else{
-          $Email_Not_Found='<script type="text/javascript">toastr.error("Email not found in our records !")</script>';  
+
+          if($count == 1){
+              require_once 'PHPMailer\PHPMailer.php';
+              require_once 'PHPMailer\SMTP.php';
+              require_once 'PHPMailer\Exception.php';
+
+              $r = mysqli_fetch_assoc($res);
+              $password = $r['password'];
+              $link="<a href='ResetPassword.php'>Reset password</a>";
+
+              //Encrypting email
+              $email_string=$email;
+
+              // Store the cipher method
+              $ciphering = "AES-128-CTR";
+
+              // Use OpenSSl Encryption method
+              $iv_length = openssl_cipher_iv_length($ciphering);
+              $options = 0;
+
+              // Non-NULL Initialization Vector for encryption
+              $encryption_iv = '1234567891011121';
+
+              // Store the encryption key
+              $encryption_key = "Fav";
+
+              // Use openssl_encrypt() function to encrypt the data
+              $encrypted_email = openssl_encrypt($email_string, $ciphering,
+                $encryption_key, $options, $encryption_iv);
+
+              try {
+
+                  //Server settings
+                  // $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+                  $mail=new PHPMailer();                     //Enable verbose debug output
+                  $mail->isSMTP();                                            //Send using SMTP
+                  $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                  $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                  $mail->Username   = 'bikmangeek@gmail.com';                     //SMTP username
+                  $mail->Password   = 'hpvrdqffxfmpsgku';                         //SMTP password
+                  $mail->SMTPSecure = 'tls' ; //tls;            //Enable implicit TLS encryption
+                  $mail->Port       = 587; //587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                  //Content
+                  $mail->isHTML(true); 
+                  $mail->setFrom($email,'Fav-system');
+                  $mail->addAddress($email);               //Set email format to HTML
+                  $mail->Subject = "Your Recovered Password";
+                  $mail->Body    = "Please use this link to reset password " .'<a href="http://localhost/project/Fav_system/ResetPassword.php?email='.$encrypted_email.'">Reset Password here : '.$encrypted_email.'</a>';
+
+                  $mail->send();
+                  
+                  $Reset_pswd_Through_Email='<script type="text/javascript">toastr.success("We mailed you a reset link !")</script>';
+
+              } catch (Exception $e) {
+                  $MailerError='<script type="text/javascript">toastr.error("Message could not be sent. Mailer Error: {$mail->ErrorInfo}")</script>';            
+              }
+             
+          }else{
+              $Email_Not_Found='<script type="text/javascript">toastr.error("Email not found in our records !")</script>';  
+          }
       }
-  }
+    }
+
 }
 
+function test_input($data){
+    $data=trim($data);
+    $data=stripslashes($data);
+    $data=htmlspecialchars($data);
+    return $data;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -167,7 +177,7 @@ if(isset($_POST['submit_forgot_pswd']) & !empty($_POST)){
 </head>
 <body>
 
-    <?php echo $Reset_pswd_Through_Email.$MailerError.$Email_Not_Found;?>
+    <?php echo $Reset_pswd_Through_Email.$MailerError.$Email_Not_Found.$email_required;?>
       
      <div class="card_profile">
 
@@ -186,16 +196,16 @@ if(isset($_POST['submit_forgot_pswd']) & !empty($_POST)){
 
               <div class="screen__content">
                 <h1>Forgot&nbsp;&nbsp;&nbsp;<span style="color:white;">Password</span> </h1>
-                <form class="login" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" >
+                <form class="login" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                   <div class="login__field">
-                    <i class="login__icon fas fa-user"></i>
-                    <input type="email" class="login__input" placeholder="Email" name="Username">
+                    <i class="login__icon fas fa-envelope"></i>
+                    <input type="email" class="login__input" placeholder="Email" name="email">
                   </div>
                  
-                  <button class="button login__submit" type="submit">
-                    <i class="button__icon fas fa-envelope"></i>&nbsp;&nbsp;
+                  <button class="button login__submit" type="submit" name="submit_forgot_pswd">
+                    <i class="button__icon fas fa-cool"></i>&nbsp;&nbsp;
                     <span class="button__text">Send reset link</span>
-                    <i class="button__icon fas fa-chevron-right"></i>
+                    <i class="button__icon fas fa-paper-plane"></i>
                   </button>       
                 </form>
                 <!-- <div class="social-login">
