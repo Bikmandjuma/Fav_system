@@ -103,6 +103,14 @@ $users=new fac;
   font-weight: bold;
 }
 
+#ShowPswd1,#ShowPswd2,#ShowPswd3,#ShowPswdSlash1,#ShowPswdSlash2,#ShowPswdSlash3{
+    margin-top:10px;margin-left: -25px;
+}
+
+#ShowPswd1:hover,#ShowPswd2:hover,#ShowPswd3:hover,#ShowPswdSlash1:hover,#ShowPswdSlash2:hover,#ShowPswdSlash3:hover{
+    cursor: pointer;
+}
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -335,10 +343,10 @@ $users=new fac;
                                                         <span aria-hidden="true" style="font-size:25px;">&times;</span>
                                                       </button>
                                                   </div>';
-                            }elseif (strlen($new_password) < 8) {
+                            }elseif (strlen($new_password) <= 8) {
                                 $password_mustbe_greaterthan_8='
                                              <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                                                      New password must be greater than 8 characters !
+                                                      New password must be at least 8 characters !
                                                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                         <span aria-hidden="true" style="font-size:25px;">&times;</span>
                                                       </button>
@@ -434,9 +442,26 @@ $users=new fac;
                   <span class="btn-show-pass">
                     <i class="fa fa-eye"></i>
                   </span> -->
-                  <input type="password" name="current_password" placeholder="Current Password" class="form-control"><br>
-                  <input type="password" name="new_password" placeholder="New Password" class="form-control"><br>
-                  <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password"><br>
+                  <div class="d-flex">
+                    <input type="password" name="current_password" placeholder="Current Password" class="form-control" id="pswdid1">
+                    <i class="fas fa-eye-slash" id="ShowPswd1" onclick="ShowPswdFn1()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash1" onclick="ShowPswdFn11()" style="display:none;"></i>
+                  </div>
+                  <br>
+                  <div class="d-flex">
+                    <input type="password" name="new_password" placeholder="New Password" class="form-control" id="pswdid2"><br>
+                    <i class="fas fa-eye-slash" id="ShowPswd2" onclick="ShowPswdFn2()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash2" onclick="ShowPswdFn22()" style="display:none;"></i>
+
+                  </div>
+                  <br>
+                  <div class="d-flex">
+                    <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password" id="pswdid3">
+                    <i class="fas fa-eye-slash" id="ShowPswd3" onclick="ShowPswdFn3()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash3" onclick="ShowPswdFn33()" style="display:none;"></i>
+
+                  </div>
+                    <br>
                   <button class="btn btn-info" type="submit" name="submit_pswd"><i class="fa fa-save fa-fw"></i> &nbsp;Save change</button>
                 </form>
             </div>
@@ -471,37 +496,92 @@ $users=new fac;
   <!--End of wrapper content page-->
   </div>
 
-  <script type="text/javascript">
-    (function ($) {
-    "use strict";
-
-        /*==================================================================
-        [ Show pass ]*/
-        var showPass = 0;
-        $('.btn-show-pass').on('click', function(){
-            if(showPass == 0) {
-                $(this).next('input').attr('type','text');
-                $(this).find('i').removeClass('zmdi-eye');
-                $(this).find('i').addClass('zmdi-eye-off');
-                showPass = 1;
-            }
-            else {
-                $(this).next('input').attr('type','password');
-                $(this).find('i').addClass('zmdi-eye');
-                $(this).find('i').removeClass('zmdi-eye-off');
-                showPass = 0;
-            }
-            
-        });
-
-
-    })(jQuery);
-
+  <script>
+    
     function EditUsernamefn(){
       var defaultUsername=document.getElementById('defaultUsername');
       var formUsername=document.getElementById('formUsername');
       defaultUsername.style.display="none";
       formUsername.style.display="block";
+
+    }
+
+    function ShowPswdFn1(){
+      var x=document.getElementById('pswdid1');
+
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById('ShowPswdSlash1').style.display="block";
+        document.getElementById('ShowPswd1').style.display="none";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+    function ShowPswdFn11(){
+      var x=document.getElementById('pswdid1');
+
+      if (x.type === "text") {
+        x.type = "password";
+        document.getElementById('ShowPswdSlash1').style.display="none";
+        document.getElementById('ShowPswd1').style.display="block";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+
+    function ShowPswdFn2(){
+      var x=document.getElementById('pswdid2');
+
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById('ShowPswdSlash2').style.display="block";
+        document.getElementById('ShowPswd2').style.display="none";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+    function ShowPswdFn22(){
+      var x=document.getElementById('pswdid2');
+
+      if (x.type === "text") {
+        x.type = "password";
+        document.getElementById('ShowPswdSlash2').style.display="none";
+        document.getElementById('ShowPswd2').style.display="block";
+      }else{
+        x.type="text";
+      }
+
+    }
+
+    function ShowPswdFn3(){
+      var x=document.getElementById('pswdid3');
+
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById('ShowPswdSlash3').style.display="block";
+        document.getElementById('ShowPswd3').style.display="none";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+    function ShowPswdFn33(){
+      var x=document.getElementById('pswdid3');
+
+      if (x.type === "text") {
+        x.type = "password";
+        document.getElementById('ShowPswdSlash3').style.display="none";
+        document.getElementById('ShowPswd3').style.display="block";
+      }else{
+        x.type="text";
+      }
 
     }
   </script>

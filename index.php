@@ -97,6 +97,8 @@ function test_input($data){
   <script src="jquery.min.js"></script>
   <script src="jquery.js"></script>
 
+
+
 <!--===============================================================================================-->
 
 <style>
@@ -254,10 +256,13 @@ function test_input($data){
                   </div>
                   <div class="login__field">
                     <i class="login__icon fas fa-key"></i>
-                    <input type="password" class="login__input" placeholder="Password" name="Password">
-                    <!-- <span class="btn-show-pass">
+                    <input type="password" class="login__input" placeholder="Password" name="Password" id="passid">
+                    <span class="btn-show-pass" onclick="ShowPass()" id="ShowPswdId">
+                      <i class="fas fa-eye-slash"></i>
+                    </span>
+                    <span class="btn-show-pass" id="HidePswdId" onclick="HidePswd()" style="display: none;">
                       <i class="fas fa-eye"></i>
-                    </span> -->
+                    </span>
                   </div>
                   <button class="button login__submit" type="submit">
                     <i class="button__icon fas fa-lock-open"></i>&nbsp;&nbsp;
@@ -287,26 +292,50 @@ function test_input($data){
           </div>
 
           <script>
-              (function ($) {
-                  "use strict";
+              function ShowPass(){
+                var x=document.getElementById('passid');
+                if (x.type === "password") {
+                  x.type = "test";
+                  var show=document.getElementById('ShowPswdId');
+                  var hide=document.getElementById('HidePswdId');
 
-                  var showPass = 0;
-                  $('.btn-show-pass').on('click', function(){
-                      if(showPass == 0) {
-                          $(this).next('input').attr('type','text');
-                          $(this).find('i').removeClass('zmdi-eye');
-                          $(this).find('i').addClass('fas fa-eye');
-                          showPass = 1;
-                      }
-                      else {
-                          $(this).next('input').attr('type','password');
-                          $(this).find('i').addClass('fas fa-eye');
-                          $(this).find('i').removeClass('zmdi-eye');
-                          showPass = 0;
-                      }
-                      
-                  });
-              })(jQuery);
+                  show.style.display="none";
+                  hide.style.display="block"
+
+                  hide.style.marginTop="30px";
+                }else{
+                  x.type="password";
+                }
+
+              }
+
+              function HidePswd(){
+                var x=document.getElementById('passid');
+
+                if (x.type === "text") {
+                  x.type = "password";
+                  var show=document.getElementById('ShowPswdId');
+                  show.style.display="block"
+                  var hide=document.getElementById('HidePswdId');
+                  hide.style.display="none"
+
+                  show.style.marginTop="30px";
+                  hide.style.marginTop="30px";
+
+
+
+                }else{
+                  x.type="text";
+                }
+
+              }
+
+
+              //launch credentials modal
+              $(document).ready(function(){
+                  $("#Launch_modal").modal('show');
+              });
+
           </script>
 
 
