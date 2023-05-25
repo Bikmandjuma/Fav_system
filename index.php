@@ -234,7 +234,6 @@ function test_input($data){
 
       </div>
 
-
        <?php echo $incorectcredential;?>
        <div class="row">
           <div class="col-md-4"></div>
@@ -258,10 +257,10 @@ function test_input($data){
                     <i class="login__icon fas fa-key"></i>
                     <input type="password" class="login__input" placeholder="Password" name="Password" id="passid">
                     <span class="btn-show-pass" onclick="ShowPass()" id="ShowPswdId">
-                      <i class="fas fa-eye-slash"></i>
+                      <i class="fas fa-eye"></i>
                     </span>
                     <span class="btn-show-pass" id="HidePswdId" onclick="HidePswd()" style="display: none;">
-                      <i class="fas fa-eye"></i>
+                      <i class="fas fa-eye-slash"></i>
                     </span>
                   </div>
                   <button class="button login__submit" type="submit">

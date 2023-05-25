@@ -1,9 +1,9 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
+
 include "../Connect/connection.php";
 $fname=$_SESSION['firstname'];
 $lname=$_SESSION['lastname'];

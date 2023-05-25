@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2023 at 03:03 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: May 09, 2023 at 09:55 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -181,7 +181,28 @@ INSERT INTO `attendance` (`a_id`, `citizen_fk_id`, `attend_date`, `attend_time`,
 (112, 2, '2023-01-10', '11:05:08 am', '2023', '01'),
 (113, 1, '2023-01-10', '11:05:15 am', '2023', '01'),
 (114, 1, '2023-01-10', '05:16:01 pm', '2023', '01'),
-(115, 7, '2023-01-15', '09:26:52 pm', '2023', '01');
+(115, 7, '2023-01-15', '09:26:52 pm', '2023', '01'),
+(0, 0, '2023-04-11', '04:27:24 pm', '2023', '04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cell`
+--
+
+CREATE TABLE `cell` (
+  `cell_id` int(11) NOT NULL,
+  `sector_id` int(11) DEFAULT NULL,
+  `cell_name` varchar(100) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cell`
+--
+
+INSERT INTO `cell` (`cell_id`, `sector_id`, `cell_name`, `status`) VALUES
+(1, 1, 'Nyange', 1);
 
 -- --------------------------------------------------------
 
@@ -217,7 +238,28 @@ INSERT INTO `citizentb` (`c_id`, `card_id`, `firstname`, `middlename`, `lastname
 (4, '35B7A4BB', 'Husna', 'Djuma', 'Ramadhan', 'female', '0728020881', 'Northen', 'Musanze', 'Gakuba', 'Bereshi', 'Susa', '2004-12-31', '2022-10-11'),
 (5, '2345678FB', 'Mark', 'Lee', 'Zukerberg', 'male', '250734392541', 'Kigali', 'Basabo', 'Kacyiru', 'kimihurura', 'Ntovu', '1996-12-30', '2022-11-24'),
 (6, 'B34D0126', 'Bill ', 'Niyo', 'Gate', 'male', '+250785009000', 'Western', 'Rubavu', 'Mukamira', 'shyogwe', 'kibusumba', '1984-04-04', '2022-12-04'),
-(7, '20KIRABO', 'Kirabo', 'programmer', 'Phionah', 'female', '0784597218', 'Eastern', 'Nyagatare', 'Sector', 'cel', 'vil', '2013-09-15', '2023-01-15');
+(7, '20KIRABO', 'Kirabo', 'programmer', 'Phionah', 'female', '0784597218', 'Eastern', 'Nyagatare', 'Sector', 'cel', 'vil', '2013-09-15', '2023-01-15'),
+(0, '89H092DC', 'Steve', '', 'Job', 'male', '0728020887', '1', '1', '1', '1', '1', '2001-03-26', '2023-03-26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `district`
+--
+
+CREATE TABLE `district` (
+  `district_id` int(11) NOT NULL,
+  `province_id` int(11) DEFAULT NULL,
+  `district_name` varchar(100) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `district`
+--
+
+INSERT INTO `district` (`district_id`, `province_id`, `district_name`, `status`) VALUES
+(1, 1, 'Rusizi', 1);
 
 -- --------------------------------------------------------
 
@@ -237,8 +279,47 @@ CREATE TABLE `online_users` (
 --
 
 INSERT INTO `online_users` (`ou_id`, `status`, `period`, `fk_user_id`) VALUES
-(1, 'OFF', '2023-01-17 10:52:03', 1),
-(2, 'ON', '2023-01-17 10:52:14', 2);
+(1, 'OFF', '2023-04-29 23:26:34', 1),
+(2, 'OFF', '2023-05-09 19:38:03', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `province`
+--
+
+CREATE TABLE `province` (
+  `province_id` int(11) NOT NULL,
+  `province_name` varchar(100) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `province`
+--
+
+INSERT INTO `province` (`province_id`, `province_name`, `status`) VALUES
+(1, 'Western', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sector`
+--
+
+CREATE TABLE `sector` (
+  `sector_id` int(11) NOT NULL,
+  `district_id` int(11) DEFAULT NULL,
+  `sector_name` varchar(100) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sector`
+--
+
+INSERT INTO `sector` (`sector_id`, `district_id`, `sector_name`, `status`) VALUES
+(1, 1, 'Bugarama', 1);
 
 -- --------------------------------------------------------
 
@@ -316,7 +397,7 @@ CREATE TABLE `tbl_password_reset` (
 --
 
 CREATE TABLE `users` (
-  `u_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `u_id` int(11) NOT NULL,
   `firstname` varchar(100) DEFAULT NULL,
   `lastname` varchar(100) DEFAULT NULL,
   `gender` varchar(100) DEFAULT NULL,
@@ -327,7 +408,7 @@ CREATE TABLE `users` (
   `password` varchar(100) DEFAULT NULL,
   `exp_date` varchar(250) DEFAULT NULL,
   `reset_link_token` varchar(250) DEFAULT NULL,
-  `image` varchar(100) DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -335,61 +416,56 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `firstname`, `lastname`, `gender`, `phone`, `email`, `dob`, `username`, `password`, `exp_date`, `reset_link_token`, `image`) VALUES
-(1, 'Elon', 'Musk', 'male', '0785389000', '', '1972-06-04', 'elon@gmail.com', '31108a8706e7052557db9a508ad89aa7', NULL, NULL, '202301170250EVU0Es7XYAAbNf2.jpg'),
-(2, 'Bill ', 'Gate', 'male', '0728020881', 'bill@gmail.com', '1961-05-05', 'bill@gmail.com', '95dd405376481c3f77603be8ed96ae25', NULL, NULL, '202301170254321425318_680249360344312_3443105703562450081_n.jpg');
+(1, 'Bikman', 'Djuma', 'male', '0785389000', 'ntiruhungwab@gmail.com', '1972-06-04', 'elon@gmail.com', 'ecd00aa1acd325ba7575cb0f638b04a5', NULL, NULL, '202304300009person_5-min.jpg'),
+(2, 'Ntiruhungwa', 'Bikman', 'male', '0785389000', 'ntiruhungwab@gmail.com', '1993-12-20', 'bill@gmail.com', '95dd405376481c3f77603be8ed96ae25', NULL, NULL, '202305091702202303180911202208301011Bikman.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `village`
+--
+
+CREATE TABLE `village` (
+  `village_id` int(11) NOT NULL,
+  `cell_id` int(11) DEFAULT NULL,
+  `village_name` varchar(100) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `village`
+--
+
+INSERT INTO `village` (`village_id`, `cell_id`, `village_name`, `status`) VALUES
+(1, 1, 'Mubogora', 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indexes for table `cell`
 --
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `cell`
+  ADD PRIMARY KEY (`cell_id`);
 
 --
--- Indexes for table `attendance`
+-- Indexes for table `district`
 --
-ALTER TABLE `attendance`
-  ADD PRIMARY KEY (`a_id`),
-  ADD KEY `citizen_fk_id` (`citizen_fk_id`);
---
--- Indexes for table `citizentb`
---
-ALTER TABLE `citizentb`
-  ADD PRIMARY KEY (`c_id`);
+ALTER TABLE `district`
+  ADD PRIMARY KEY (`district_id`);
 
 --
--- Indexes for table `online_users`
+-- Indexes for table `province`
 --
-ALTER TABLE `online_users`
-  ADD PRIMARY KEY (`ou_id`),
-  ADD KEY `fk_user_id` (`fk_user_id`);
+ALTER TABLE `province`
+  ADD PRIMARY KEY (`province_id`);
 
 --
--- Indexes for table `site_name`
+-- Indexes for table `sector`
 --
-ALTER TABLE `site_name`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `system_name`
---
-ALTER TABLE `system_name`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbl_member`
---
-ALTER TABLE `tbl_member`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbl_password_reset`
---
-ALTER TABLE `tbl_password_reset`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`sector_id`);
 
 --
 -- Indexes for table `users`
@@ -398,66 +474,51 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`u_id`);
 
 --
+-- Indexes for table `village`
+--
+ALTER TABLE `village`
+  ADD PRIMARY KEY (`village_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT for table `cell`
 --
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `cell`
+  MODIFY `cell_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `attendance`
+-- AUTO_INCREMENT for table `district`
 --
-ALTER TABLE `attendance`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+ALTER TABLE `district`
+  MODIFY `district_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `citizentb`
+-- AUTO_INCREMENT for table `province`
 --
-ALTER TABLE `citizentb`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `province`
+  MODIFY `province_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `online_users`
+-- AUTO_INCREMENT for table `sector`
 --
-ALTER TABLE `online_users`
-  MODIFY `ou_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `tbl_member`
---
-ALTER TABLE `tbl_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_password_reset`
---
-ALTER TABLE `tbl_password_reset`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `sector`
+  MODIFY `sector_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `village`
 --
-
---
--- Constraints for table `attendance`
---
-ALTER TABLE `attendance`
-  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`citizen_fk_id`) REFERENCES `citizentb` (`c_id`);
-
---
--- Constraints for table `online_users`
---
-ALTER TABLE `online_users`
-  ADD CONSTRAINT `online_users_ibfk_1` FOREIGN KEY (`fk_user_id`) REFERENCES `users` (`u_id`);
+ALTER TABLE `village`
+  MODIFY `village_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -55,6 +55,11 @@ file_put_contents('UIDContainer.php',$Write);
     ::-webkit-scrollbar{
       display: none;
     }
+
+    #blink{
+      box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    }
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

@@ -18,8 +18,8 @@ $dob=$_SESSION['dob'];
 $uname=$_SESSION['username'];
 
 $users=new fac;
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
