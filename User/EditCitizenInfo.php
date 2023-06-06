@@ -215,7 +215,7 @@ while($row=mysqli_fetch_assoc($query)) {
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cog"></i>
+              <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Settings
                 <i class="right fas fa-angle-left"></i>

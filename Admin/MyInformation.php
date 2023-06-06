@@ -277,7 +277,7 @@ $users->register_user();
 
           <div class="row">
               <div class="col-md-6 text-center">
-                  <img src="../style/dist/img/<?php $users->Admin_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style="width:80px;height:80px;border-radius:50%;border:1px solid skyblue;">
+                  <img src="../style/dist/img/<?php $users->Admin_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style="width:100px;height:100px;border-radius:50%;border:1px solid skyblue;z-index: 1;display: relative;margin-top:5px; ">
               </div>
 
               <div class="col-sm-6">

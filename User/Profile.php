@@ -290,7 +290,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
 
           <li class="nav-item">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-cog"></i>
+              <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Settings
                 <i class="right fas fa-angle-left"></i>

@@ -305,7 +305,7 @@ $users->register_user();
                         <td>".$fname."</td>
                         <td>".$lname."</td>
                         <td>".$gender."</td>
-                              <td><a href='?id=".$row['u_id']."' onclick='getidfn()'><i class='fa fa-eye text-info'></i></a></td>
+                              <td><a href='#'><i class='fa fa-eye text-info' id=".$row['u_id']." onclick='useridfn()'></i></a></td>
                               <td><a href='#Edit'><i class='fa fa-edit text-primary'></i></a></td>
                               </tr>
                         ";
@@ -321,11 +321,7 @@ $users->register_user();
             </tbody>
             
           </table>
-          <script>
-            function getidfn(){
-                alert('this element is clicked !');
-            }
-          </script>
+         
 
             <!--Add new task model-->
             <div class="modal fade" id="Add_new_user_Modal" role="dialog">
@@ -415,24 +411,20 @@ $users->register_user();
   </div>
 
   <script>
-      function useridfn(str){
-        
-          if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-          } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-          }
-          xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              document.getElementById("show_user_data").innerHTML = this.responseText;
+
+        document.addEventListener('click',e =>{
+        var elementId=e.target.id;
+        <?php 
+          $array_values = array('name' => 'Bikman' , 'Age' => '29' );
+        ?>
+            if(elementId !== ''){
+              var result = JSON.stringify("<?php echo json_encode($array_values)?>");
+                alert(result);
+            }else{
+                alert("not user id found !");
             }
-          };
-          xmlhttp.open("GET","SystemUsers.php?id="+str,true);
-          xmlhttp.send();
-    
-      }
+        });
+
   </script>
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>

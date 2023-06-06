@@ -4,7 +4,7 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h5>Logout your account</h5>
+                  <h5><b>Logout your account</b> &nbsp;&nbsp;<i class="fa fa-lock"></i> </h5>
                 </div>
                 <div class="modal-body">
                   <p><i class="fa fa-question-circle"></i>Are you sure , you want to log-off ? <br /></p>

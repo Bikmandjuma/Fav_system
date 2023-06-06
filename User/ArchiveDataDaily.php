@@ -83,7 +83,7 @@ if (isset($_POST['SendMessage'])) {
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Citizen attend today</title>
+  <title>Citizens attendend on <?php echo $date;?></title>
   <link rel="card icon" href="../style/dist/img/smartcard.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -293,7 +293,7 @@ if (isset($_POST['SendMessage'])) {
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cog"></i>
+              <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Settings
                 <i class="right fas fa-angle-left"></i>

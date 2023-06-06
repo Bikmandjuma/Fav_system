@@ -239,7 +239,7 @@ file_put_contents('UIDContainer.php',$Write);
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cog"></i>
+              <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Settings
                 <i class="right fas fa-angle-left"></i>
@@ -331,6 +331,25 @@ file_put_contents('UIDContainer.php',$Write);
             </div>
           </div>
       <!--end of logout modal-->
+
+      <script>
+        const url = 'https://rwanda.p.rapidapi.com/provinces';
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+            'X-RapidAPI-Host': 'rwanda.p.rapidapi.com'
+          }
+        };
+
+        try {
+          const response = await fetch(url, options);
+          const result = await response.text();
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+      </script>
 
   <!--End of wrapper content page-->
   </div>

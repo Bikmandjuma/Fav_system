@@ -1,3 +1,6 @@
+XMLHttpRequest
+==============
+https://www.w3schools.com/js/tryit.asp?filename=tryjs_ajax_database
 /*
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   # RFID MFRC522 / RC522 Library : https://github.com/miguelbalboa/rfid #
