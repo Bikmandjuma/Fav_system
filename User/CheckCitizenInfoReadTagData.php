@@ -98,6 +98,7 @@ file_put_contents('UIDContainer.php',$Write);
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
 <script src="../js/bootstrap.js"></script>
 <body class="w3-light-grey">
+
 <!-- Sidebar/menu -->
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -133,112 +134,136 @@ file_put_contents('UIDContainer.php',$Write);
             <div class="card-body">
               <div class="list-group">
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Card id</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $card_id;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
-
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Firstname  </h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $fname;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
-
-                <div class="list-group-item">
-                  <div class="row">
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Lastname  </h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $lname;?></h2></div>
-                    <div class="2"></div>
+                <div id="page1">
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Card id</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $card_id;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
                   </div>
-                </div>
 
-                <div class="list-group-item">
-                  <div class="row">
-                    <div class="2"></div>
-                    <div class="col-md-4 "><h2>Gender  </h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $gender;?></h2></div>
-                    <div class="2"></div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Firstname  </h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $fname;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
                   </div>
+
+                  <div class="list-group-item">
+                    <div class="row">
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Lastname  </h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $lname;?></h2></div>
+                      <div class="2"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item">
+                    <div class="row">
+                      <div class="2"></div>
+                      <div class="col-md-4 "><h2>Gender  </h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $gender;?></h2></div>
+                      <div class="2"></div>
+                    </div>
+                  </div>
+
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Phone  </h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $phone;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
+
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Birth date</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $dob;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
+
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="col-md-12 text-center">
+                        <span id="ShowMore" onclick="document.getElementById('page1').style.display='none';document.getElementById('page2').style.display='block';" class="btn btn-primary" >See more &nbsp;&nbsp;<i class="right fas fa-angle-down"></i></span>
+                      </div>
+                    </div>  
+                  </div>
+
                 </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Phone  </h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $phone;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                <div id="page2" style="display:none;">
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Birth date</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $dob;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Province  </h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $province;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Province  </h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $province;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>District</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $district;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>District</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $district;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Sector</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $sector;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Sector</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $sector;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Cellule</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $cellule;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Cellule</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $cellule;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Village</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $village;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Village</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $village;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
-                </div>
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="2"></div>
+                      <div class="col-md-4"><h2>Joined date</h2></div>
+                      <div class="col-md-4 text-primary"><h2><?php echo $registered_date;?></h2></div>
+                      <div class="2"></div>
+                    </div>  
+                  </div>
 
-                <div class="list-group-item">
-                  <div class="row"> 
-                    <div class="2"></div>
-                    <div class="col-md-4"><h2>Joined date</h2></div>
-                    <div class="col-md-4 text-primary"><h2><?php echo $registered_date;?></h2></div>
-                    <div class="2"></div>
-                  </div>  
+                  <div class="list-group-item">
+                    <div class="row"> 
+                      <div class="col-md-12 text-center">
+                        <button id="SeeLess" onclick="document.getElementById('page1').style.display='block';document.getElementById('page2').style.display='none';" class="btn btn-primary" >See less &nbsp;&nbsp;<i class="right fas fa-angle-up"></i> </button>
+                      </div>
+                    </div>  
+                  </div>
+
+
                 </div>
 
               </div>

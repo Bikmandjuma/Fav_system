@@ -32,21 +32,24 @@ $MessageSent=$MessageNotSent=null;
 if (isset($_POST['SendMessage'])) {
     $sms=$_POST['msg'];
         
-    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.attend_date=".$date." group by citizen_fk_id";
+    $month=$_REQUEST['month'];
+    $year=$_REQUEST['year'];
+    $date=$_REQUEST['dates'];
+
+    $sql="SELECT MIN(a_id) as a_id,card_id,firstname,lastname,gender,phone,c_id,citizen_fk_id,attend_date,attend_time from attendance left join citizentb on citizentb.c_id=attendance.citizen_fk_id where attendance.year='$year' and attendance.month='$month' and attendance.attend_date='$date' group by citizen_fk_id";
 
     $query=mysqli_query($con,$sql);
     while ($row=mysqli_fetch_assoc($query)) {
         $fnames=$row['firstname'];
         $lnames=$row['lastname'];
         $phone=$row['phone'];
-        $attend=$row['attend_time'];
 
         //code of sms
         $senderName='+250785389000';
         $data=array(
                     "sender"=>$senderName,
                     "recipients"=>$phone,
-                    "message"=>"Muraho ".$fnames." ".$lnames." ubu butumwa buvuye sitename nawe wigeze ugera sitename kuriyi tariki ".$attend." , ".$sms,
+                    "message"=>"Hello ".$fnames." ".$lnames." , ".$sms,
               );
 
           $url="https://www.intouchsms.co.rw/api/sendsms/.json";
@@ -64,6 +67,7 @@ if (isset($_POST['SendMessage'])) {
           $result=curl_exec($ch);
           $httpcode=curl_getinfo($ch,CURLINFO_HTTP_CODE);
           curl_close($ch);
+
     }
 
       if ($result == true) {
@@ -337,6 +341,7 @@ if (isset($_POST['SendMessage'])) {
                 <div class="card">
                   <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->count_citizen_attended_daily();?></span> Attendance <?php echo $today_name;?> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended on <?php echo $date;?> !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-envelope"></i>&nbsp;Compose</b></button></span></div>
                   <div class="card-body text-center" style="overflow: auto">
+        
                     <table class="table table-striped table-bordered">
                       <thead>
                         <tr class="bg-info">
@@ -379,9 +384,9 @@ if (isset($_POST['SendMessage'])) {
                      
                      <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus required></textarea><br>
                    
-                     <button type="submit" class="btn btn-primary float-left" name="submit">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
+                     <button type="submit" class="btn btn-primary float-left" name="SendMessage">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
 
-                     <button type="reset" class="btn btn-danger float-right" name="SendMessage" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
+                     <button type="reset" class="btn btn-danger float-right" class="close" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;Close</button>
 
                    </form>
                  </div>

@@ -75,7 +75,7 @@ $results = mysqli_query($con, $sqlQuery);
             }
         ?>
         <tr>
-            <td><?php echo $count++;?></td>
+            <td><?php echo $data['c_id'];?></td>
             <td><?php echo $data['card_id'] ?></td>
             <td><?php echo $data['firstname'] ?></td>
             <td><?php echo $data['middlename'] ?></td>

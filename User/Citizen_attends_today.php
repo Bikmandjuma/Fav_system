@@ -38,7 +38,7 @@ if (isset($_POST['SendMessage'])) {
         $data=array(
                     "sender"=>$senderName,
                     "recipients"=>$phone,
-                    "message"=>"Muraho ".$fnames." ".$lnames." ububutumwa buvuye ".$sms,
+                    "message"=>"Hello ".$fnames." ".$lnames." , ".$sms,
               );
 
           $url="https://www.intouchsms.co.rw/api/sendsms/.json";
@@ -59,9 +59,22 @@ if (isset($_POST['SendMessage'])) {
     }
 
       if ($result == true) {
-          $MessageSent='<script type="text/javascript">toastr.success("Message sent successfully !")</script>';
+          $MessageSent='
+              <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+                    Message sent successfully ! 
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                  </button>
+              </div>';
       }else{
-          $MessageNotSent='<script type="text/javascript">toastr.error("Message not sent ,check your network and try again !")</script>';
+          $MessageNotSent='
+               <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                   Message not sent ,check your network connection and try again !
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                  </button>
+              </div>';
+
       }
 
 }
@@ -327,7 +340,22 @@ if (isset($_POST['SendMessage'])) {
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <?php echo $MessageSent.$MessageNotSent;?>
+                <div class="row">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4">
+                    <?php echo $MessageSent;?>
+                  </div>
+                  <div class="col-md-4"></div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    <?php echo $MessageNotSent;?>
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+
                 <div class="card">
                   <div class="card-header text-center bg-info"><span style="font-size:25px;"><span class="badge badge-light float-left" ><?php $users->all_citizen_attend_today_nums();?></span> Citizens attends <b>today</b> !<button class="btn btn-light float-right" id="composer_msg_btn" title="Send a warning message to anyone who attended today !" data-toggle="modal" data-target="#msg_Modal"><i class="fa fa-paper-plane"></i>&nbsp;Compose a warning message</button> </span></div>
                   <div class="card-body text-center" style="overflow: auto">
@@ -367,11 +395,8 @@ if (isset($_POST['SendMessage'])) {
                  </div>
                  <div class="modal-body" style="overflow:auto;">
                    <form class="form-group" method="POST">
-<!--                     <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
-                     <input type="text" name="SiteName" placeholder="Enter firstname" class="form-control" required disabled value=""><br> -->
                      <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
-                     
-                     <textarea name="msg" rows="3" placeholder="Muraho niyonkuru elyse ububutumwa buvuye nyabugogo ...." class="form-control" autofocus required></textarea><br>
+                     <textarea name="msg" rows="3" placeholder="Typing message ......." class="form-control" autofocus required></textarea><br>
                    
                      <button type="submit" class="btn btn-primary float-left" name="SendMessage">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
 
