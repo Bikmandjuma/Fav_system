@@ -6,9 +6,14 @@ if (!isset($_SESSION['email'])) {
 require '../Connect/connection.php';
 require '../phpcode/codes.php';
 
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
+$auth_user_id=$_SESSION['id'];
+
+$sql_user_info="SELECT * FROM admin where id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+  $fname=$row_user_info['firstname'];
+  $lname=$row_user_info['lastname'];
+}
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
@@ -88,6 +93,7 @@ $users=new fac;
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+  <?php include_once 'LogoutModel.php';?>
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -131,7 +137,7 @@ $users=new fac;
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
 
     </ul>

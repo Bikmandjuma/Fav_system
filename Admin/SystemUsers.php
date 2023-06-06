@@ -3,10 +3,16 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
-include "../Connect/connection.php";
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
+include_once '..\Connect\connection.php';
+$auth_user_id=$_SESSION['id'];
+
+$sql_user_info="SELECT * FROM admin where id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+  $fname=$row_user_info['firstname'];
+  $lname=$row_user_info['lastname'];
+}
+
 $ErrorToAddUser=$UserAddedWell=null;
 require '..\phpcode\codes.php';
 
@@ -60,6 +66,7 @@ $users->register_user();
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="background-color:#eee;">
 <div class="wrapper">
+  <?php include_once 'LogoutModel.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -102,7 +109,7 @@ $users->register_user();
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
 
     </ul>
@@ -298,8 +305,8 @@ $users->register_user();
                         <td>".$fname."</td>
                         <td>".$lname."</td>
                         <td>".$gender."</td>
-                              <td><a href='?id=".$row['u_id']."' ><i class='fa fa-eye text-info'></i></a></td>
-                              <td><a href='#Edit' ><i class='fa fa-edit text-success'></i></a></td>
+                              <td><a href='?id=".$row['u_id']."' onclick='getidfn()'><i class='fa fa-eye text-info'></i></a></td>
+                              <td><a href='#Edit'><i class='fa fa-edit text-primary'></i></a></td>
                               </tr>
                         ";
 
@@ -314,6 +321,11 @@ $users->register_user();
             </tbody>
             
           </table>
+          <script>
+            function getidfn(){
+                alert('this element is clicked !');
+            }
+          </script>
 
             <!--Add new task model-->
             <div class="modal fade" id="Add_new_user_Modal" role="dialog">

@@ -946,7 +946,7 @@ class fac{
 		$user_id=$_SESSION['id'];
 		$result=mysqli_query($con,"SELECT * FROM admin where id='$user_id'");
 		while ($row=mysqli_fetch_assoc($result)) {
-			echo $image=$row['image'];
+			echo $row['image'];
 		}
 	}
 

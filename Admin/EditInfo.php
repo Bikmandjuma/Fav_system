@@ -54,6 +54,8 @@ $users->register_user();
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="background-color:#eee;">
+  <?php include_once 'LogoutModel.php';?>
+  
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">

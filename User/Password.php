@@ -16,7 +16,6 @@ $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
 file_put_contents('UIDContainer.php',$Write);
 
 $users=new fac;
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -444,21 +443,21 @@ $users=new fac;
                   </span> -->
                   <div class="d-flex">
                     <input type="password" name="current_password" placeholder="Current Password" class="form-control" id="pswdid1">
-                    <i class="fas fa-eye" id="ShowPswd1" onclick="ShowPswdFn1()"></i>
-                    <i class="fas fa-eye-slash" id="ShowPswdSlash1" onclick="ShowPswdFn11()" style="display:none;"></i>
+                    <i class="fas fa-eye-slash" id="ShowPswd1" onclick="ShowPswdFn1()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash1" onclick="ShowPswdFn11()" style="display:none;"></i>
                   </div>
                   <br>
                   <div class="d-flex">
                     <input type="password" name="new_password" placeholder="New Password" class="form-control" id="pswdid2"><br>
-                    <i class="fas fa-eye" id="ShowPswd2" onclick="ShowPswdFn2()"></i>
-                    <i class="fas fa-eye-slash" id="ShowPswdSlash2" onclick="ShowPswdFn22()" style="display:none;"></i>
+                    <i class="fas fa-eye-slash" id="ShowPswd2" onclick="ShowPswdFn2()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash2" onclick="ShowPswdFn22()" style="display:none;"></i>
 
                   </div>
                   <br>
                   <div class="d-flex">
                     <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password" id="pswdid3">
-                    <i class="fas fa-eye" id="ShowPswd3" onclick="ShowPswdFn3()"></i>
-                    <i class="fas fa-eye-slash" id="ShowPswdSlash3" onclick="ShowPswdFn33()" style="display:none;"></i>
+                    <i class="fas fa-eye-slash" id="ShowPswd3" onclick="ShowPswdFn3()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash3" onclick="ShowPswdFn33()" style="display:none;"></i>
 
                   </div>
                     <br>

@@ -4,10 +4,15 @@ if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
 
-include "../Connect/connection.php";
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
+include_once '..\Connect\connection.php';
+$auth_user_id=$_SESSION['id'];
+
+$sql_user_info="SELECT * FROM admin where id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+  $fname=$row_user_info['firstname'];
+  $lname=$row_user_info['lastname'];
+}
 
 require '..\phpcode\codes.php';
 $users=new fac;
@@ -48,6 +53,7 @@ $users->register_Sitename();
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="background-color:#eee;">
 <div class="wrapper">
+  <?php include_once 'LogoutModel.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -90,7 +96,7 @@ $users->register_Sitename();
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
 
     </ul>

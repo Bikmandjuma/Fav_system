@@ -7,15 +7,22 @@ if (!isset($_SESSION['email'])) {
 require '../Connect/connection.php';
 require '../phpcode/codes.php';
 
-$user_id=$_SESSION['u_id'];
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
-$phone=$_SESSION['phone'];
-$email=$_SESSION['email'];
-$gender=$_SESSION['gender'];
-$dob=$_SESSION['dob'];
-$uname=$_SESSION['username'];
+$auth_user_id=$_SESSION['u_id'];
+
+$sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+    $user_id=$row_user_info['u_id'];
+    $fname=$row_user_info['firstname'];
+    $lname=$row_user_info['lastname'];
+    $user_img=$row_user_info['image'];
+    $phone=$row_user_info['phone'];
+    $email=$row_user_info['email'];
+    $gender=$row_user_info['gender'];
+    $dob=$row_user_info['dob'];
+    $uname=$row_user_info['username'];
+}
+
 
 $users=new fac;
 ?>
@@ -263,7 +270,7 @@ $users=new fac;
 
               <div class="row">
                   <div class="col-md-6 text-center">
-                      <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style="width:80px;height:80px;border-radius:50%;border:1px solid skyblue;">
+                      <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>" class="img-circle elevation-2" alt="User Image" style="width:100px;height:100px;border-radius:50%;border:1px solid skyblue;z-index: 1;display: relative;margin-top:5px; ">
 
                   </div>
 
@@ -306,7 +313,19 @@ $users=new fac;
                 </div>
 
                 <div class="col-md-6">
-                  <span id="my_data"><p><b>Birth date :&nbsp;</b></p><p class="text-info"><b><?php echo $dob;?></b></p></span>
+                  <span id="my_data"><p><b>Birth date :&nbsp;</b></p><p class="text-info"><b><?php echo $dob;?></b> </p></span>
+                </div>
+              </div>
+
+               <hr>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <span id="my_data"><p><b>Username :&nbsp;</b></p><p class="text-info"><b><?php echo $uname;?></b>&nbsp;&nbsp;<a href="password.php"><i class="fa fa-pen"></i></a></p></span>
+                </div>
+
+                <div class="col-md-6">
+                  <span id="my_data"><p><b>Role :&nbsp;</b></p><p class="text-info"><b>Manager</b></p></span>
                 </div>
               </div>
 

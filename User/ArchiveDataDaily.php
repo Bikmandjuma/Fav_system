@@ -221,7 +221,7 @@ if (isset($_POST['SendMessage'])) {
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Citizen
@@ -268,7 +268,7 @@ if (isset($_POST['SendMessage'])) {
           </li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-folder"></i>
               <p>
                 Archive

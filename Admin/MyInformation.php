@@ -3,14 +3,24 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
+
+include_once '..\Connect\connection.php';
+
 $admin_id=$_SESSION['id'];
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
-$phone=$_SESSION['phone'];
-$email=$_SESSION['email'];
-$gender=$_SESSION['gender'];
-$dob=$_SESSION['dob'];
+
+$sql_user_info="SELECT * FROM admin where id=".$admin_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+  $fname=$row_user_info['firstname'];
+  $lname=$row_user_info['lastname'];
+  $user_img=$row_user_info['image'];
+  $phone=$row_user_info['phone'];
+  $email=$row_user_info['email'];
+  $gender=$row_user_info['gender'];
+  $dob=$row_user_info['dob'];
+  $uname=$row_user_info['username'];
+}
+
 
 require '..\phpcode\codes.php';
 $users=new fac;
@@ -54,6 +64,7 @@ $users->register_user();
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="background-color:#eee;">
 <div class="wrapper">
+  <?php include_once 'LogoutModel.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -96,7 +107,7 @@ $users->register_user();
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
 
     </ul>
@@ -261,7 +272,7 @@ $users->register_user();
       <div class="col-md-8">
 
       <div class="card">
-        <div class="card-header text-center bg-info"><i class="fa fa-address-card"></i>&nbsp;My information <a href="EditInfo.php?id=<?php echo $admin_id;?>&fname=<?php echo $fname;?>&lname=<?php echo $lname;?>&phone=<?php echo $phone;?>&email=<?php echo $email;?>&gender=<?php echo $gender;?>" class="float-left"><button class="btn btn-light"><i class="fa fa-edit"></i>&nbsp;Edit</button></a></div>
+        <div class="card-header text-center bg-info"><i class="fa fa-address-card"></i>&nbsp;My information <button class="btn btn-light float-left" data-toggle="modal" data-target="#EditInfoModal"><i class="fa fa-edit"></i>&nbsp;Edit</button></div>
         <div class="card-body" style="overflow: auto;">
 
           <div class="row">
@@ -310,6 +321,18 @@ $users->register_user();
               <span id="my_data"><p><b>Birth date :&nbsp;</b></p><p class="text-info"><b><?php echo $dob;?></b></p></span>
             </div>
           </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-md-6">
+              <span id="my_data"><p><b>Username :&nbsp;</b></p><p class="text-info"><b><?php echo $uname;?></b></p>&nbsp;&nbsp;<a href="password.php" style="color:steelblue;"><i class="fa fa-edit"></i></a></span>
+            </div>
+
+            <div class="col-md-6">
+              <span id="my_data"><p><b>Role :&nbsp;</b></p><p class="text-info"><b>Admin</b></p></span>
+            </div>
+          </div>
         
         </div>
       </div>
@@ -318,6 +341,75 @@ $users->register_user();
     </div>
     <div class="col-md-2"></div>
   </div>
+
+   <!--start of edit modal -->
+          <div class="modal" id="EditInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4><u>Edit information&nbsp;<i class="fa fa-edit"></i></u></h4>
+                </div>
+                <div class="modal-body">
+                  <div class="actionsBtns">
+                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                        <div class="row">
+                          <div class="col-md-6">
+
+                            <label>Firstname</label>
+                            <input type="text" name="fname" value="<?php echo $fname;?>" class="form-control" required>
+
+                            <label>Lastname</label>
+                            <input type="text" name="lname" value="<?php echo $lname;?>" class="form-control" required>
+
+                            <label>Gender</label>
+                            <select name="gender" class="form-control">
+                              <?php
+                                if ($gender == 'male') {
+                                  ?>
+                                      <option value='male' selected>Male</option>
+                                      <option value='female'>Female</option>
+                                  <?php
+                                }else{
+                                  ?>
+                                      <option value='female' selected>Female</option>
+                                      <option value='male'>Male</option>
+                                  <?php
+                                }
+                              ?>
+                            </select>
+
+                          </div>
+                          <div class="col-md-6">
+
+                            <label>Phone</label>
+                            <input type="text" name="phone" value="<?php echo $phone;?>" class="form-control" required>
+                                
+                            <label>Email</label>
+                            <input type="text" name="email" value="<?php echo $email;?>" class="form-control" required>
+
+                            <label>Birth date</label>
+                            <input type="date" name="dob" value="<?php echo $dob;?>" class="form-control" required>
+                            
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <button style="margin-top:6px;" class="btn btn-primary" type="submit" name="edit_info"><i class="fa fa-save"></i>&nbsp;&nbsp;Save change</button>
+                          </div>
+                          <div class="col-md-4"></div>
+                        </div>
+
+                      </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!--end of edit modal-->
 
   <!--end of wrapper contents page-->
   </div>

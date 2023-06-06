@@ -3,9 +3,18 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
-$user_img=$_SESSION['image'];
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
+
+include_once '..\Connect\connection.php';
+$auth_user_id=$_SESSION['id'];
+
+$sql_user_info="SELECT * FROM admin where id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+  $fname=$row_user_info['firstname'];
+  $lname=$row_user_info['lastname'];
+}
+
+$current_usernames=$_SESSION['username'];
 
 require '..\phpcode\codes.php';
 $users=new fac;
@@ -37,6 +46,9 @@ $users=new fac;
   <link rel="stylesheet" href="../style/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../style/plugins/summernote/summernote-bs4.min.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
   <style type="text/css">
     #card{
       background-repeat: no-repeat;
@@ -44,10 +56,23 @@ $users=new fac;
    #my_data p{
         display: inline-block;
     }
+
+    #defaultUsername p{
+      font-weight: bold;
+    }
+
+    #ShowPswd1,#ShowPswd2,#ShowPswd3,#ShowPswdSlash1,#ShowPswdSlash2,#ShowPswdSlash3{
+        margin-top:10px;margin-left: -25px;
+    }
+
+    #ShowPswd1:hover,#ShowPswd2:hover,#ShowPswd3:hover,#ShowPswdSlash1:hover,#ShowPswdSlash2:hover,#ShowPswdSlash3:hover,#editUsername:hover{
+        cursor: pointer;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="background-color:#eee;">
 <div class="wrapper">
+  <?php include_once 'LogoutModel.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -90,7 +115,7 @@ $users=new fac;
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" onclick="return confirm('Do u want to logout your account ?');">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="../Logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </li>
 
     </ul>
@@ -251,7 +276,7 @@ $users=new fac;
       <?php 
           require '../Connect/connection.php';
 
-            $all_fields_required=$new_password=$confirm_new_password=$password_required=$current_password_incorrect=$password_mustbe_greaterthan_8=$new_password_do_not_match=$Password_changed_well=$user_new_pswd=null;
+            $all_fields_required=$new_password=$confirm_new_password=$password_required=$current_password_incorrect=$password_mustbe_greaterthan_8=$new_password_do_not_match=$Password_changed_well=$user_new_pswd=$c_current_password=null;
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
               if (isset($_POST['submit_pswd'])) {
@@ -270,9 +295,11 @@ $users=new fac;
                     if (md5($current_password) != $user_password) {
                         $current_password_incorrect="<span style='color:red;'>* Incorrect Current password *</span>";
                     }elseif (strlen($new_password) < 8) {
-                        $password_mustbe_greaterthan_8="<span style='color:red;'>Password must be greater than 8 character</span>";
+                        $password_mustbe_greaterthan_8="<span style='color:red;'>New password must be greater than 8 characters !</span>";
+                        $c_current_password=$current_password;
                     }elseif (md5($new_password) != md5($confirm_new_password)) {
                         $new_password_do_not_match="<span style='color:red;'>New password do not match !</span>";
+                        $c_current_password=$current_password;
 
                     }else{ 
                         $user_new_pswd=md5($new_password);
@@ -301,43 +328,199 @@ $users=new fac;
 
             }
             function test_input($data){
-            $data=trim($data);
-            $data=stripslashes($data);
-            $data=htmlspecialchars($data);
-            return $data;
+              $data=trim($data);
+              $data=stripslashes($data);
+              $data=htmlspecialchars($data);
+              return $data;
+            }
+
+              $Username_changed=$username_data=$Username_not_changed=null;
+              $admin_id=$_SESSION['id'];
+              
+              if (isset($_POST['SubmitUsernameChanges'])) {
+                $username=$_POST['username'];
+                $query=mysqli_query($con,"UPDATE admin SET username='$username' where id='$admin_id' ");
+
+                // $current_username=mysqli_query($con,"SELECT * FROM admin WHERE id='$admin_id' ");
+                // while ($row_uname=mysqli_fetch_assoc($current_username)) {
+                //   $current_uname=$row_uname['username'];
+                // }
+
+                if ($current_usernames === $username) {
+
+                    $Username_not_changed='<div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+                        Username not changed still the some !
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true" style="font-size:25px;">&times;</span>
+                        </button>
+                    </div>';
+
+                }else{
+                  $Username_changed='<script>toastr.info("Username changed well !")</script>';
+                }
+
+              }
+
+              //select username
+              $query_username=mysqli_query($con,"SELECT username from admin where id='$admin_id' ");
+              while ($row=mysqli_fetch_assoc($query_username)) {
+                $username_data=$row['username'];
               }
 
           ?>
       <div class="row">
-        <div class="col-md-4"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4 text-center">
+            <?php echo $Username_changed.$Username_not_changed;?>
+            <span class="card">
+              <div class="card-header bg-light"><i class="fas fa-user"></i> Modify username</div>
+              <div class="card-body" id="defaultUsername"><p><?php echo $username_data;?> <i class="fas fa-edit float-right text-primary" id="editUsername" onclick="EditUsernamefn()"></i></p> </div>
+              <div class="card-body" id="formUsername" style="display: none;">
+                <form class="d-flex" method="POST">
+                  <input type="email" class="form-control" name="username" required value="<?php echo $username_data;?>">&nbsp;
+                  <button class="btn btn-info" type="submit" name="SubmitUsernameChanges"><i class="fas fa-save"></i></button>
+                </form>
+              </div>
+
+            </span>
+          </div>
+          <div class="col-md-1"></div>
         <div class="col-md-4">
+        <?php echo $Password_changed_well;?>
         <div class="card">
-          <?php echo $Password_changed_well;?>
+          
           <div class="card-header text-center bg-info"><i class="fa fa-edit"></i>&nbsp;Modify password</div>
-          <div class="card-body" style="overflow: auto;">
-             <form class="form-group" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+          <div class="card-body text-center" style="overflow: auto;">
 
-                <label><?php echo $all_fields_required;?></label>
-                <label><?php echo $current_password_incorrect;?></label>
+                <label><?php echo $all_fields_required.$current_password_incorrect.$password_mustbe_greaterthan_8.$new_password_do_not_match;?></label>
+            
+            <form class="form-group" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                  <br><!-- 
+                  <span class="btn-show-pass">
+                    <i class="fa fa-eye"></i>
+                  </span> -->
+                  <div class="d-flex">
+                    <input type="password" name="current_password" placeholder="Current Password" class="form-control" id="pswdid1" value="<?php echo $c_current_password;?>">
+                    <i class="fas fa-eye-slash" id="ShowPswd1" onclick="ShowPswdFn1()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash1" onclick="ShowPswdFn11()" style="display:none;"></i>
+                  </div>
+                  <br>
+                  <div class="d-flex">
+                    <input type="password" name="new_password" placeholder="New Password" class="form-control" id="pswdid2"><br>
+                    <i class="fas fa-eye-slash" id="ShowPswd2" onclick="ShowPswdFn2()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash2" onclick="ShowPswdFn22()" style="display:none;"></i>
 
-                <br>
-                <input type="password" name="current_password" placeholder="Current Password" class="form-control" autofocus>
-                <label><?php echo $new_password_do_not_match;?></label>
-                <label><?php echo $password_mustbe_greaterthan_8;?></label>
-                <input type="password" name="new_password" placeholder="New Password" class="form-control"><br>
-                <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password"><br>
-                <button class="btn btn-info" type="submit" name="submit_pswd"><i class="fa fa-save fa-fw"></i> &nbsp;Save the change</button>
-              </form>
+                  </div>
+                  <br>
+                  <div class="d-flex">
+                    <input type="password" name="confirm_new_password" class="form-control" placeholder="confirm New Password" id="pswdid3">
+                    <i class="fas fa-eye-slash" id="ShowPswd3" onclick="ShowPswdFn3()"></i>
+                    <i class="fas fa-eye" id="ShowPswdSlash3" onclick="ShowPswdFn33()" style="display:none;"></i>
+
+                  </div>
+                    <br>
+                  <button class="btn btn-info" type="submit" name="submit_pswd"><i class="fa fa-save fa-fw"></i> &nbsp;Save change</button>
+                </form>
+
           </div>
         </div>
         
         <!--end of card-->
       </div>
-    <div class="col-md-4"></div> 
+    <div class="col-md-2"></div> 
     </div>
 
   <!--end of wrapper content page-->
-  </div>    
+  </div> 
+
+  <script>
+    function EditUsernamefn(){
+      var defaultUsername=document.getElementById('defaultUsername');
+      var formUsername=document.getElementById('formUsername');
+      defaultUsername.style.display="none";
+      formUsername.style.display="block";
+
+    }
+
+    function ShowPswdFn1(){
+      var x=document.getElementById('pswdid1');
+
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById('ShowPswdSlash1').style.display="block";
+        document.getElementById('ShowPswd1').style.display="none";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+    function ShowPswdFn11(){
+      var x=document.getElementById('pswdid1');
+
+      if (x.type === "text") {
+        x.type = "password";
+        document.getElementById('ShowPswdSlash1').style.display="none";
+        document.getElementById('ShowPswd1').style.display="block";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+
+    function ShowPswdFn2(){
+      var x=document.getElementById('pswdid2');
+
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById('ShowPswdSlash2').style.display="block";
+        document.getElementById('ShowPswd2').style.display="none";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+    function ShowPswdFn22(){
+      var x=document.getElementById('pswdid2');
+
+      if (x.type === "text") {
+        x.type = "password";
+        document.getElementById('ShowPswdSlash2').style.display="none";
+        document.getElementById('ShowPswd2').style.display="block";
+      }else{
+        x.type="text";
+      }
+
+    }
+
+    function ShowPswdFn3(){
+      var x=document.getElementById('pswdid3');
+
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById('ShowPswdSlash3').style.display="block";
+        document.getElementById('ShowPswd3').style.display="none";
+      }else{
+        x.type="password";
+      }
+
+    }
+
+    function ShowPswdFn33(){
+      var x=document.getElementById('pswdid3');
+
+      if (x.type === "text") {
+        x.type = "password";
+        document.getElementById('ShowPswdSlash3').style.display="none";
+        document.getElementById('ShowPswd3').style.display="block";
+      }else{
+        x.type="text";
+      }
+
+    }
+  </script>   
 
 <!-- jQuery -->
 <script src="../style/plugins/jquery/jquery.min.js"></script>

@@ -140,7 +140,7 @@ $users=new fac;
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Citizen
@@ -187,7 +187,7 @@ $users=new fac;
           </li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-folder"></i>
               <p>
                 Archive
