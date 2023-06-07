@@ -642,7 +642,7 @@ class fac{
 	      		}elseif($num > 1){
 	      			echo "
 		      			<div class='card-header text-center bg-info style='font-size:30px;''>
-		      				results of <b>".$Data."</b> are <b>".$number."</b><button class='btn btn-light float-left' data-toggle='modal' data-target='#msg_Modal'><i class='fa fa-envelope'></i>&nbsp;Send message</button>
+		      				results of <b>".$Data."</b> are <b>".$number."</b><button class='btn btn-light float-left' data-toggle='modal' data-target='#msg_Modal'><i class='fa fa-envelope'></i>&nbsp;Compose</button>
 		      			</div>
 	      			";
 	      		}
@@ -709,15 +709,15 @@ class fac{
 		               <!-- Modal content-->
 		               <div class="modal-content">
 		                 <div class="modal-header bg-info">
-		                   <span class="float-center"><h2>Send them a warning message</h2></span><!--  <button type="button" class="close" data-dismiss="modal" style="font-size: 30px;color: white">&times;</button> -->
+		                   <span class="float-center"><h2>Send the message</h2></span><!--  <button type="button" class="close" data-dismiss="modal" style="font-size: 30px;color: white">&times;</button> -->
 		                 </div>
 		                 <div class="modal-body" style="overflow:auto;">
-		                   <form class="form-group" method="POST" action="">
+		                   <form class="form-group" method="POST" action=""><!-- 
 		                    <label><i class="fa fa-home"></i>&nbsp;Sitename</label>
-		                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="Nyabugogo"><br>
+		                     <input type="text" name="subject" placeholder="Enter firstname" class="form-control" required disabled value="Nyabugogo"><br> -->
 		                     <label><i class="fa fa-envelope"></i>&nbsp;Message</label>
 		                     
-		                     <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus></textarea><br>
+		                     <textarea name="msg" rows="3" placeholder="Typing message . . . . . ." class="form-control" autofocus required></textarea><br>
 		                   
 		                     <button type="submit" class="btn btn-primary float-left" name="submit">Send&nbsp;<i class="fa fa-paper-plane"></i></button>
 

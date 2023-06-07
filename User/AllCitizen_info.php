@@ -6,9 +6,19 @@ if (!isset($_SESSION['email'])) {
 
 include_once '../Connect/connection.php';
 include_once '../phpcode/codes.php';
+
 $users=new fac;
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
+
+$auth_user_id=$_SESSION['u_id'];
+
+$sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+    $fname=$row_user_info['firstname'];
+    $lname=$row_user_info['lastname'];
+}
+
+
 
 //call the card_id from RFID code when a card is taped on rfid device 
 $Write="<?php $" . "UIDresult=''; " . "echo $" . "UIDresult;" . " ?>";
@@ -331,25 +341,6 @@ file_put_contents('UIDContainer.php',$Write);
             </div>
           </div>
       <!--end of logout modal-->
-
-      <script>
-        const url = 'https://rwanda.p.rapidapi.com/provinces';
-        const options = {
-          method: 'GET',
-          headers: {
-            'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
-            'X-RapidAPI-Host': 'rwanda.p.rapidapi.com'
-          }
-        };
-
-        try {
-          const response = await fetch(url, options);
-          const result = await response.text();
-          console.log(result);
-        } catch (error) {
-          console.error(error);
-        }
-      </script>
 
   <!--End of wrapper content page-->
   </div>

@@ -4,12 +4,19 @@ if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
 
-require "../phpcode/codes.php";
+include_once '../Connect/connection.php';
+include_once '../phpcode/codes.php';
+
 $users=new fac;
 
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
+$auth_user_id=$_SESSION['u_id'];
+
+$sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+    $fname=$row_user_info['firstname'];
+    $lname=$row_user_info['lastname'];
+}
 
 ?>
 <!DOCTYPE html>

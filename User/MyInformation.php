@@ -4,17 +4,24 @@ if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
 
-require '../Connect/connection.php';
-require '../phpcode/codes.php';
+include_once '../Connect/connection.php';
+include_once '../phpcode/codes.php';
 
 $auth_user_id=$_SESSION['u_id'];
 
 $sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
 $query_user_info=mysqli_query($con,$sql_user_info);
 while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
-    $user_id=$row_user_info['u_id'];
     $fname=$row_user_info['firstname'];
     $lname=$row_user_info['lastname'];
+}
+
+$sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+    $user_id=$row_user_info['u_id'];
+    $fnamex=$row_user_info['firstname'];
+    $lnamex=$row_user_info['lastname'];
     $user_img=$row_user_info['image'];
     $phone=$row_user_info['phone'];
     $email=$row_user_info['email'];
@@ -23,8 +30,8 @@ while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
     $uname=$row_user_info['username'];
 }
 
-
 $users=new fac;
+
 ?>
 
 <!DOCTYPE html>
@@ -280,13 +287,13 @@ $users=new fac;
 
                       <div class="row">
                         <div class="col-md-12">
-                          <span id="my_data"><p><b>Firstname :&nbsp;</b></p><p class="text-info"><b><?php echo $fname;?></b></p></span>
+                          <span id="my_data"><p><b>Firstname :&nbsp;</b></p><p class="text-info"><b><?php echo $fnamex;?></b></p></span>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="col-md-12">
-                          <span id="my_data"><p><b>Lastname :&nbsp;</b></p><p class="text-info"><b><?php echo $lname;?></b></p></span>
+                          <span id="my_data"><p><b>Lastname :&nbsp;</b></p><p class="text-info"><b><?php echo $lnamex;?></b></p></span>
                          </div>
                       </div>
                 

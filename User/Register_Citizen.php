@@ -4,13 +4,17 @@ session_start();
 if (!isset($_SESSION['email'])) {
     header('location:../index.php');
 }
-include '../Connect/connection.php';
+include_once '../Connect/connection.php';
+include_once '../phpcode/codes.php';
 
+$auth_user_id=$_SESSION['u_id'];
 
-require '../phpcode/codes.php';
-$fname=$_SESSION['firstname'];
-$lname=$_SESSION['lastname'];
-$user_img=$_SESSION['image'];
+$sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
+$query_user_info=mysqli_query($con,$sql_user_info);
+while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+    $fname=$row_user_info['firstname'];
+    $lname=$row_user_info['lastname'];
+}
 
 
 //call the card_id from RFID code when a card is taped on rfid device 
