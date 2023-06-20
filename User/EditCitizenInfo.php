@@ -1,40 +1,40 @@
-
 <?php
-session_start();
-if (!isset($_SESSION['email'])) {
-    header('location:../index.php');
-}
+  session_start();
+  if (!isset($_SESSION['email'])) {
+      header('location:../index.php');
+  }
 
-include_once '../Connect/connection.php';
-include_once '../phpcode/codes.php';
+  include_once '../Connect/connection.php';
+  include_once '../phpcode/codes.php';
 
-$auth_user_id=$_SESSION['u_id'];
+  $auth_user_id=$_SESSION['u_id'];
 
-$sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
-$query_user_info=mysqli_query($con,$sql_user_info);
-while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
-    $fname=$row_user_info['firstname'];
-    $lname=$row_user_info['lastname'];
-}
+  $sql_user_info="SELECT * FROM users where u_id=".$auth_user_id."";
+  $query_user_info=mysqli_query($con,$sql_user_info);
+  while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
+      $fname=$row_user_info['firstname'];
+      $lname=$row_user_info['lastname'];
+  }
 
-$users=new fac;
-$card_id=$_REQUEST['card_id'];
-$sql="SELECT * from citizentb left join attendance on citizentb.c_id=attendance.citizen_fk_id  where citizentb.card_id='$card_id'";
-$query=mysqli_query($con,$sql);
-while($row=mysqli_fetch_assoc($query)) {
-  $fnames=$row['firstname'];
-  $lnames=$row['lastname'];
-  $midname=$row['middlename'];
-  $gender=$row['gender'];
-  $phone=$row['phone'];
-  $province=$row['province'];
-  $district=$row['district'];
-  $sector=$row['sector'];
-  $cellule=$row['cellule'];
-  $village=$row['village'];
-  $dob=$row['dob'];
-}
+  $users=new fac;
+  $card_id=$_REQUEST['card_id'];
+  $sql="SELECT * from citizentb left join attendance on citizentb.c_id=attendance.citizen_fk_id  where citizentb.card_id='$card_id'";
+  $query=mysqli_query($con,$sql);
+  while($row=mysqli_fetch_assoc($query)) {
+    $fnames=$row['firstname'];
+    $lnames=$row['lastname'];
+    $midname=$row['middlename'];
+    $gender=$row['gender'];
+    $phone=$row['phone'];
+    $province=$row['province'];
+    $district=$row['district'];
+    $sector=$row['sector'];
+    $cellule=$row['cellule'];
+    $village=$row['village'];
+    $dob=$row['dob'];
+  }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +71,7 @@ while($row=mysqli_fetch_assoc($query)) {
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
+  <?php include_once 'modellogout.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -109,7 +109,7 @@ while($row=mysqli_fetch_assoc($query)) {
       </li>
 
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#ModalLogout">Logout</a>
       </li>
 
     </ul>

@@ -69,7 +69,7 @@ file_put_contents('UIDContainer.php',$Write);
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
+  <?php include_once 'modellogout.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -112,7 +112,7 @@ file_put_contents('UIDContainer.php',$Write);
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#ModalLogout">Logout</a>
       </li>
     </ul>
   </nav>

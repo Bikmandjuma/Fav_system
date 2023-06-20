@@ -127,7 +127,7 @@ if (isset($_POST['SendMessage'])) {
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
+  <?php include_once 'modellogout.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -170,7 +170,7 @@ if (isset($_POST['SendMessage'])) {
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" type="button" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" type="button" data-toggle="modal" data-target="#ModalLogout">Logout</a>
       </li>
     </ul>
   </nav>

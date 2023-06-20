@@ -47,7 +47,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
               }
 
               if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                  $u_sql="UPDATE users set image='$file_name' where u_id='$user_id' ";
+                  $u_sql="UPDATE users set image='$file_name' where u_id='".$auth_user_id."' ";
                   $u_query=mysqli_query($con,$u_sql);
                   $image_uploaded='<script type="text/javascript">toastr.success("Image added well !")</script>';
               } else {
@@ -146,7 +146,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
+  <?php include_once 'modellogout.php';?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -184,7 +184,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
       </li>
 
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#ModalLogout">Logout</a>
       </li>
 
     </ul>
@@ -360,7 +360,7 @@ if (isset($_POST['SubmitProfilePicture'])) {
 
               <img src="../style/dist/img/<?php echo $users->User_Profile_Picture();?>">
               <div class="container">
-                <h4><b><?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?></b></h4> 
+                <h4><b><?php echo $fname." ".$lname; ?></b></h4> 
                 <?php
                   if ($img_number == 1) {
                     ?>
@@ -385,18 +385,18 @@ if (isset($_POST['SubmitProfilePicture'])) {
 
        <!--start of Logout modal -->
           <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-sm text-center">
               <div class="modal-content">
-                <div class="modal-body text-left">
+                <div class="modal-body">
                   <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <h4>Logout&nbsp;<i class="fa fa-lock"></i></h4>
+                  <h4>Logout system&nbsp;<i class="fa fa-lock"></i></h4>
                 </div>
                 <div class="modal-body">
                   <p><i class="fa fa-question-circle"></i>Are you sure , you want to log-off ? <br /></p>
                   <div class="actionsBtns">
                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      <a href="../Logout.php" class="btn btn-primary">Logout</a>
-                      <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <a href="../Logout.php" class="btn btn-primary"><i class="fa fa-lock"></i> Logout</a>
+                      <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
                   </div>
                 </div>
               </div>

@@ -53,7 +53,7 @@ while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
+  <?php include_once 'modellogout.php';?>
 <!--  <div class="preloader flex-column justify-content-center align-items-center">
     <img class="img-circle" src="../style/dist/img/faclogo.png" alt="AdminLTELogo" height="80" width="80">
 </div> -->
@@ -100,7 +100,7 @@ while ($row_user_info=mysqli_fetch_assoc($query_user_info)) {
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#ModalLogout">Logout</a>
       </li>
     </ul>
   </nav>

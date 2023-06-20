@@ -60,7 +60,7 @@ $users=new fac;
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-
+  <?php include_once 'modellogout.php';?>
 <script>
 $(document).ready(function(){
     $('#province').on('change', function(){
@@ -175,7 +175,7 @@ $(document).ready(function(){
         </a>
       </li> -->
       <li class="nav-item dropdown" style="margin-top:5px;">
-        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <i class="fa fa-lock"></i>&nbsp;<a style="color: black;font-family: initial;" href="" data-toggle="modal" data-target="#ModalLogout">Logout</a>
       </li>
     </ul>
   </nav>

@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if (empty($user) || empty($pass)) {
 
-        $allfieldRequired='<script type="text/javascript">toastr.error("Both fields are required !")</script>';
+        $allfieldRequired='<script type="text/javascript">toastr.error("Both fields are required!")</script>';
 
     }else{
         $query_user=mysqli_query($con,"SELECT u_id,firstname,lastname,gender,phone,email,dob,username,password,image FROM users where username='$user' and password='".md5($pass)."'");
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
               header("location:http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."/Admin/home.php");
 
           }else{
-              $incorectcredential='<script type="text/javascript">toastr.error("Wrong credentials , try again  !")</script>';
+              $incorectcredential='<script type="text/javascript">toastr.error("Wrong credentials, try again !")</script>';
           }
     }
 
@@ -320,8 +320,6 @@ function test_input($data){
 
                   show.style.marginTop="30px";
                   hide.style.marginTop="30px";
-
-
 
                 }else{
                   x.type="text";
